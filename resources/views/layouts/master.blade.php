@@ -1,9 +1,21 @@
-@include('layouts.header')
+<!DOCTYPE html>
+<html>
 
-@include('layouts.navbar')
+<head>
+    @include('layouts.header')
+</head>
 
-@include('layouts.sidebar')
+<body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
+    <!--begin::App Wrapper-->
+    <div class="app-wrapper">
+        @include('layouts.header')
+        @include('layouts.navbar')
+        @include('layouts.sidebar')
+        <main>
+            @yield('content')
+        </main>
+        @include('layouts.footer')
+    </div>
+</body>
 
-@include('layouts.content')
-
-@include('layouts.footer')
+</html>
