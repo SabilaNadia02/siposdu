@@ -155,7 +155,7 @@
                                 </button>
                             </div>
                             @include('general_modal.cari_peserta')
-                            {{-- @include('rujukan.modal.tambah_rujukan') --}}
+                            @include('rujukan.modal.tambah_rujukan')
                             <!-- /.card-header -->
                             <div class="card-body">
                                 <table class="table table-bordered">
@@ -167,7 +167,7 @@
                                             <th style="font-size: 15px; width: 300px">Nama</th>
                                             <th style="font-size: 15px; width: 160px">Jenis Rujukan</th>
                                             <th style="font-size: 15px; width: 260px">Keterangan</th>
-                                            <th style="font-size: 15px; width: 100" class="text-center">Aksi</th>
+                                            <th style="font-size: 15px; width: 100px" class="text-center">Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>

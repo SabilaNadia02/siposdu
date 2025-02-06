@@ -54,7 +54,7 @@
                                 Tambah Pencatatan <i class="bi bi-plus"></i>
                             </button> --}}
                         </div>
-                        @include('pencatatan.modal.cari_peserta')
+                        @include('pencatatan.general.modal.cari_peserta')
                         <!--end::Small Box Widget 1-->
                     </div>
                     <!--end::Col-->

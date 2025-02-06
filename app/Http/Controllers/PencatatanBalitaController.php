@@ -11,7 +11,7 @@ class PencatatanBalitaController extends Controller
      */
     public function index()
     {
-        //
+        return view('pencatatan.balita.index');
     }
 
     /**

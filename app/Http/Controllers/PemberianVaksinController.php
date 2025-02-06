@@ -4,14 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class PencatatanController extends Controller
+class PemberianVaksinController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('pencatatan.index');
+        return view('pemberian.vaksin.index');
     }
 
     /**

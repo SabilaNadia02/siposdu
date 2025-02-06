@@ -40,7 +40,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="/pencatatan" class="nav-link">
+                    <a href="/pencatatan/general" class="nav-link">
                         <i class="nav-icon bi bi-journal-text"></i>
                         <p>Pencatatan</p>
                     </a>
@@ -58,31 +58,31 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="/pemberian/imunisasi" class="nav-link">
                         <i class="nav-icon bi bi-capsule"></i>
                         <p>Pemberian Imunisasi</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="/pemberian/vitamin" class="nav-link">
                         <i class="nav-icon bi bi-capsule"></i>
                         <p>Pemberian Vitamin</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="/pemberian/obat" class="nav-link">
                         <i class="nav-icon bi bi-capsule"></i>
                         <p>Pemberian Obat</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="/pemberian/vaksin" class="nav-link">
                         <i class="nav-icon bi bi-capsule"></i>
                         <p>Pemberian Vaksin</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="/kelulusan-balita" class="nav-link">
                         <i class="nav-icon bi-journal-check"></i>
                         <p>Data Kelulusan Balita</p>
                     </a>
@@ -102,37 +102,37 @@
 
                 <li class="nav-header">DATA MASTER</li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="/data-master/imunisasi" class="nav-link">
                         <i class="nav-icon bi-database"></i>
                         <p>Data Imunisasi</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="/data-master/vitamin" class="nav-link">
                         <i class="nav-icon bi-database"></i>
                         <p>Data Vitamin</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="/data-master/obat" class="nav-link">
                         <i class="nav-icon bi-database"></i>
                         <p>Data Obat</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="/data-master/vaksin" class="nav-link">
                         <i class="nav-icon bi-database"></i>
                         <p>Data Vaksin</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="/data-master/posyandu" class="nav-link">
                         <i class="nav-icon bi-database"></i>
                         <p>Data Posyandu</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="/data-master/pengguna" class="nav-link">
                         <i class="nav-icon bi-database"></i>
                         <p>Data Pengguna</p>
                     </a>

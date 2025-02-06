@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Pencatatan Balita')
+@section('title', 'Pemberian Vitamin')
 
 @section('content')
     <!--begin::App Main-->
@@ -13,14 +13,14 @@
                 <!--begin::Row-->
                 <div class="row">
                     <div class="col-sm-8">
-                        <h3 class="mb-0" style="color: #333333;">Pencatatan Balita</h3>
-                        <p style="color: #777777; white-space: normal;">Halaman ini untuk mengelola data pencatatan pada
-                            Bayi, Balita, dan APRAS.</p>
+                        <h3 class="mb-0" style="color: #333333;">Pemberian Vitamin</h3>
+                        <p style="color: #777777; white-space: normal;">Halaman ini untuk mengelola data pemberian vitamin
+                            pada peserta posyandu.</p>
                     </div>
                     <div class="col-sm-4">
                         <ol class="breadcrumb float-sm-end">
-                            <li class="breadcrumb-item"><a href="#">Pencatatan</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Pencatatan Balita</li>
+                            <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Pemberian Vitamin</li>
                         </ol>
                     </div>
                 </div>
@@ -40,10 +40,10 @@
                     <!--begin::Col-->
                     <div class="col-lg-4 col-md-6 col-12">
                         <!--begin::Small Box Widget 1-->
-                        <div class="small-box bg-white border border-success text-success">
+                        <div class="small-box bg-primary text-light">
                             <div class="inner">
                                 <h3>0</h3>
-                                <p>Total Pencatatan</p>
+                                <p>Total Pemberian Vitamin</p>
                             </div>
                         </div>
                         <!--end::Small Box Widget 1-->
@@ -56,7 +56,7 @@
                 <div class="row mb-3">
                     <div class="col-md-3">
                         <div class="input-group">
-                            <span class="input-group-text text-success"><i class="fas fa-calendar"></i></span>
+                            <span class="input-group-text text-primary"><i class="fas fa-calendar"></i></span>
                             <select class="form-control" id="tahunFilter">
                                 <option value="">Semua Tahun</option>
                                 <option value="2023">2023</option>
@@ -68,7 +68,7 @@
                     </div>
                     <div class="col-md-3">
                         <div class="input-group">
-                            <span class="input-group-text text-success"><i class="fas fa-calendar-alt"></i></span>
+                            <span class="input-group-text text-primary"><i class="fas fa-calendar-alt"></i></span>
                             <select class="form-control" id="bulanFilter">
                                 <option value="">Semua Bulan</option>
                                 <option value="01">Januari</option>
@@ -89,7 +89,7 @@
                     </div>
                     <div class="col-md-3">
                         <div class="input-group">
-                            <span class="input-group-text text-success"><i class="fas fa-map-marker-alt"></i></span>
+                            <span class="input-group-text text-primary"><i class="fas fa-map-marker-alt"></i></span>
                             <select class="form-control" id="posyanduFilter">
                                 <option value="">Semua Posyandu</option>
                                 <option value="Posyandu A">Posyandu Anggrek</option>
@@ -103,8 +103,14 @@
                     </div>
                     <div class="col-md-3">
                         <div class="input-group">
-                            <span class="input-group-text text-success"><i class="fas fa-search"></i></span>
-                            <input type="text" class="form-control" id="searchNoPeserta" placeholder="Cari No Peserta..">
+                            <span class="input-group-text text-primary"><i class="fas fa-bullseye"></i></span>
+                            <select class="form-control" id="sasaranFilter">
+                                <option value="">Semua Sasaran</option>
+                                <option value="Balita">Ibu Hamil</option>
+                                <option value="Ibu Hamil">Balita</option>
+                                <option value="Lansia">Lansia</option>
+                            </select>
+                            <span class="input-group-text"><i class="fas fa-chevron-down"></i></span>
                         </div>
                     </div>
                 </div>
@@ -114,14 +120,16 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card mb-4">
-                            <div class="card-header d-flex justify-content-between align-items-center">
-                                <h3 class="card-title">Data Balita</h3>
-                                <button type="button" class="btn btn-success btn-sm ms-auto" data-bs-toggle="modal"
+                            <div class="card-header d-flex justify-content-between align-items-center"
+                                style="border-top: 3px solid #0d6efd;">
+                                <h3 class="card-title">Data Pemberian Vitamin</h3>
+                                <button type="button" class="btn btn-primary btn-sm ms-auto" data-bs-toggle="modal"
                                     data-bs-target="#cariPesertaModal">
-                                    Tambah Pencatatan
+                                    Tambah Pemberian Vitamin
                                 </button>
                             </div>
-                            @include('pencatatan.balita.modal.cari_peserta')
+                            @include('general_modal.cari_peserta')
+                            @include('pemberian.vitamin.modal.tambah_pemberian_vitamin')
                             <!-- /.card-header -->
                             <div class="card-body">
                                 <table class="table table-bordered">
@@ -129,13 +137,15 @@
                                         <tr>
                                             <th style="font-size: 15px; width: 10px">#</th>
                                             <th style="font-size: 15px">Nama</th>
-                                            <th style="font-size: 15px">Usia (Bulan)</th>
+                                            <th style="font-size: 15px">Usia (Tahun)</th>
+                                            <th style="font-size: 15px">Nama Vitamin</th>
                                             <th style="font-size: 15px; width: 100px" class="text-center">Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr class="align-middle">
                                             <td>1.</td>
+                                            <td>Lorem ipsum dolor sit</td>
                                             <td>Lorem ipsum dolor sit</td>
                                             <td>Lorem ipsum dolor sit</td>
                                             <td class="text-center">
@@ -160,25 +170,22 @@
                             <!-- /.card-body -->
                             <div class="card-footer clearfix">
                                 <ul class="pagination pagination-sm m-0 float-end">
-                                    <li class="page-item"><a class="page-link text-success" href="#">&laquo;</a>
-                                    </li>
-                                    <li class="page-item"><a class="page-link text-success" href="#">1</a></li>
-                                    <li class="page-item"><a class="page-link text-success" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link text-success" href="#">3</a></li>
-                                    <li class="page-item"><a class="page-link text-success" href="#">&raquo;</a>
-                                    </li>
+                                    <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
                                 </ul>
                             </div>
+                            <!-- /.card -->
                         </div>
-                        <!-- /.card -->
                     </div>
-                    <!-- /.col -->
                 </div>
                 <!--end::Row-->
+
             </div>
         </div>
         <!--end::App Content-->
-
     </main>
 
     <script>

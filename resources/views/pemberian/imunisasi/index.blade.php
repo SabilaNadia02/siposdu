@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Pencatatan Balita')
+@section('title', 'Pemberian Imunisasi')
 
 @section('content')
     <!--begin::App Main-->
@@ -13,14 +13,14 @@
                 <!--begin::Row-->
                 <div class="row">
                     <div class="col-sm-8">
-                        <h3 class="mb-0" style="color: #333333;">Pencatatan Balita</h3>
-                        <p style="color: #777777; white-space: normal;">Halaman ini untuk mengelola data pencatatan pada
+                        <h3 class="mb-0" style="color: #333333;">Pemberian Imunisasi</h3>
+                        <p style="color: #777777; white-space: normal;">Halaman ini untuk mengelola data pemberian imunisasi pada
                             Bayi, Balita, dan APRAS.</p>
                     </div>
                     <div class="col-sm-4">
                         <ol class="breadcrumb float-sm-end">
-                            <li class="breadcrumb-item"><a href="#">Pencatatan</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Pencatatan Balita</li>
+                            <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Pemberian Imunisasi</li>
                         </ol>
                     </div>
                 </div>
@@ -40,10 +40,10 @@
                     <!--begin::Col-->
                     <div class="col-lg-4 col-md-6 col-12">
                         <!--begin::Small Box Widget 1-->
-                        <div class="small-box bg-white border border-success text-success">
+                        <div class="small-box bg-success border border-success text-light">
                             <div class="inner">
                                 <h3>0</h3>
-                                <p>Total Pencatatan</p>
+                                <p>Total Pemberian Imunisasi</p>
                             </div>
                         </div>
                         <!--end::Small Box Widget 1-->
@@ -114,14 +114,16 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card mb-4">
-                            <div class="card-header d-flex justify-content-between align-items-center">
-                                <h3 class="card-title">Data Balita</h3>
+                            <div class="card-header d-flex justify-content-between align-items-center"
+                            style="border-top: 3px solid #198754;">
+                                <h3 class="card-title">Data Pemberian Imunisasi</h3>
                                 <button type="button" class="btn btn-success btn-sm ms-auto" data-bs-toggle="modal"
                                     data-bs-target="#cariPesertaModal">
-                                    Tambah Pencatatan
+                                    Tambah Pemberian Imunisasi
                                 </button>
                             </div>
-                            @include('pencatatan.balita.modal.cari_peserta')
+                            @include('general_modal.cari_peserta')
+                            @include('pemberian.imunisasi.modal.tambah_pemberian_imunisasi')
                             <!-- /.card-header -->
                             <div class="card-body">
                                 <table class="table table-bordered">
@@ -130,12 +132,14 @@
                                             <th style="font-size: 15px; width: 10px">#</th>
                                             <th style="font-size: 15px">Nama</th>
                                             <th style="font-size: 15px">Usia (Bulan)</th>
+                                            <th style="font-size: 15px">Jenis Imunisasi</th>
                                             <th style="font-size: 15px; width: 100px" class="text-center">Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr class="align-middle">
                                             <td>1.</td>
+                                            <td>Lorem ipsum dolor sit</td>
                                             <td>Lorem ipsum dolor sit</td>
                                             <td>Lorem ipsum dolor sit</td>
                                             <td class="text-center">
@@ -175,10 +179,10 @@
                     <!-- /.col -->
                 </div>
                 <!--end::Row-->
+
             </div>
         </div>
         <!--end::App Content-->
-
     </main>
 
     <script>

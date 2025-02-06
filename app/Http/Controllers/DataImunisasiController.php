@@ -4,14 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class PencatatanLansiaController extends Controller
+class DataImunisasiController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('pencatatan.lansia.index');
+        return view('data_master.imunisasi.index');
     }
 
     /**
