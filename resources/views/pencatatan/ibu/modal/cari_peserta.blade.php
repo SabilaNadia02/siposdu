@@ -13,7 +13,7 @@
                                 placeholder="Masukkan No Peserta">
                         </div>
                         <div class="mt-3 d-grid">
-                            <button type="submit" style="background-color: #FF69B4;" class="btn btn-sm text-light">CARI</button>
+                            <button type="submit" class="btn btn-primary btn-sm">CARI</button>
                         </div>
                     </div>
                 </form>

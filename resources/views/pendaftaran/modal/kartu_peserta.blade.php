@@ -25,7 +25,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                <button type="button" class="btn btn-primary" onclick="window.print()">Cetak</button>
+                <button type="button" class="btn text-light" style="background-color: #FF69B4;" onclick="window.print()">Cetak</button>
             </div>
         </div>
     </div>

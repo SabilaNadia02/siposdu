@@ -19,7 +19,9 @@
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-end">
-                            <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                            <li class="breadcrumb-item">
+                                <a href="#" style="color: #FF69B4; font-size: 16px;">Dashboard</a>
+                            </li>
                             <li class="breadcrumb-item active" aria-current="page">Data Posyandu</li>
                         </ol>
                     </div>
@@ -38,11 +40,12 @@
                 <!--begin::Row-->
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="card mb-4">
+                        <div class="card mb-4" style="border-radius: 0px;">
                             <div class="card-header d-flex justify-content-between align-items-center"
-                                style="border-top: 3px solid #0d6efd;">
+                                style="border-top: 3px solid #FF69B4; border-radius: 0px;">
                                 <h3 class="card-title">Tabel Data Posyandu</h3>
-                                <button type="button" class="btn btn-primary btn-sm ms-auto" data-bs-toggle="modal"
+                                <button type="button" class="btn btn-sm ms-auto text-light"
+                                    style="background-color: #FF69B4;" data-bs-toggle="modal"
                                     data-bs-target="#tambahPosyanduModal">
                                     Tambah Posyandu
                                 </button>
@@ -55,7 +58,7 @@
                                         <tr>
                                             <th style="width: 50px">#</th>
                                             <th style="font-size: 15px">Nama Posyandu</th>
-                                            <th style="font-size: 15px">Keterangan</th>
+                                            <th style="font-size: 15px">Alamat</th>
                                             <th style="width: 100" class="text-center">Aksi</th>
                                         </tr>
                                     </thead>
@@ -104,13 +107,18 @@
                                 </table>
                             </div>
                             <!-- /.card-body -->
-                            <div class="card-footer clearfix">
+                            <div class="card-footer clearfix" style="background-color: white">
                                 <ul class="pagination pagination-sm m-0 float-end">
-                                    <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
+                                    <li class="page-item"><a class="page-link" style="color: #FF69B4;"
+                                            href="#">&laquo;</a></li>
+                                    <li class="page-item"><a class="page-link" style="color: #FF69B4;" href="#">1</a>
+                                    </li>
+                                    <li class="page-item"><a class="page-link" style="color: #FF69B4;" href="#">2</a>
+                                    </li>
+                                    <li class="page-item"><a class="page-link" style="color: #FF69B4;" href="#">3</a>
+                                    </li>
+                                    <li class="page-item"><a class="page-link" style="color: #FF69B4;"
+                                            href="#">&raquo;</a></li>
                                 </ul>
                             </div>
                         </div>

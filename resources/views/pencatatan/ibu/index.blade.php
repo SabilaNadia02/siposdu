@@ -40,7 +40,7 @@
                     <!--begin::Col-->
                     <div class="col-lg-4 col-md-6 col-12">
                         <!--begin::Small Box Widget 1-->
-                        <div class="small-box bg-white border border-primary text-primary">
+                        <div class="small-box bg-white border border-primary text-primary" style="border-radius: 2px;">
                             <div class="inner">
                                 <h3>0</h3>
                                 <p>Total Pencatatan</p>
@@ -56,20 +56,23 @@
                 <div class="row mb-3">
                     <div class="col-md-3">
                         <div class="input-group">
-                            <span class="input-group-text text-primary"><i class="fas fa-calendar"></i></span>
-                            <select class="form-control" id="tahunFilter">
+                            <span class="input-group-text text-primary" style="border-radius: 2px;"><i
+                                    class="fas fa-calendar"></i></span>
+                            <select class="form-control" id="tahunFilter" style="border-radius: 2px;">
                                 <option value="">Semua Tahun</option>
                                 <option value="2023">2023</option>
                                 <option value="2024">2024</option>
                                 <option value="2025">2025</option>
                             </select>
-                            <span class="input-group-text"><i class="fas fa-chevron-down"></i></span>
+                            <span class="input-group-text" style="border-radius: 2px;"><i
+                                    class="fas fa-chevron-down"></i></span>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="input-group">
-                            <span class="input-group-text text-primary"><i class="fas fa-calendar-alt"></i></span>
-                            <select class="form-control" id="bulanFilter">
+                            <span class="input-group-text text-primary" style="border-radius: 2px;"><i
+                                    class="fas fa-calendar-alt"></i></span>
+                            <select class="form-control" id="bulanFilter" style="border-radius: 2px;">
                                 <option value="">Semua Bulan</option>
                                 <option value="01">Januari</option>
                                 <option value="02">Februari</option>
@@ -84,27 +87,32 @@
                                 <option value="11">November</option>
                                 <option value="12">Desember</option>
                             </select>
-                            <span class="input-group-text"><i class="fas fa-chevron-down"></i></span>
+                            <span class="input-group-text" style="border-radius: 2px;"><i
+                                    class="fas fa-chevron-down"></i></span>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="input-group">
-                            <span class="input-group-text text-primary"><i class="fas fa-map-marker-alt"></i></span>
-                            <select class="form-control" id="posyanduFilter">
+                            <span class="input-group-text text-primary" style="border-radius: 2px;"><i
+                                    class="fas fa-map-marker-alt"></i></span>
+                            <select class="form-control" id="posyanduFilter" style="border-radius: 2px;">
                                 <option value="">Semua Posyandu</option>
                                 <option value="Posyandu A">Posyandu Anggrek</option>
                                 <option value="Posyandu B">Posyandu Kenanga</option>
-                                <option value="Posyandu B">Posyandu Matahari</option>
-                                <option value="Posyandu B">Posyandu Mawar</option>
-                                <option value="Posyandu B">Posyandu Melati</option>
+                                <option value="Posyandu C">Posyandu Matahari</option>
+                                <option value="Posyandu D">Posyandu Mawar</option>
+                                <option value="Posyandu E">Posyandu Melati</option>
                             </select>
-                            <span class="input-group-text"><i class="fas fa-chevron-down"></i></span>
+                            <span class="input-group-text" style="border-radius: 2px;"><i
+                                    class="fas fa-chevron-down"></i></span>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="input-group">
-                            <span class="input-group-text text-primary"><i class="fas fa-search"></i></span>
-                            <input type="text" class="form-control" id="searchNoPeserta" placeholder="Cari No Peserta..">
+                            <span class="input-group-text text-primary" style="border-radius: 2px;"><i
+                                    class="fas fa-search"></i></span>
+                            <input type="text" class="form-control" id="searchNoPeserta" placeholder="Cari No Peserta.."
+                                style="border-radius: 2px;">
                         </div>
                     </div>
                 </div>
@@ -113,15 +121,20 @@
                 <!--begin::Row-->
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="card mb-4">
-                            <div class="card-header d-flex justify-content-between align-items-center">
+                        <div class="card mb-4" style="border-radius: 0px;">
+                            <div class="card-header d-flex justify-content-between align-items-center"
+                                style="border-top: 3px solid #007BFF; border-radius: 0px;">
                                 <h3 class="card-title">Data Ibu Hamil</h3>
                                 <button type="button" class="btn btn-primary btn-sm ms-auto" data-bs-toggle="modal"
-                                    data-bs-target="#cariPesertaModal">
+                                    {{-- data-bs-target="#cariPesertaModal"> --}}
+                                    {{-- data-bs-target="#tambahPencatatanBaruModal"> --}}
+                                    data-bs-target="#tambahKunjunganBaruModal">
                                     Tambah Pencatatan
                                 </button>
                             </div>
-                            @include('general_modal.cari_peserta')
+                            @include('pencatatan.ibu.modal.cari_peserta')
+                            @include('pencatatan.ibu.modal.tambah_pencatatan_baru')
+                            @include('pencatatan.ibu.modal.tambah_kunjungan_baru')
                             <!-- /.card-header -->
                             <div class="card-body">
                                 <table class="table table-bordered">
@@ -158,7 +171,7 @@
                                 </table>
                             </div>
                             <!-- /.card-body -->
-                            <div class="card-footer clearfix">
+                            <div class="card-footer clearfix" style="background-color: white">
                                 <ul class="pagination pagination-sm m-0 float-end">
                                     <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
                                     <li class="page-item"><a class="page-link" href="#">1</a></li>

@@ -19,7 +19,9 @@
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-end">
-                            <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                            <li class="breadcrumb-item">
+                                <a href="#" style="color: #FF69B4; font-size: 16px;">Dashboard</a>
+                            </li>
                             <li class="breadcrumb-item active" aria-current="page">Rujukan</li>
                         </ol>
                     </div>
@@ -40,7 +42,7 @@
                     <!--begin::Col-->
                     <div class="col-lg-4 col-md-6 col-12">
                         <!--begin::Small Box Widget 1-->
-                        <div class="small-box bg-primary text-light">
+                        <div class="small-box text-dark" style="background-color: #ffdeed; border-radius: 2px;">
                             <div class="inner">
                                 <h3>0</h3>
                                 <p>Total Rujukan</p>
@@ -53,7 +55,7 @@
                     <!--begin::Col-->
                     <div class="col-lg-4 col-md-6 col-12">
                         <!--begin::Small Box Widget 1-->
-                        <div class="small-box bg-primary text-light">
+                        <div class="small-box text-dark" style="background-color: #ffdeed; border-radius: 2px;">
                             <div class="inner">
                                 <h3>0</h3>
                                 <p>Total Rujukan Laki-Laki </p>
@@ -66,7 +68,7 @@
                     <!--begin::Col-->
                     <div class="col-lg-4 col-md-6 col-12">
                         <!--begin::Small Box Widget 1-->
-                        <div class="small-box bg-primary text-light">
+                        <div class="small-box text-dark" style="background-color: #ffdeed; border-radius: 2px;">
                             <div class="inner">
                                 <h3>0</h3>
                                 <p>Total Rujukan Perempuan</p>
@@ -82,7 +84,7 @@
                 <div class="row mb-3">
                     <div class="col-md-3">
                         <div class="input-group">
-                            <span class="input-group-text text-primary"><i class="fas fa-calendar"></i></span>
+                            <span class="input-group-text" style="color: #FF69B4;"><i class="fas fa-calendar"></i></span>
                             <select class="form-control" id="tahunFilter">
                                 <option value="">Semua Tahun</option>
                                 <option value="2023">2023</option>
@@ -94,7 +96,8 @@
                     </div>
                     <div class="col-md-3">
                         <div class="input-group">
-                            <span class="input-group-text text-primary"><i class="fas fa-calendar-alt"></i></span>
+                            <span class="input-group-text" style="color: #FF69B4;"><i
+                                    class="fas fa-calendar-alt"></i></span>
                             <select class="form-control" id="bulanFilter">
                                 <option value="">Semua Bulan</option>
                                 <option value="01">Januari</option>
@@ -115,7 +118,8 @@
                     </div>
                     <div class="col-md-3">
                         <div class="input-group">
-                            <span class="input-group-text text-primary"><i class="fas fa-map-marker-alt"></i></span>
+                            <span class="input-group-text" style="color: #FF69B4;"><i
+                                    class="fas fa-map-marker-alt"></i></span>
                             <select class="form-control" id="posyanduFilter">
                                 <option value="">Semua Posyandu</option>
                                 <option value="Posyandu A">Posyandu Anggrek</option>
@@ -129,7 +133,7 @@
                     </div>
                     <div class="col-md-3">
                         <div class="input-group">
-                            <span class="input-group-text text-primary"><i class="fas fa-bullseye"></i></span>
+                            <span class="input-group-text" style="color: #FF69B4;"><i class="fas fa-bullseye"></i></span>
                             <select class="form-control" id="sasaranFilter">
                                 <option value="">Semua Sasaran</option>
                                 <option value="Balita">Ibu Hamil</option>
@@ -145,12 +149,14 @@
                 <!--begin::Row-->
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="card mb-4">
+                        <div class="card mb-4" style="border-radius: 0px;">
                             <div class="card-header d-flex justify-content-between align-items-center"
-                                style="border-top: 3px solid #0d6efd;">
+                                style="border-top: 3px solid #FF69B4; border-radius: 0px;">
                                 <h3 class="card-title">Tabel Data Rujukan</h3>
-                                <button type="button" class="btn btn-primary btn-sm ms-auto" data-bs-toggle="modal"
-                                    data-bs-target="#cariPesertaModal">
+                                <button type="button" class="btn btn-sm ms-auto text-light"
+                                    style="background-color: #FF69B4;" data-bs-toggle="modal"
+                                    {{-- data-bs-target="#cariPesertaModal"> --}}
+                                    data-bs-target="#tambahRujukanModal">
                                     Tambah Rujukan
                                 </button>
                             </div>
@@ -218,13 +224,18 @@
                                 </table>
                             </div>
                             <!-- /.card-body -->
-                            <div class="card-footer clearfix">
+                            <div class="card-footer clearfix" style="background-color: white">
                                 <ul class="pagination pagination-sm m-0 float-end">
-                                    <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
+                                    <li class="page-item"><a class="page-link" style="color: #FF69B4;"
+                                            href="#">&laquo;</a></li>
+                                    <li class="page-item"><a class="page-link" style="color: #FF69B4;"
+                                            href="#">1</a></li>
+                                    <li class="page-item"><a class="page-link" style="color: #FF69B4;"
+                                            href="#">2</a></li>
+                                    <li class="page-item"><a class="page-link" style="color: #FF69B4;"
+                                            href="#">3</a></li>
+                                    <li class="page-item"><a class="page-link" style="color: #FF69B4;"
+                                            href="#">&raquo;</a></li>
                                 </ul>
                             </div>
                             <!-- /.card -->
@@ -232,7 +243,7 @@
                     </div>
                 </div>
                 <!--end::Row-->
-                
+
             </div>
         </div>
     </main>

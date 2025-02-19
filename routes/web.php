@@ -17,6 +17,8 @@ use App\Http\Controllers\PencatatanIbuController;
 use App\Http\Controllers\PencatatanLansiaController;
 use App\Http\Controllers\PendaftaranController;
 use App\Http\Controllers\RujukanController;
+use App\Http\Controllers\SkriningPPOKController;
+use App\Http\Controllers\SkriningTBCController;
 use Illuminate\Support\Facades\Route;
 
 Route::resource('pendaftaran', PendaftaranController::class);
@@ -41,4 +43,8 @@ Route::group(['prefix' => 'data-master', 'as' => 'data-master.'], function(){
     Route::resource('vaksin', DataVaksinController::class);
     Route::resource('posyandu', DataPosyanduController::class);
     Route::resource('pengguna', DataPenggunaController::class);
+});
+Route::group(['prefix' => 'skrining', 'as' => 'skrining.'], function(){
+    Route::resource('tbc', SkriningTBCController::class);
+    Route::resource('ppok', SkriningPPOKController::class);
 });

@@ -45,11 +45,8 @@
                             <textarea class="form-control form-control-sm" id="keterangan" rows="2" placeholder="Masukkan Keterangan"></textarea>
                         </div>
                     </div>
-                    {{-- <div class="mt-3 col-12">
-                        <button type="submit" class="btn btn-primary btn-sm">TAMBAH</button>
-                    </div> --}}
                     <div class="mt-3 d-grid">
-                        <button type="submit" class="btn btn-primary btn-sm">SIMPAN</button>
+                        <button type="submit" class="btn btn-sm btn-success text-light">TAMBAH</button>
                     </div>
                 </form>
             </div>

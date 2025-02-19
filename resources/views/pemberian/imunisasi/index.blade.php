@@ -14,12 +14,13 @@
                 <div class="row">
                     <div class="col-sm-8">
                         <h3 class="mb-0" style="color: #333333;">Pemberian Imunisasi</h3>
-                        <p style="color: #777777; white-space: normal;">Halaman ini untuk mengelola data pemberian imunisasi pada
+                        <p style="color: #777777; white-space: normal;">Halaman ini untuk mengelola data pemberian imunisasi
+                            pada
                             Bayi, Balita, dan APRAS.</p>
                     </div>
                     <div class="col-sm-4">
                         <ol class="breadcrumb float-sm-end">
-                            <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                            <li class="breadcrumb-item"><a href="#" class="text-success">Dashboard</a></li>
                             <li class="breadcrumb-item active" aria-current="page">Pemberian Imunisasi</li>
                         </ol>
                     </div>
@@ -40,7 +41,7 @@
                     <!--begin::Col-->
                     <div class="col-lg-4 col-md-6 col-12">
                         <!--begin::Small Box Widget 1-->
-                        <div class="small-box bg-success border border-success text-light">
+                        <div class="small-box text-dark" style="background-color: #e9ffe9; border-radius: 2px;">
                             <div class="inner">
                                 <h3>0</h3>
                                 <p>Total Pemberian Imunisasi</p>
@@ -113,16 +114,17 @@
                 <!--begin::Row-->
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="card mb-4">
+                        <div class="card mb-4" style="border-radius: 0px;">
                             <div class="card-header d-flex justify-content-between align-items-center"
-                            style="border-top: 3px solid #198754;">
+                                style="border-top: 3px solid #198754; border-radius: 0px;">
                                 <h3 class="card-title">Data Pemberian Imunisasi</h3>
                                 <button type="button" class="btn btn-success btn-sm ms-auto" data-bs-toggle="modal"
-                                    data-bs-target="#cariPesertaModal">
+                                    {{-- data-bs-target="#cariPesertaModal"> --}}
+                                    data-bs-target="#tambahPemberianImunisasiModal">
                                     Tambah Pemberian Imunisasi
                                 </button>
                             </div>
-                            @include('general_modal.cari_peserta')
+                            @include('pemberian.imunisasi.modal.cari_peserta')
                             @include('pemberian.imunisasi.modal.tambah_pemberian_imunisasi')
                             <!-- /.card-header -->
                             <div class="card-body">
@@ -162,7 +164,7 @@
                                 </table>
                             </div>
                             <!-- /.card-body -->
-                            <div class="card-footer clearfix">
+                            <div class="card-footer clearfix" style="background-color: white">
                                 <ul class="pagination pagination-sm m-0 float-end">
                                     <li class="page-item"><a class="page-link text-success" href="#">&laquo;</a>
                                     </li>

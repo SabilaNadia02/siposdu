@@ -42,6 +42,9 @@
                             <label for="jumlah" class="form-label" style="font-size: 14px; margin-bottom: 2px;">Jumlah/Dosis</label>
                             <input type="text" class="form-control form-control-sm" id="nik" placeholder="Masukkan Jumlah/Dosis">
                         </div>
+                        <div class="mt-3 col-12">
+                            <button type="submit" class="btn btn-sm text-light" style="background-color: #FF69B4;">TAMBAH</button>
+                        </div>
                         <div class="col-12">
                             <label for="keterangan" class="form-label" style="font-size: 14px; margin-bottom: 2px;">
                                 Keterangan <span style="font-size: 11px; font-weight: normal;">(opsional)</span>
@@ -49,11 +52,8 @@
                             <textarea class="form-control form-control-sm" id="keterangan" rows="2" placeholder="Masukkan Keterangan"></textarea>
                         </div>
                     </div>
-                    <div class="mt-3 col-12">
-                        <button type="submit" class="btn btn-primary btn-sm">TAMBAH</button>
-                    </div>
                     <div class="mt-3 d-grid">
-                        <button type="submit" class="btn btn-primary btn-sm">SIMPAN</button>
+                        <button type="submit" class="btn btn-sm text-light" style="background-color: #FF69B4;">SIMPAN</button>
                     </div>
                 </form>
             </div>

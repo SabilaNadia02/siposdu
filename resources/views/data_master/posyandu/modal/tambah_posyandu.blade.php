@@ -13,12 +13,12 @@
                             <input type="text" class="form-control form-control-sm" id="nama" placeholder="Masukkan Nama Posyandu">
                         </div>
                         <div class="col-md-12">
-                            <label for="keterangan" class="form-label">Keterangan</label>
-                            <textarea class="form-control form-control-sm" id="keterangan" rows="3" placeholder="Masukkan Keterangan"></textarea>
+                            <label for="alamat" class="form-label">Alamat</label>
+                            <textarea class="form-control form-control-sm" id="alamat" rows="3" placeholder="Masukkan Keterangan"></textarea>
                         </div>
                     </div>
                     <div class="mt-3 d-grid">
-                        <button type="submit" class="btn btn-primary btn-sm">SIMPAN</button>
+                        <button type="submit" class="btn btn-sm text-light" style="background-color: #FF69B4;">SIMPAN</button>
                     </div>
                 </form>
             </div>

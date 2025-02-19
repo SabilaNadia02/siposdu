@@ -13,7 +13,7 @@
                         <p style="color: #777777; font-size: 1rem;">Halaman ini menampilkan detail data pendaftaran peserta posyandu.</p>
                     </div>
                     <div class="col-sm-6 d-flex justify-content-end align-items-center">
-                        <a href="#" class="btn btn-info me-3" data-bs-toggle="modal" data-bs-target="#kartuPesertaModal">
+                        <a href="#" class="btn me-3 text-light" style="background-color: #FF69B4;" data-bs-toggle="modal" data-bs-target="#kartuPesertaModal">
                             <i class="fas fa-id-card"></i> Lihat Kartu Peserta
                         </a>
                         @include('pendaftaran.modal.kartu_peserta')
@@ -27,9 +27,9 @@
 
         <div class="app-content">
             <div class="container-fluid">
-                <div class="card shadow-sm">
-                    <div class="card-header">
-                        <h3 class="card-title" style="font-size: 1.25rem;">Data Peserta</h3>
+                <div class="card shadow-sm" style="border-radius: 0px;">
+                    <div class="card-header" style="border-top: 3px solid #FF69B4; border-radius: 0px;">
+                        <h5 class="card-title" style="font-size: 1.25rem;">Data Peserta</h5>
                     </div>                    
                     <div class="card-body">
                         <div class="row g-2">

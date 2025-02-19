@@ -19,7 +19,9 @@
                     </div>
                     <div class="col-sm-3">
                         <ol class="breadcrumb float-sm-end">
-                            <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                            <li class="breadcrumb-item">
+                                <a href="#" style="color: #FF69B4; font-size: 16px;">Dashboard</a>
+                            </li>
                             <li class="breadcrumb-item active" aria-current="page">Pencatatan</li>
                         </ol>
                     </div>
@@ -39,13 +41,14 @@
                     <!--begin::Col-->
                     <div class="col-lg-4 col-md-6 col-12">
                         <!--begin::Small Box Widget 1-->
-                        <div class="small-box text-bg-primary">
+                        <div class="small-box text-bg-primary" style="border-radius: 2px;">
                             <div class="inner">
                                 <h3>0</h3>
                                 <p>Ibu Hamil, Menyusui, dan Nifas</p>
                             </div>
 
-                            <a href="{{ route('pencatatan.ibu.index') }}" class="btn btn-primary btn-sm d-block text-center">
+                            <a href="{{ route('pencatatan.ibu.index') }}"
+                                class="btn btn-primary btn-sm d-block text-center">
                                 Tambah Pencatatan <i class="bi bi-plus"></i>
                             </a>
 
@@ -62,7 +65,7 @@
                     <!--begin::Col-->
                     <div class="col-lg-4 col-md-6 col-12">
                         <!--begin::Small Box Widget 2-->
-                        <div class="small-box text-bg-success">
+                        <div class="small-box text-bg-success" style="border-radius: 2px;">
                             <div class="inner">
                                 <h3>0</h3>
                                 <p>Bayi, Balita, dan APRAS</p>
@@ -88,7 +91,7 @@
                     <!--begin::Col-->
                     <div class="col-lg-4 col-md-6 col-12">
                         <!--begin::Small Box Widget 3-->
-                        <div class="small-box text-bg-warning">
+                        <div class="small-box text-bg-warning" style="border-radius: 2px;">
                             <div class="inner">
                                 <h3>0</h3>
                                 <p>Usia Produktif dan Lansia</p>
@@ -111,7 +114,7 @@
                     </div>
                     <!--end::Col-->
                 </div>
-                
+
             </div>
         </div>
         <!--end::App Content-->
