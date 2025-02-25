@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\DataVaksin;
 
 class DataVaksinController extends Controller
 {
@@ -11,7 +12,8 @@ class DataVaksinController extends Controller
      */
     public function index()
     {
-        return view('data_master.vaksin.index');
+        $datavaksin = DataVaksin::paginate(10);
+        return view('data_master.vaksin.index', compact('datavaksin'));
     }
 
     /**
@@ -19,7 +21,7 @@ class DataVaksinController extends Controller
      */
     public function create()
     {
-        //
+        return view('data_master.vaksin.create');
     }
 
     /**
@@ -27,38 +29,55 @@ class DataVaksinController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nama' => 'required|string|max:255',
+            'keterangan' => 'nullable|string',
+        ]);
+
+        DataVaksin::create($request->all());
+        return redirect()->route('data-master.vaksin.index')->with('success', 'Data vaksin berhasil ditambahkan.');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
-        //
+        $dataVaksin = DataVaksin::findOrFail($id);
+        return view('data_master.vaksin.show', compact('dataVaksin'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
-        //
+        $dataVaksin = DataVaksin::findOrFail($id);
+        return view('data_master.vaksin.edit', compact('dataVaksin'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'nama' => 'required|string|max:255',
+            'keterangan' => 'nullable|string',
+        ]);
+
+        $dataVaksin = DataVaksin::findOrFail($id);
+        $dataVaksin->update($request->all());
+        return redirect()->route('data-master.vaksin.index')->with('success', 'Data vaksin berhasil diperbarui.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        $dataVaksin = DataVaksin::findOrFail($id);
+        $dataVaksin->delete();
+        return redirect()->route('data-master.vaksin.index')->with('success', 'Data vaksin berhasil dihapus.');
     }
 }

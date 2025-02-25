@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\DataImunisasi;
 
 class DataImunisasiController extends Controller
 {
@@ -11,7 +12,8 @@ class DataImunisasiController extends Controller
      */
     public function index()
     {
-        return view('data_master.imunisasi.index');
+        $dataImunisasi = DataImunisasi::paginate(10);
+        return view('data_master.imunisasi.index', compact('dataImunisasi'));
     }
 
     /**
@@ -19,7 +21,7 @@ class DataImunisasiController extends Controller
      */
     public function create()
     {
-        //
+        return view('data_master.imunisasi.create');
     }
 
     /**
@@ -27,38 +29,61 @@ class DataImunisasiController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'nama' => 'required|string|max:255',
+            'dari_umur' => 'required|integer|min:0',
+            'sampai_umur' => 'required|integer|min:0|gte:dari_umur',
+            'keterangan' => 'nullable|string',
+        ]);
+
+        DataImunisasi::create($validated);
+
+        return redirect()->route('data-master.imunisasi.index')
+            ->with('success', 'Data imunisasi berhasil ditambahkan.');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(DataImunisasi $imunisasi)
     {
-        //
+        return view('data_master.imunisasi.show', compact('imunisasi'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(DataImunisasi $imunisasi)
     {
-        //
+        return view('data_master.imunisasi.edit', compact('imunisasi'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, DataImunisasi $imunisasi)
     {
-        //
+        $validated = $request->validate([
+            'nama' => 'required|string|max:255',
+            'dari_umur' => 'required|integer|min:0',
+            'sampai_umur' => 'required|integer|min:0|gte:dari_umur',
+            'keterangan' => 'nullable|string',
+        ]);
+
+        $imunisasi->update($validated);
+
+        return redirect()->route('data-master.imunisasi.index')
+            ->with('success', 'Data imunisasi berhasil diperbarui.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(DataImunisasi $imunisasi)
     {
-        //
+        $imunisasi->delete();
+
+        return redirect()->route('data-master.imunisasi.index')
+            ->with('success', 'Data imunisasi berhasil dihapus.');
     }
 }

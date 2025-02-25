@@ -1,4 +1,4 @@
-<nav class="app-header navbar navbar-expand bg-body fixed-top shadow-sm">
+<nav class="app-header navbar navbar-expand bg-body shadow-sm">
     <!--begin::Container-->
     <div class="container-fluid">
 
@@ -69,9 +69,9 @@
 </nav>
 <!--end::Header-->
 
-<!-- Tambahkan padding ke konten agar tidak tertutup navbar -->
+{{-- <!-- Tambahkan padding ke konten agar tidak tertutup navbar -->
 <style>
     body {
         padding-top: 56px;
     }
-</style>
+</style> --}}

@@ -4,14 +4,9 @@
 
 @section('content')
 
-    <!--begin::App Main-->
     <main class="app-main">
-
-        <!--begin::App Content Header-->
         <div class="app-content-header">
-            <!--begin::Container-->
             <div class="container-fluid">
-                <!--begin::Row-->
                 <div class="row">
                     <div class="col-sm-6">
                         <h3 class="mb-0" style="color: #333333;">Data Imunisasi</h3>
@@ -22,22 +17,15 @@
                             <li class="breadcrumb-item">
                                 <a href="#" style="color: #FF69B4; font-size: 16px;">Dashboard</a>
                             </li>
-                            <li class="breadcrumb-item active" aria-current="page">Data Imunisasi</li>
+                            <li class="breadcrumb-item active">Data Imunisasi</li>
                         </ol>
                     </div>
                 </div>
-                <!--end::Row-->
             </div>
-            <!--end::Container-->
         </div>
-        <!--end::App Content Header-->
 
-        <!--begin::App Content-->
         <div class="app-content">
-            <!--begin::Container-->
             <div class="container-fluid">
-
-                <!--begin::Row-->
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card mb-4" style="border-radius: 0px;">
@@ -47,96 +35,80 @@
                                 <button type="button" class="btn btn-sm ms-auto text-light"
                                     style="background-color: #FF69B4;" data-bs-toggle="modal"
                                     data-bs-target="#tambahImunisasiModal">
-                                    Tambah Imunisasi
+                                    <i class="bi bi-plus"></i> Tambah Imunisasi
                                 </button>
                             </div>
+
+                            <!-- Modal Tambah Imunisasi -->
                             @include('data_master.imunisasi.modal.tambah_imunisasi')
-                            <!-- /.card-header -->
+
                             <div class="card-body">
+                                @if (session('success'))
+                                    <div class="alert alert-success">
+                                        {{ session('success') }}
+                                    </div>
+                                @endif
+
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
-                                            <th style="width: 30px">#</th>
-                                            <th style="font-size: 15px">Jenis Imunisasi</th>
-                                            <th style="font-size: 15px">Dari Umur (Bulan)</th>
-                                            <th style="font-size: 15px">Sampai Umur (Bulan)</th>
-                                            <th style="font-size: 15px">Keterangan</th>
-                                            <th style="width: 100" class="text-center">Aksi</th>
+                                            <th>#</th>
+                                            <th>Jenis Imunisasi</th>
+                                            <th>Dari Umur (Bulan)</th>
+                                            <th>Sampai Umur (Bulan)</th>
+                                            <th>Keterangan</th>
+                                            <th class="text-center">Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr class="align-middle">
-                                            <td>1</td>
-                                            <td>Lorem ipsum dolor sit amet consectetur</td>
-                                            <td>Lorem ipsum</td>
-                                            <td>Lorem ipsum</td>
-                                            <td>Lorem ipsum dolor sit amet consectetur</td>
-                                            <td class="text-center">
-                                                <a href="#" class="btn btn-info" title="Lihat"
-                                                    style="width: 20px; height: 20px; font-size: 10px; padding: 1px; display: inline-flex; justify-content: center; align-items: center;">
-                                                    <i class="fas fa-eye"></i>
-                                                </a>
-                                                <a href="#" class="btn btn-warning" title="Edit"
-                                                    style="width: 20px; height: 20px; font-size: 10px; padding: 1px; display: inline-flex; justify-content: center; align-items: center;">
-                                                    <i class="fas fa-edit"></i>
-                                                </a>
-                                                <a href="#" class="btn btn-danger" title="Hapus"
-                                                    onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')"
-                                                    style="width: 20px; height: 20px; font-size: 10px; padding: 1px; display: inline-flex; justify-content: center; align-items: center;">
-                                                    <i class="fas fa-trash"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr class="align-middle">
-                                            <td>2</td>
-                                            <td>Lorem ipsum dolor sit amet consectetur</td>
-                                            <td>Lorem ipsum</td>
-                                            <td>Lorem ipsum</td>
-                                            <td>Lorem ipsum dolor sit amet consectetur</td>
-                                            <td class="text-center">
-                                                <a href="#" class="btn btn-info" title="Lihat"
-                                                    style="width: 20px; height: 20px; font-size: 10px; padding: 1px; display: inline-flex; justify-content: center; align-items: center;">
-                                                    <i class="fas fa-eye"></i>
-                                                </a>
-                                                <a href="#" class="btn btn-warning" title="Edit"
-                                                    style="width: 20px; height: 20px; font-size: 10px; padding: 1px; display: inline-flex; justify-content: center; align-items: center;">
-                                                    <i class="fas fa-edit"></i>
-                                                </a>
-                                                <a href="#" class="btn btn-danger" title="Hapus"
-                                                    onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')"
-                                                    style="width: 20px; height: 20px; font-size: 10px; padding: 1px; display: inline-flex; justify-content: center; align-items: center;">
-                                                    <i class="fas fa-trash"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
+                                        @forelse ($dataImunisasi as $index => $imunisasi)
+                                            <tr class="align-middle">
+                                                <td>{{ $loop->iteration }}</td>
+                                                <td>{{ $imunisasi->nama }}</td>
+                                                <td>{{ $imunisasi->dari_umur }}</td>
+                                                <td>{{ $imunisasi->sampai_umur }}</td>
+                                                <td>{{ $imunisasi->keterangan ?? '-' }}</td>
+                                                <td class="text-center">
+                                                    <a href="{{ route('data-master.imunisasi.show', $imunisasi->id) }}"
+                                                        class="btn btn-info btn-sm" title="Lihat">
+                                                        <i class="fas fa-eye"></i>
+                                                    </a>
+                                                    <a href="{{ route('data-master.imunisasi.edit', $imunisasi->id) }}"
+                                                        class="btn btn-warning btn-sm" title="Edit">
+                                                        <i class="fas fa-edit"></i>
+                                                    </a>
+                                                    <form
+                                                        action="{{ route('data-master.imunisasi.destroy', $imunisasi->id) }}"
+                                                        method="POST" style="display: inline;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-danger btn-sm" title="Hapus"
+                                                            onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        @empty
+                                            <tr>
+                                                <td colspan="6" class="text-center text-muted">Tidak ada data imunisasi.
+                                                </td>
+                                            </tr>
+                                        @endforelse
                                     </tbody>
                                 </table>
                             </div>
-                            <!-- /.card-body -->
+
                             <div class="card-footer clearfix" style="background-color: white">
-                                <ul class="pagination pagination-sm m-0 float-end">
-                                    <li class="page-item"><a class="page-link" style="color: #FF69B4;"
-                                            href="#">&laquo;</a></li>
-                                    <li class="page-item"><a class="page-link" style="color: #FF69B4;" href="#">1</a>
-                                    </li>
-                                    <li class="page-item"><a class="page-link" style="color: #FF69B4;" href="#">2</a>
-                                    </li>
-                                    <li class="page-item"><a class="page-link" style="color: #FF69B4;" href="#">3</a>
-                                    </li>
-                                    <li class="page-item"><a class="page-link" style="color: #FF69B4;"
-                                            href="#">&raquo;</a></li>
-                                </ul>
+                                @if ($dataImunisasi->hasPages())
+                                    {{ $dataImunisasi->links() }}
+                                @endif
                             </div>
                         </div>
-                        <!-- /.card -->
                     </div>
-                    <!-- /.col -->
                 </div>
-                <!--end::Row-->
-
             </div>
         </div>
-        <!--end::App Content-->
     </main>
-    <!--end::App Main-->
+
 @endsection

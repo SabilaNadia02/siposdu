@@ -1,6 +1,6 @@
 <!-- Modal -->
 <div class="modal fade" id="tambahSkringPPOKModal" tabindex="-1" aria-labelledby="tambahSkringPPOKModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered" style="position: absolute; right: 10%; top: 55%; transform: translateY(-50%);">
+    <div class="modal-dialog modal-lg modal-dialog-centered" style="position: absolute; right: 15%; top: 55%; transform: translateY(-50%);">
         <div class="modal-content" style="font-size: 16px; padding: 20px;">
             <div class="modal-body">
                 <button type="button" class="btn-close position-absolute top-0 end-0 m-2" data-bs-dismiss="modal" aria-label="Close"></button>
