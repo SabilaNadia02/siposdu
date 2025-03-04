@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class DataVitamin extends Model
 {
@@ -13,4 +14,9 @@ class DataVitamin extends Model
         'nama',
         'keterangan',
     ];
+
+    public function pemberianVitamin(): HasMany
+    {
+        return $this->hasMany(PemberianVitamin::class);
+    }
 }

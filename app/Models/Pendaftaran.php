@@ -4,30 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Pendaftaran extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        /**
-         * @param jenis_kelamin This parameter shows the jenis_kelamin of the pendaftar/peserta posyandu
-         *          1 -> laki-laki
-         *          2 -> perempuan
-         *
-         * @param status_perkawinan This parameter shows the status_perkawinan of the pendaftar/peserta posyandu
-         *          1 -> tidak menikah
-         *          2 -> menikah
-         *
-         * @param pendidikan This parameter shows the pendidikan of the pendaftar/peserta posyandu
-         *          1 -> tidak sekolah
-         *          2 -> sd
-         *          3 -> smp
-         *          4 -> smu
-         *          5 -> akademi
-         *          6 -> perguruan tinggi
-         */
-
         'nik',
         'nama',
         'jenis_kelamin',
@@ -40,4 +23,33 @@ class Pendaftaran extends Model
         'no_hp',
         'no_jkn',
     ];
+
+    public function pencatatanAwal(): HasMany
+    {
+        return $this->hasMany(PencatatanAwal::class);
+    }
+    public function pencatatanSkrining(): HasMany
+    {
+        return $this->hasMany(PencatatanSkrining::class);
+    }
+    public function pemberianImunisasi(): HasMany
+    {
+        return $this->hasMany(PemberianImunisasi::class);
+    }
+    public function pemberianVitamin(): HasMany
+    {
+        return $this->hasMany(PemberianVitamin::class);
+    }
+    public function pemberianObat(): HasMany
+    {
+        return $this->hasMany(PemberianObat::class);
+    }
+    public function pemberianVaksin(): HasMany
+    {
+        return $this->hasMany(PemberianVaksin::class);
+    }
+    public function rujukan(): HasMany
+    {
+        return $this->hasMany(Rujukan::class);
+    }
 }

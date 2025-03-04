@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class DataImunisasi extends Model
 {
@@ -15,4 +16,9 @@ class DataImunisasi extends Model
         'sampai_umur',
         'keterangan',
     ];
+
+    public function pemberianImunisasi(): HasMany
+    {
+        return $this->hasMany(PemberianImunisasi::class);
+    }
 }

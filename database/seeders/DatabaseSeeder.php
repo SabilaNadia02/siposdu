@@ -21,7 +21,26 @@ class DatabaseSeeder extends Seeder
         // Menjalankan seeder lainnya
         $this->call([
             DataImunisasiSeeder::class, 
+            DataVitaminSeeder::class,
+            DataObatSeeder::class,
+            DataVaksinSeeder::class,
             DataPosyanduSeeder::class,
+            PendaftaranSeeder::class,
+            PencatatanAwalSeeder::class,
+            DetailPencatatanAwalSeeder::class,
+            PencatatanKunjunganSeeder::class,
+            DetailPencatatanKunjunganSeeder::class,
+            DataSkriningSeeder::class,
+            DataPertanyaanSeeder::class,
+            PertanyaanSkriningSeeder::class,
+            PencatatanSkriningSeeder::class,
+            DetailPencatatanSkrining::class,
+            PemberianImunisasiSeeder::class,
+            PemberianVitaminSeeder::class,
+            PemberianObatSeeder::class,
+            PemberianVaksinSeeder::class,
+            RujukanSeeder::class,
+            DataPenggunaSeeder::class,
         ]);
     }
 }
