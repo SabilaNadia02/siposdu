@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignIdFor(DataVitamin::class, 'id_vitamin')->nullable()->constrained('data_vitamins')->nullOnDelete()->cascadeOnUpdate();
             $table->date('waktu_pemberian');
             $table->string('dosis');
-            $table->string('keterangan');
+            $table->string('keterangan')->nullable();
         });
     }
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Pendaftaran;
 
 class PencatatanLansiaController extends Controller
 {
@@ -11,8 +12,12 @@ class PencatatanLansiaController extends Controller
      */
     public function index()
     {
-        return view('pencatatan.lansia.index');
+        $jumlahLansia = Pendaftaran::where('jenis_sasaran', 3)->count();
+        $dataLansia = Pendaftaran::where('jenis_sasaran', 3)->paginate(10); 
+
+        return view('pencatatan.lansia.index', compact('jumlahLansia', 'dataLansia'));
     }
+
 
     /**
      * Show the form for creating a new resource.

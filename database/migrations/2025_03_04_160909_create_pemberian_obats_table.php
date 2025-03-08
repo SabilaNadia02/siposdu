@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignIdFor(DataObat::class, 'id_obat')->nullable()->constrained('data_obats')->nullOnDelete()->cascadeOnUpdate();
             $table->date('waktu_pemberian');
             $table->string('dosis');
-            $table->string('keterangan');
+            $table->string('keterangan')->nullable();
         });
     }
 

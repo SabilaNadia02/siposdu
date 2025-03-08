@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DataPengguna;
 use Illuminate\Http\Request;
 
 class DataPenggunaController extends Controller
@@ -11,7 +12,8 @@ class DataPenggunaController extends Controller
      */
     public function index()
     {
-        return view('data_master.pengguna.index');
+        $penggunas = DataPengguna::all();
+        return view('data_master.pengguna.index', compact('penggunas'));
     }
 
     /**
@@ -19,7 +21,7 @@ class DataPenggunaController extends Controller
      */
     public function create()
     {
-        //
+        return view('data_master.pengguna.create');
     }
 
     /**
@@ -27,38 +29,61 @@ class DataPenggunaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nama' => 'required|string|max:255',
+            'email' => 'required|email|unique:data_penggunas,email',
+            'peran' => 'required|in:1,2,3',
+        ]);
+
+        DataPengguna::create($request->all());
+
+        return redirect()->route('pengguna.index')->with('success', 'Data pengguna berhasil ditambahkan.');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
-        //
+        $pengguna = DataPengguna::findOrFail($id);
+        return view('data_master.pengguna.show', compact('pengguna'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
-        //
+        $pengguna = DataPengguna::findOrFail($id);
+        return view('data_master.pengguna.edit', compact('pengguna'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $pengguna = DataPengguna::findOrFail($id);
+
+        $request->validate([
+            'nama' => 'required|string|max:255',
+            'email' => 'required|email|unique:data_penggunas,email,' . $pengguna->id,
+            'peran' => 'required|in:1,2,3',
+        ]);
+
+        $pengguna->update($request->all());
+
+        return redirect()->route('pengguna.index')->with('success', 'Data pengguna berhasil diperbarui.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        $pengguna = DataPengguna::findOrFail($id);
+        $pengguna->delete();
+
+        return redirect()->route('pengguna.index')->with('success', 'Data pengguna berhasil dihapus.');
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class DetailPencatatanKunjungan extends Model
 {
@@ -14,7 +15,6 @@ class DetailPencatatanKunjungan extends Model
         'lingkar_lengan',
         'lingkar_kepala',
         'lingkar_perut',
-        'usia_kehamilan',
         'mt_bumil_kek',
         'kelas_ibu_hamil',
         'asi_eksklusif',
@@ -32,4 +32,9 @@ class DetailPencatatanKunjungan extends Model
         'keluhan',
         'edukasi',
     ];
+
+    public function pencatatanKunjungan(): BelongsTo
+    {
+        return $this->belongsTo(PencatatanKunjungan::class, 'id_pencatatan_kunjungan');
+    }
 }

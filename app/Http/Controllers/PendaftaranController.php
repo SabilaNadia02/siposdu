@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DataPosyandu;
 use App\Models\Pendaftaran;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class PendaftaranController extends Controller
 {
@@ -14,18 +16,21 @@ class PendaftaranController extends Controller
     {
         $pendaftaran = Pendaftaran::paginate(10);
         $totalPendaftaran = Pendaftaran::count();
-        $totalLaki = Pendaftaran::where('jenis_kelamin', 1)->count();
-        $totalPerempuan = Pendaftaran::where('jenis_kelamin', 2)->count();
 
-        return view('pendaftaran.index', compact('pendaftaran', 'totalPendaftaran', 'totalLaki', 'totalPerempuan'));
-    }
+        $totalIbuHamil = Pendaftaran::where('jenis_sasaran', 1)->count();
+        $totalBayiBalita = Pendaftaran::where('jenis_sasaran', 2)->count();
+        $totalUsiaSuburLansia = Pendaftaran::where('jenis_sasaran', 3)->count();
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return view('pendaftaran.create');
+        $posyandus = DataPosyandu::all();
+
+        return view('pendaftaran.index', compact(
+            'pendaftaran',
+            'totalPendaftaran',
+            'totalIbuHamil',
+            'totalBayiBalita',
+            'totalUsiaSuburLansia',
+            'posyandus'
+        ));
     }
 
     /**
@@ -33,7 +38,7 @@ class PendaftaranController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'nik' => 'required|unique:pendaftarans,nik|digits:16',
             'nama' => 'required|string|max:255',
             'jenis_kelamin' => 'required|in:1,2',
@@ -43,13 +48,31 @@ class PendaftaranController extends Controller
             'pendidikan' => 'required|in:1,2,3,4,5,6',
             'pekerjaan' => 'required|string|max:255',
             'alamat' => 'required|string',
-            'no_hp' => 'required|regex:/^08[0-9]{9,11}$/',
+            'no_hp' => 'required|digits_between:10,13',
             'no_jkn' => 'nullable|digits_between:13,16',
+            'jenis_sasaran' => 'required|in:1,2,3',
+            'data_posyandu_id' => 'required|exists:data_posyandus,id',
         ]);
 
-        Pendaftaran::create($request->all());
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
 
-        return redirect()->route('pendaftaran.index')->with('success', 'Pendaftaran berhasil ditambahkan');
+        // Ambil ID terakhir dan tambahkan 1
+        $lastId = Pendaftaran::max('id');
+        $newId = $lastId ? $lastId + 1 : 1;
+
+        // Tambahkan ID baru ke data request
+        $data = $request->all();
+        $data['id'] = $newId;
+
+        // Simpan data pendaftaran
+        $pendaftaran = Pendaftaran::create($data);
+
+        return response()->json([
+            'success' => 'Pendaftaran berhasil ditambahkan',
+            'redirect' => route('pendaftaran.show', $pendaftaran->id)
+        ]);
     }
 
     /**
@@ -57,22 +80,13 @@ class PendaftaranController extends Controller
      */
     public function show(string $id)
     {
-        $pendaftaran = Pendaftaran::findOrFail($id);
+        $pendaftaran = Pendaftaran::find($id);
 
-        // Konversi angka ke teks untuk tampilan
-        $jenis_kelamin = $pendaftaran->jenis_kelamin == 1 ? 'Laki-laki' : 'Perempuan';
-        $status_perkawinan = $pendaftaran->status_perkawinan == 1 ? 'Tidak Menikah' : 'Menikah';
-        $pendidikan_labels = [
-            1 => 'Tidak Sekolah',
-            2 => 'SD',
-            3 => 'SMP',
-            4 => 'SMU',
-            5 => 'Akademi',
-            6 => 'Perguruan Tinggi',
-        ];
-        $pendidikan = $pendidikan_labels[$pendaftaran->pendidikan] ?? 'Tidak Diketahui';
+        if (!$pendaftaran) {
+            abort(404);
+        }
 
-        return view('pendaftaran.show', compact('pendaftaran', 'jenis_kelamin', 'status_perkawinan', 'pendidikan'));
+        return view('pendaftaran.show', compact('pendaftaran'));
     }
 
     /**
@@ -81,18 +95,17 @@ class PendaftaranController extends Controller
     public function edit(string $id)
     {
         $pendaftaran = Pendaftaran::findOrFail($id);
-        return view('pendaftaran.edit', compact('pendaftaran'));
+        $posyandus = DataPosyandu::all();
+        return view('pendaftaran.edit', compact('pendaftaran', 'posyandus'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        $pendaftaran = Pendaftaran::findOrFail($id);
-
         $request->validate([
-            'nik' => 'required|digits:16|unique:pendaftarans,nik,' . $id,
+            'nik' => 'required|string|max:16',
             'nama' => 'required|string|max:255',
             'jenis_kelamin' => 'required|in:1,2',
             'status_perkawinan' => 'required|in:1,2',
@@ -101,13 +114,20 @@ class PendaftaranController extends Controller
             'pendidikan' => 'required|in:1,2,3,4,5,6',
             'pekerjaan' => 'required|string|max:255',
             'alamat' => 'required|string',
-            'no_hp' => 'required|regex:/^08[0-9]{9,11}$/',
-            'no_jkn' => 'nullable|digits_between:13,16',
+            'no_hp' => 'required|string|max:15',
+            'no_jkn' => 'nullable|string|max:20',
+            'jenis_sasaran' => 'required|in:1,2,3',
+            'data_posyandu_id' => 'required|exists:data_posyandus,id',
         ]);
 
+        // Cari data berdasarkan ID
+        $pendaftaran = Pendaftaran::findOrFail($id);
+
+        // Update data
         $pendaftaran->update($request->all());
 
-        return redirect()->route('pendaftaran.index')->with('success', 'Data pendaftaran berhasil diperbarui');
+        // Redirect kembali dengan pesan sukses
+        return redirect()->route('pendaftaran.show', $pendaftaran->id)->with('success', 'Data berhasil diperbarui!');
     }
 
     /**
@@ -118,6 +138,6 @@ class PendaftaranController extends Controller
         $pendaftaran = Pendaftaran::findOrFail($id);
         $pendaftaran->delete();
 
-        return redirect()->route('pendaftaran.index')->with('success', 'Data pendaftaran berhasil dihapus');
+        return response()->json(['success' => 'Data pendaftaran berhasil dihapus']);
     }
 }

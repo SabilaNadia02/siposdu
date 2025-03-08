@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Pendaftaran;
 
 class PencatatanBalitaController extends Controller
 {
@@ -11,8 +12,12 @@ class PencatatanBalitaController extends Controller
      */
     public function index()
     {
-        return view('pencatatan.balita.index');
+        $jumlahBalita = Pendaftaran::where('jenis_sasaran', 2)->count();
+        $dataBalita = Pendaftaran::where('jenis_sasaran', 2)->paginate(10); 
+
+        return view('pencatatan.balita.index', compact('jumlahBalita', 'dataBalita'));
     }
+
 
     /**
      * Show the form for creating a new resource.

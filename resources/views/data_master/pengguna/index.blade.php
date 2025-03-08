@@ -64,49 +64,58 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr class="align-middle">
-                                            <td>1</td>
-                                            <td>Lorem ipsum dolor sit amet consectetur</td>
-                                            <td>Lorem ipsum dolor sit amet consectetur</td>
-                                            <td>Lorem ipsum dolor sit amet consectetur</td>
-                                            <td class="text-center">
-                                                <a href="#" class="btn btn-info" title="Lihat"
-                                                    style="width: 20px; height: 20px; font-size: 10px; padding: 1px; display: inline-flex; justify-content: center; align-items: center;">
-                                                    <i class="fas fa-eye"></i>
-                                                </a>
-                                                <a href="#" class="btn btn-warning" title="Edit"
-                                                    style="width: 20px; height: 20px; font-size: 10px; padding: 1px; display: inline-flex; justify-content: center; align-items: center;">
-                                                    <i class="fas fa-edit"></i>
-                                                </a>
-                                                <a href="#" class="btn btn-danger" title="Hapus"
-                                                    onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')"
-                                                    style="width: 20px; height: 20px; font-size: 10px; padding: 1px; display: inline-flex; justify-content: center; align-items: center;">
-                                                    <i class="fas fa-trash"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr class="align-middle">
-                                            <td>2</td>
-                                            <td>Lorem ipsum dolor sit amet consectetur</td>
-                                            <td>Lorem ipsum dolor sit amet consectetur</td>
-                                            <td>Lorem ipsum dolor sit amet consectetur</td>
-                                            <td class="text-center">
-                                                <a href="#" class="btn btn-info" title="Lihat"
-                                                    style="width: 20px; height: 20px; font-size: 10px; padding: 1px; display: inline-flex; justify-content: center; align-items: center;">
-                                                    <i class="fas fa-eye"></i>
-                                                </a>
-                                                <a href="#" class="btn btn-warning" title="Edit"
-                                                    style="width: 20px; height: 20px; font-size: 10px; padding: 1px; display: inline-flex; justify-content: center; align-items: center;">
-                                                    <i class="fas fa-edit"></i>
-                                                </a>
-                                                <a href="#" class="btn btn-danger" title="Hapus"
-                                                    onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')"
-                                                    style="width: 20px; height: 20px; font-size: 10px; padding: 1px; display: inline-flex; justify-content: center; align-items: center;">
-                                                    <i class="fas fa-trash"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
+                                        @foreach ($penggunas as $index => $pengguna)
+                                            <tr class="align-middle">
+                                                <td>{{ $index + 1 }}</td>
+                                                <td>{{ $pengguna->nama }}</td>
+                                                <td>{{ $pengguna->email }}</td>
+                                                <td>
+                                                    @if ($pengguna->peran == 1)
+                                                        Admin
+                                                    @elseif($pengguna->peran == 2)
+                                                        Nakes (Bidan/Perawat)
+                                                    @else
+                                                        Kader
+                                                    @endif
+                                                </td>
+                                                {{-- <td class="text-center">
+                                                    <a href="{{ route('pengguna.show', $pengguna->id) }}"
+                                                        class="btn btn-info" title="Lihat">
+                                                        <i class="fas fa-eye"></i>
+                                                    </a>
+                                                    <a href="{{ route('pengguna.edit', $pengguna->id) }}"
+                                                        class="btn btn-warning" title="Edit">
+                                                        <i class="fas fa-edit"></i>
+                                                    </a>
+                                                    <form action="{{ route('pengguna.destroy', $pengguna->id) }}"
+                                                        method="POST" class="d-inline"
+                                                        onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-danger" title="Hapus">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
+                                                    </form>
+                                                </td> --}}
+                                                <td class="text-center">
+                                                    <a href="#" class="btn btn-info" title="Lihat"
+                                                        style="width: 20px; height: 20px; font-size: 10px; padding: 1px; display: inline-flex; justify-content: center; align-items: center;">
+                                                        <i class="fas fa-eye"></i>
+                                                    </a>
+                                                    <a href="#" class="btn btn-warning" title="Edit"
+                                                        style="width: 20px; height: 20px; font-size: 10px; padding: 1px; display: inline-flex; justify-content: center; align-items: center;">
+                                                        <i class="fas fa-edit"></i>
+                                                    </a>
+                                                    <a href="#" class="btn btn-danger" title="Hapus"
+                                                        onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')"
+                                                        style="width: 20px; height: 20px; font-size: 10px; padding: 1px; display: inline-flex; justify-content: center; align-items: center;">
+                                                        <i class="fas fa-trash"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        @endforeach
                                     </tbody>
+
                                 </table>
                             </div>
                             <!-- /.card-body -->

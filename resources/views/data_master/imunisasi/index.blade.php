@@ -63,7 +63,7 @@
                                     <tbody>
                                         @forelse ($dataImunisasi as $index => $imunisasi)
                                             <tr class="align-middle">
-                                                <td>{{ $loop->iteration }}</td>
+                                                <td>{{ $imunisasi->id }}</td>
                                                 <td>{{ $imunisasi->nama }}</td>
                                                 <td>{{ $imunisasi->dari_umur }}</td>
                                                 <td>{{ $imunisasi->sampai_umur }}</td>
@@ -97,12 +97,33 @@
                                         @endforelse
                                     </tbody>
                                 </table>
-                            </div>
-
-                            <div class="card-footer clearfix" style="background-color: white">
-                                @if ($dataImunisasi->hasPages())
-                                    {{ $dataImunisasi->links() }}
-                                @endif
+                                <!-- /.card-body -->
+                                <div class="card-footer clearfix" style="background-color: white">
+                                    <ul class="pagination pagination-sm m-0 float-end">
+                                        @if ($dataImunisasi->onFirstPage())
+                                            <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+                                        @else
+                                            <li class="page-item"><a class="page-link"
+                                                    style="background-color: #FF69B4; color: white; border: none;"
+                                                    href="{{ $dataImunisasi->previousPageUrl() }}">&laquo;</a></li>
+                                        @endif
+                                        @for ($i = 1; $i <= $dataImunisasi->lastPage(); $i++)
+                                            <li
+                                                class="page-item {{ $dataImunisasi->currentPage() == $i ? 'active' : '' }}">
+                                                <a class="page-link"
+                                                    style="background-color: {{ $dataImunisasi->currentPage() == $i ? '#FF69B4' : 'white' }}; color: {{ $dataImunisasi->currentPage() == $i ? 'white' : '#FF69B4' }}; border: none;"
+                                                    href="{{ $dataImunisasi->url($i) }}">{{ $i }}</a>
+                                            </li>
+                                        @endfor
+                                        @if ($dataImunisasi->hasMorePages())
+                                            <li class="page-item"><a class="page-link"
+                                                    style="background-color: #FF69B4; color: white; border: none;"
+                                                    href="{{ $dataImunisasi->nextPageUrl() }}">&raquo;</a></li>
+                                        @else
+                                            <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+                                        @endif
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>

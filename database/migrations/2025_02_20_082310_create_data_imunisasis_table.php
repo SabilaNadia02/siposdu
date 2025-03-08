@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('nama');
             $table->integer('dari_umur');
             $table->integer('sampai_umur');
-            $table->string('keterangan');
+            $table->string('keterangan')->nullable();
             $table->timestamps();
         });
     }

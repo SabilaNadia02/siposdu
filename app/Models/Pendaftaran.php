@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Pendaftaran extends Model
@@ -22,11 +23,17 @@ class Pendaftaran extends Model
         'alamat',
         'no_hp',
         'no_jkn',
+        'jenis_sasaran',
+        'data_posyandu_id',
     ];
 
-    public function pencatatanAwal(): HasMany
+    public function PencatatanAwal(): HasMany
     {
         return $this->hasMany(PencatatanAwal::class);
+    }
+    public function posyandus(): BelongsTo
+    {
+        return $this->belongsTo(DataPosyandu::class, 'data_posyandu_id');
     }
     public function pencatatanSkrining(): HasMany
     {

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignIdFor(Pendaftaran::class, 'no_pendaftaran')->nullable()->constrained('pendaftarans')->nullOnDelete()->cascadeOnUpdate();
             $table->foreignIdFor(DataImunisasi::class, 'id_imunisasi')->nullable()->constrained('data_imunisasis')->nullOnDelete()->cascadeOnUpdate();
             $table->date('waktu_pemberian');
-            $table->string('keterangan');
+            $table->string('keterangan')->nullable();
         });
     }
 

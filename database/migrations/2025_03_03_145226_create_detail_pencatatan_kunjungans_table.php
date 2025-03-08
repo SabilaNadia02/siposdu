@@ -21,7 +21,6 @@ return new class extends Migration
             $table->float('lingkar_lengan')->nullable();
             $table->float('lingkar_kepala')->nullable();
             $table->float('lingkar_perut')->nullable();
-            $table->integer('usia_kehamilan')->nullable();
             $table->enum('mt_bumil_kek', [1, 2])->nullable();
             $table->enum('asi_eksklusif', [1, 2])->nullable();
             $table->enum('mp_asi', [1, 2])->nullable();

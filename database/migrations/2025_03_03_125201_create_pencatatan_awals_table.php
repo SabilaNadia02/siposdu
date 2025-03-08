@@ -16,9 +16,22 @@ return new class extends Migration
         Schema::create('pencatatan_awals', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Pendaftaran::class, 'no_pendaftaran')->nullable()->constrained('pendaftarans')->nullOnDelete()->cascadeOnUpdate();
-            $table->enum('jenis_sasaran', [1, 2, 3]);
-            $table->foreignIdFor(DataPosyandu::class, 'nama_posyandu')->nullable()->constrained()->nullOnDelete()->cascadeOnUpdate();
-            $table->date('waktu_pencatatan');
+            $table->date('hpht')->nullable();
+            $table->date('htp')->nullable();
+            $table->integer('usia_kehamilan')->nullable();
+            $table->string('nama_suami')->nullable();
+            $table->integer('hamil_ke')->nullable();
+            $table->integer('jarak_anak')->nullable();
+            $table->float('tinggi_badan')->nullable();
+            $table->string('nama_ibu')->nullable();
+            $table->string('nama_ayah')->nullable();
+            $table->float('berat_badan_lahir')->nullable();
+            $table->float('panjang_badan_lahir')->nullable();
+            $table->enum('status_balita', [1, 2])->nullable();
+            $table->longText('riwayat_keluarga')->nullable();
+            $table->longText('riwayat_diri_sendiri')->nullable();
+            $table->longText('perilaku_berisiko')->nullable();
+            $table->timestamps();
         });        
     }
 

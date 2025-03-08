@@ -10,25 +10,29 @@ class PencatatanAwal extends Model
 {
     protected $fillable = [
         'no_pendaftaran',
-        'jenis_sasaran',
-        'nama_posyandu',
-        'waktu_pencatatan',
+        'hpht',
+        'htp',
+        'nama_suami',
+        'hamil_ke',
+        'jarak_anak',
+        'tinggi_badan',
+        'usia_kehamilan',
+        'nama_ibu',
+        'nama_ayah',
+        'berat_badan_lahir',
+        'panjang_badan_lahir',
+        'status_balita',
+        'riwayat_keluarga',
+        'riwayat_diri_sendiri',
+        'perilaku_berisiko',
     ];
 
     public function pendaftaran(): BelongsTo
     {
-        return $this->belongsTo(Pendaftaran::class);
-    }
-    public function posyandu(): BelongsTo
-    {
-        return $this->belongsTo(DataPosyandu::class);
-    }
-    public function detailPencatatanAwal(): HasMany
-    {
-        return $this->hasMany(DetailPencatatanAwal::class);
+        return $this->belongsTo(Pendaftaran::class, 'no_pendaftaran');
     }
     public function pencatatanKunjungan(): HasMany
     {
-        return $this->hasMany(PencatatanKunjungan::class);
+        return $this->hasMany(PencatatanKunjungan::class, 'id_pencatatan_awal');
     }
 }

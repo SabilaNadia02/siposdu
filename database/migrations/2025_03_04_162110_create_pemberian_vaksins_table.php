@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignIdFor(DataVaksin::class, 'id_vaksin')->nullable()->constrained('data_vaksins')->nullOnDelete()->cascadeOnUpdate();
             $table->date('waktu_pemberian');
             $table->string('dosis');
-            $table->string('keterangan');
+            $table->string('keterangan')->nullable();
         });
     }
 

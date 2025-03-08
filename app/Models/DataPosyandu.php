@@ -15,8 +15,8 @@ class DataPosyandu extends Model
         'alamat',
     ];
 
-    public function pencatatanAwal(): HasMany
+    public function pendaftaran(): HasMany
     {
-        return $this->hasMany(PencatatanAwal::class);
+        return $this->hasMany(Pendaftaran::class);
     }
 }
