@@ -10,7 +10,7 @@ class PencatatanKunjungan extends Model
 {
     protected $fillable = [
         'id_pencatatan_awal',
-        'waktu_kunjungan',
+        'waktu_pencatatan',
         'berat_badan',
         'panjang_badan',
         'tinggi_badan',

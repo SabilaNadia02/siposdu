@@ -254,16 +254,13 @@ class PencatatanIbuController extends Controller
         // dd(PencatatanKunjungan::find($id));
 
         // Cari data kunjungan berdasarkan ID
-        $kunjungan = PencatatanKunjungan::findOrFail($id);
+        $data = PencatatanKunjungan::findOrFail($id);
+        $kunjungan = PencatatanAwal::findOrFail($id_pencatatan_awal);
 
-        // $kunjungan = PencatatanKunjungan::where('id', $id)
-        //     ->where('id_pencatatan_awal', $id_pencatatan_awal)
-        //     ->findOrFail($id);
-
-        // dd($request->all());
+        dd((PencatatanKunjungan::find($id)));
 
         // Update data kunjungan dengan input yang telah divalidasi
-        $kunjungan->update([
+        $data->update([
             'waktu_pencatatan' => $request->waktu_pencatatan,
             'berat_badan' => $request->berat_badan,
             'lingkar_lengan' => $request->lingkar_lengan,
@@ -276,7 +273,7 @@ class PencatatanIbuController extends Controller
         ]);
 
         // Redirect kembali ke halaman detail dengan pesan sukses
-        return redirect()->route('pencatatan.ibu.kunjungan.show', [$id_pencatatan_awal, $id])
+        return redirect()->route('pencatatan.ibu.kunjungan.show', [$kunjungan->id, $data->id])
             ->with('success', 'Kunjungan berhasil diperbarui.');
     }
 

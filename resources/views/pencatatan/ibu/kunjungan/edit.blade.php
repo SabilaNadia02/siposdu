@@ -25,8 +25,8 @@
             <div class="container-fluid">
                 <div class="card shadow-sm" style="border-radius: 0px; border-top: 3px solid #007BFF;">
                     <div class="card-body">
-                        <form id="editPencatatanKunjunganIbuForm"
-                            action="{{ route('pencatatan.ibu.kunjungan.update', [$data->id_pencatatan_awal, $data->id]) }}"
+                        <form
+                            action="{{ route('pencatatan.ibu.kunjungan.update', [$kunjungan->id, $data->id]) }}"
                             method="POST">
                             @csrf
                             @method('PUT')
