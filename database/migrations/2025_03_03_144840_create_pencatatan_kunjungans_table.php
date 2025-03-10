@@ -16,6 +16,28 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(PencatatanAwal::class, 'id_pencatatan_awal')->nullable()->constrained()->nullOnDelete()->cascadeOnUpdate();
             $table->date('waktu_pencatatan');
+            $table->float('berat_badan')->nullable();
+            $table->float('panjang_badan')->nullable();
+            $table->float('tinggi_badan')->nullable();
+            $table->float('lingkar_lengan')->nullable();
+            $table->float('lingkar_kepala')->nullable();
+            $table->float('lingkar_perut')->nullable();
+            $table->enum('mt_bumil_kek', [1, 2])->nullable();
+            $table->enum('kelas_ibu_hamil', [1, 2])->nullable();
+            $table->enum('asi_eksklusif', [1, 2])->nullable();
+            $table->enum('mp_asi', [1, 2])->nullable();
+            $table->enum('mt_pangan_pemulihan', [1, 2])->nullable();
+            $table->string('catatan_kesehatan')->nullable();
+            $table->enum('tes_mata_kanan', [1, 2])->nullable();
+            $table->enum('tes_mata_kiri', [1, 2])->nullable();
+            $table->enum('tes_telinga_kanan', [1, 2])->nullable();
+            $table->enum('tes_telinga_kiri', [1, 2])->nullable();
+            $table->integer('tekanan_darah_sistolik')->nullable();
+            $table->integer('tekanan_darah_diastolik')->nullable();
+            $table->float('gula_darah')->nullable();
+            $table->float('kolestrol')->nullable();
+            $table->string('keluhan')->nullable();
+            $table->string('edukasi')->nullable();
         });
     }
 

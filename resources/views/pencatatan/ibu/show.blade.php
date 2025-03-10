@@ -21,7 +21,7 @@
 
         <div class="app-content">
             <div class="container-fluid">
-                <div class="card shadow-sm border-top-primary">
+                <div class="card shadow-sm" style="border-radius: 0px; border-top: 3px solid #007BFF;">
                     <div class="card-header">
                         <!-- Tab navigation -->
                         <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
@@ -127,19 +127,19 @@
                                                 <tr>
                                                     <td>{{ \Carbon\Carbon::parse($kunjungan->waktu_pencatatan)->translatedFormat('j F Y') }}
                                                     </td>
-                                                    <td>{{ optional($kunjungan->detailPencatatanKunjungan->first())->berat_badan ?? '-' }}
+                                                    <td>{{ $kunjungan->berat_badan ?? '-' }}
                                                         kg</td>
-                                                    <td>{{ optional($kunjungan->detailPencatatanKunjungan->first())->lingkar_lengan ?? '-' }}
+                                                    <td>{{ $kunjungan->lingkar_lengan ?? '-' }}
                                                         cm</td>
                                                     <td>{{ $kunjungan->tekanan_darah_sistolik ?? '-' }}/{{ $kunjungan->tekanan_darah_diastolik ?? '-' }}
                                                         mmHg</td>
-                                                    <td>{{ optional($kunjungan->detailPencatatanKunjungan->first())->mt_bumil_kek ?? '-' }}
+                                                    <td>{{ $kunjungan->mt_bumil_kek == 1 ? 'Ya' : ($kunjungan->mt_bumil_kek == 2 ? 'Tidak' : '-') }}
                                                     </td>
-                                                    <td>{{ optional($kunjungan->detailPencatatanKunjungan->first())->kelas_ibu_hamil ?? '-' }}
+                                                    <td>{{ $kunjungan->kelas_ibu_hamil == 1 ? 'Ya' : ($kunjungan->kelas_ibu_hamil == 2 ? 'Tidak' : '-') }}
                                                     </td>
-                                                    <td>{{ optional($kunjungan->detailPencatatanKunjungan->first())->keluhan ?? '-' }}
+                                                    <td>{{ $kunjungan->keluhan ?? '-' }}
                                                     </td>
-                                                    <td>{{ optional($kunjungan->detailPencatatanKunjungan->first())->edukasi ?? '-' }}
+                                                    <td>{{ $kunjungan->edukasi ?? '-' }}
                                                     </td>
                                                     <td class="text-center">
                                                         <a href="{{ route('pencatatan.ibu.kunjungan.show', [$data->id, $kunjungan->id]) }}"
@@ -179,30 +179,27 @@
 
                                 @php
                                     $ibuBermasalah = [];
-
                                     foreach ($data->pencatatanKunjungan as $kunjungan) {
-                                        foreach ($kunjungan->detailPencatatanKunjungan as $detail) {
-                                            if (
-                                                !is_null($detail->tekanan_darah_sistolik) &&
-                                                !is_null($detail->tekanan_darah_diastolik)
-                                            ) {
-                                                $sistolik = $detail->tekanan_darah_sistolik;
-                                                $diastolik = $detail->tekanan_darah_diastolik;
+                                        if (
+                                            !is_null($kunjungan->tekanan_darah_sistolik) &&
+                                            !is_null($kunjungan->tekanan_darah_diastolik)
+                                        ) {
+                                            $sistolik = $kunjungan->tekanan_darah_sistolik;
+                                            $diastolik = $kunjungan->tekanan_darah_diastolik;
 
-                                                // Kriteria tekanan darah bermasalah
-                                                if ($sistolik < 90 || $diastolik < 60) {
-                                                    $ibuBermasalah[] =
-                                                        "Tekanan darah rendah ( {$sistolik}/{$diastolik} mmHg ) pada kunjungan tanggal " .
-                                                        \Carbon\Carbon::parse(
-                                                            $kunjungan->waktu_kunjungan,
-                                                        )->translatedFormat('j F Y');
-                                                } elseif ($sistolik > 140 || $diastolik > 90) {
-                                                    $ibuBermasalah[] =
-                                                        "Tekanan darah tinggi ( {$sistolik}/{$diastolik} mmHg ) pada kunjungan tanggal " .
-                                                        \Carbon\Carbon::parse(
-                                                            $kunjungan->waktu_kunjungan,
-                                                        )->translatedFormat('j F Y');
-                                                }
+                                            // Kriteria tekanan darah bermasalah
+                                            if ($sistolik < 90 || $diastolik < 60) {
+                                                $ibuBermasalah[] =
+                                                    "Tekanan darah rendah ( {$sistolik}/{$diastolik} mmHg ) pada kunjungan tanggal " .
+                                                    \Carbon\Carbon::parse(
+                                                        $kunjungan->waktu_kunjungan,
+                                                    )->translatedFormat('j F Y');
+                                            } elseif ($sistolik > 140 || $diastolik > 90) {
+                                                $ibuBermasalah[] =
+                                                    "Tekanan darah tinggi ( {$sistolik}/{$diastolik} mmHg ) pada kunjungan tanggal " .
+                                                    \Carbon\Carbon::parse(
+                                                        $kunjungan->waktu_kunjungan,
+                                                    )->translatedFormat('j F Y');
                                             }
                                         }
                                     }
@@ -243,7 +240,7 @@
 
         /* Styling untuk tombol tab */
         .nav-tabs .nav-link {
-            border-radius: 6px;
+            border-radius: 4px;
             border: 1px solid #ddd;
             color: #333;
             transition: all 0.3s ease;

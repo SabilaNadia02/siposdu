@@ -28,7 +28,6 @@ class DatabaseSeeder extends Seeder
             PendaftaranSeeder::class,
             PencatatanAwalSeeder::class,
             PencatatanKunjunganSeeder::class,
-            DetailPencatatanKunjunganSeeder::class,
             DataSkriningSeeder::class,
             DataPertanyaanSeeder::class,
             PertanyaanSkriningSeeder::class,

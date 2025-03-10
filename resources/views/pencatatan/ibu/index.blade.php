@@ -69,8 +69,8 @@
                                         <tr>
                                             <th style="width: 150px">No Pendaftaran</th>
                                             <th>Nama</th>
-                                            <th>Usia Kehamilan</th>
-                                            <th>HTP</th>
+                                            <th>Usia Kehamilan (minggu)</th>
+                                            <th>HTP (Hari Taksiran Persalinan)</th>
                                             <th class="text-center">Aksi</th>
                                         </tr>
                                     </thead>

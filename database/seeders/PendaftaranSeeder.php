@@ -71,7 +71,7 @@ class PendaftaranSeeder extends Seeder
                 'alamat' => 'Jl. Malioboro No. 7, Yogyakarta',
                 'no_hp' => '0813344556677',
                 'no_jkn' => '2233445566778',
-                'jenis_sasaran' => 2,
+                'jenis_sasaran' => 1,
                 'data_posyandu_id' => $posyandus[array_rand($posyandus)],
             ],
             [
@@ -101,7 +101,7 @@ class PendaftaranSeeder extends Seeder
                 'alamat' => 'Jl. Pahlawan No. 15, Semarang',
                 'no_hp' => '081677889900',
                 'no_jkn' => '4455667788990',
-                'jenis_sasaran' => 3,
+                'jenis_sasaran' => 1,
                 'data_posyandu_id' => $posyandus[array_rand($posyandus)],
             ],
             [

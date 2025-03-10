@@ -29,7 +29,7 @@ class PencatatanAwal extends Model
 
     public function pendaftaran(): BelongsTo
     {
-        return $this->belongsTo(Pendaftaran::class, 'no_pendaftaran');
+        return $this->belongsTo(Pendaftaran::class, 'no_pendaftaran', 'id');
     }
     public function pencatatanKunjungan(): HasMany
     {

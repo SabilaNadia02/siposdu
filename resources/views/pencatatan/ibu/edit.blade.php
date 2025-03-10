@@ -12,7 +12,6 @@
                         <p style="color: #777777; font-size: 1rem;">Perbarui informasi data ibu hamil.</p>
                     </div>
                     <div class="col-sm-6 d-flex justify-content-end align-items-center">
-                        <button type="submit" class="btn btn-primary me-2"><i class="fas fa-save"></i> Simpan Perubahan</button>
                         <a href="{{ route('pencatatan.ibu.show', $data->id) }}" class="btn btn-secondary">Kembali</a>
                     </div>
                 </div>
@@ -30,12 +29,13 @@
                             <div class="mb-3">
                                 <label class="form-label">No Pendaftaran</label>
                                 <input type="text" class="form-control"
-                                    value="{{ str_pad($data->pendaftaran->id, 4, '0', STR_PAD_LEFT) }}" disabled>
-                            </div>
+                                    value="{{ str_pad($data->pendaftaran->id, 4, '0', STR_PAD_LEFT) }}" readonly>
+                                <input type="hidden" name="no_pendaftaran" value="{{ $data->pendaftaran->id }}">
+                            </div>                            
 
                             <div class="mb-3">
                                 <label class="form-label">Nama Ibu</label>
-                                <input type="text" class="form-control" value="{{ $data->pendaftaran->nama }}" disabled>
+                                <input type="text" class="form-control" value="{{ $data->pendaftaran->nama }}" readonly>
                             </div>
 
                             <div class="mb-3">
@@ -78,6 +78,10 @@
                                 <label class="form-label">Usia Kehamilan (minggu)</label>
                                 <input type="number" class="form-control" name="usia_kehamilan"
                                     value="{{ $data->usia_kehamilan }}" required>
+                            </div>
+                            <div class="d-flex justify-content-end">
+                                <button type="submit" class="btn btn-primary me-2"><i class="fas fa-save"></i> Simpan
+                                    Perubahan</button>
                             </div>
                         </form>
                     </div>

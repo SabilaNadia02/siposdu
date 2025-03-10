@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\PencatatanAwal;
 use Illuminate\Http\Request;
-use App\Models\Pendaftaran;
 
 class PencatatanGeneralController extends Controller
 {
@@ -12,9 +12,17 @@ class PencatatanGeneralController extends Controller
      */
     public function index()
     {
-        $jumlahIbu = Pendaftaran::where('jenis_sasaran', 1)->count();
-        $jumlahBalita = Pendaftaran::where('jenis_sasaran', 2)->count();
-        $jumlahLansia = Pendaftaran::where('jenis_sasaran', 3)->count();
+        $jumlahIbu = PencatatanAwal::whereHas('pendaftaran', function ($query) {
+            $query->where('jenis_sasaran', 1);
+        })->count();
+
+        $jumlahBalita = PencatatanAwal::whereHas('pendaftaran', function ($query) {
+            $query->where('jenis_sasaran', 2);
+        })->count();
+
+        $jumlahLansia = PencatatanAwal::whereHas('pendaftaran', function ($query) {
+            $query->where('jenis_sasaran', 3);
+        })->count();
 
         return view('pencatatan.general.index', compact('jumlahIbu', 'jumlahBalita', 'jumlahLansia'));
     }

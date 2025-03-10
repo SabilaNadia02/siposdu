@@ -14,7 +14,8 @@
                             kunjungan pada Ibu Hamil.</p>
                     </div>
                     <div class="col-sm-6 d-flex justify-content-end align-items-center">
-                        <a href="{{ route('pencatatan.ibu.show', $kunjungan->id) }}" class="btn btn-secondary">Kembali</a>
+                        <a href="{{ route('pencatatan.ibu.show', $data->id, $kunjungan->id) }}"
+                            class="btn btn-secondary">Kembali</a>
                     </div>
                 </div>
             </div>
@@ -22,106 +23,50 @@
 
         <div class="app-content">
             <div class="container-fluid">
-                <div class="card shadow-sm border-top-primary">
+                <div class="card shadow-sm" style="border-radius: 0px; border-top: 3px solid #007BFF;">
                     <div class="card-body">
                         <table class="table">
                             <tr>
                                 <th>Tanggal Kunjungan</th>
-                                <td>{{ \Carbon\Carbon::parse($kunjungan->waktu_pencatatan)->translatedFormat('j F Y') }}
+                                <td>{{ \Carbon\Carbon::parse($detail_kunjungan->waktu_pencatatan)->translatedFormat('j F Y') }}
                                 </td>
                             </tr>
-                            @if ($kunjungan->detailPencatatanKunjungan->isNotEmpty())
-                                @foreach ($kunjungan->detailPencatatanKunjungan as $detail)
-                                    <tr>
-                                        <th>Berat Badan</th>
-                                        <td>{{ $detail->berat_badan ?? '-' }} kg</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Lingkar Lengan</th>
-                                        <td>{{ $detail->lingkar_lengan ?? '-' }} cm</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Tekanan Darah</th>
-                                        <td>{{ $detail->tekanan_darah_sistolik ?? '-' }}/{{ $detail->tekanan_darah_diastolik ?? '-' }}
-                                            mmHg</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Keluhan</th>
-                                        <td>{{ $detail->keluhan ?? '-' }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Edukasi</th>
-                                        <td>{{ $detail->edukasi ?? '-' }}</td>
-                                    </tr>
-                                @endforeach
-                            @else
-                                <tr>
-                                    <td colspan="2" class="text-center">Tidak ada data kunjungan</td>
-                                </tr>
-                            @endif
+                            <tr>
+                                <th>Berat Badan</th>
+                                <td>{{ $detail_kunjungan->berat_badan ?? '-' }} kg</td>
+                            </tr>
+                            <tr>
+                                <th>Lingkar Lengan</th>
+                                <td>{{ $detail_kunjungan->lingkar_lengan ?? '-' }} cm</td>
+                            </tr>
+                            <tr>
+                                <th>Tekanan Darah</th>
+                                <td>{{ $detail_kunjungan->tekanan_darah_sistolik ?? '-' }}/{{ $kunjungan->tekanan_darah_diastolik ?? '-' }}
+                                    mmHg</td>
+                            </tr>
+                            <tr>
+                                <th>Pemberian MT Bumil KEK</th>
+                                <td>{{ $detail_kunjungan->mt_bumil_kek == 1 ? 'Ya' : ($kunjungan->mt_bumil_kek == 2 ? 'Tidak' : '-') }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Mengikuti Kelas Ibu Hamil</th>
+                                <td>{{ $detail_kunjungan->kelas_ibu_hamil == 1 ? 'Ya' : ($kunjungan->kelas_ibu_hamil == 2 ? 'Tidak' : '-') }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Keluhan</th>
+                                <td>{{ $detail_kunjungan->keluhan ?? '-' }}</td>
+                            </tr>
+                            <tr>
+                                <th>Edukasi</th>
+                                <td>{{ $detail_kunjungan->edukasi ?? '-' }}</td>
+                            </tr>
                         </table>
-
-                        {{-- <a href="{{ route('pencatatan.ibu.index') }}" class="btn btn-secondary">Kembali</a>
-                    <a href="{{ route('pencatatan.ibu.kunjungan.edit', $kunjungan->id) }}" class="btn btn-warning">Edit</a> --}}
                     </div>
                 </div>
             </div>
         </div>
     </main>
 
-    {{-- <main class="app-main">
-        <div class="container">
-            <div class="card shadow-sm">
-                <div class="card-header bg-primary text-white">
-                    <h5>Detail Kunjungan</h5>
-                </div>
-                <div class="card-body">
-                    <table class="table">
-                        <tr>
-                            <th>Tanggal Kunjungan</th>
-                            <td>{{ \Carbon\Carbon::parse($kunjungan->waktu_pencatatan)->translatedFormat('j F Y') }}</td>
-                        </tr>
-
-                        @if ($kunjungan->detailPencatatanKunjungan->isNotEmpty())
-                            @foreach ($kunjungan->detailPencatatanKunjungan as $detail)
-                                <tr>
-                                    <th>Berat Badan</th>
-                                    <td>{{ $detail->berat_badan ?? '-' }} kg</td>
-                                </tr>
-                                <tr>
-                                    <th>Lingkar Lengan</th>
-                                    <td>{{ $detail->lingkar_lengan ?? '-' }} cm</td>
-                                </tr>
-                                <tr>
-                                    <th>Tekanan Darah</th>
-                                    <td>{{ $detail->tekanan_darah_sistolik ?? '-' }}/{{ $detail->tekanan_darah_diastolik ?? '-' }}
-                                        mmHg</td>
-                                </tr>
-                                <tr>
-                                    <th>Keluhan</th>
-                                    <td>{{ $detail->keluhan ?? '-' }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Edukasi</th>
-                                    <td>{{ $detail->edukasi ?? '-' }}</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2">
-                                        <hr>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        @else
-                            <tr>
-                                <td colspan="2" class="text-center">Tidak ada data kunjungan</td>
-                            </tr>
-                        @endif
-                    </table>
-
-                    <a href="{{ route('pencatatan.ibu.index') }}" class="btn btn-secondary">Kembali</a>
-                    <a href="{{ route('pencatatan.ibu.kunjungan.edit', $kunjungan->id) }}" class="btn btn-warning">Edit</a>
-                </div>
-            </div>
-        </div>
-    </main> --}}
 @endsection

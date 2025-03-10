@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\PencatatanAwal;
 use App\Models\PencatatanKunjungan;
 use App\Models\Pendaftaran;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -34,19 +35,34 @@ class PencatatanIbuController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'pendaftaran_id' => 'required|exists:pendaftaran,id',
-            'usia_kehamilan' => 'required|integer|min:1|max:42',
-            'htp' => 'required|date',
+            'no_pendaftaran' => 'required|exists:pendaftaran,no_pendaftaran',
+            'hpht' => 'required|date',
+            'nama_suami' => 'required|string|max:255',
+            'hamil_ke' => 'required|integer|min:1',
+            'jarak_anak' => 'required|string|max:255',
+            'tinggi_badan' => 'required|numeric|min:100|max:250',
         ]);
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
+        // Hitung HTP (HPHT + 280 hari)
+        $htp = Carbon::parse($request->hpht)->addDays(280)->toDateString();
+
+        // Hitung Usia Kehamilan ((Hari Ini - HPHT) / 7)
+        $usia_kehamilan = Carbon::parse($request->hpht)->diffInWeeks(now());
+
+        // Simpan data
         PencatatanAwal::create([
-            'pendaftaran_id' => $request->pendaftaran_id,
-            'usia_kehamilan' => $request->usia_kehamilan,
-            'htp' => $request->htp,
+            'no_pendaftaran' => $request->no_pendaftaran,
+            'hpht' => $request->hpht,
+            'htp' => $htp,
+            'nama_suami' => $request->nama_suami,
+            'hamil_ke' => $request->hamil_ke,
+            'jarak_anak' => $request->jarak_anak,
+            'tinggi_badan' => $request->tinggi_badan,
+            'usia_kehamilan' => $usia_kehamilan,
         ]);
 
         return redirect()->route('pencatatan.ibu.index')->with('success', 'Data berhasil ditambahkan.');
@@ -54,7 +70,7 @@ class PencatatanIbuController extends Controller
 
     public function show($id)
     {
-        $data = PencatatanAwal::with(['pendaftaran', 'pencatatanKunjungan.detailPencatatanKunjungan'])
+        $data = PencatatanAwal::with(['pendaftaran', 'pencatatanKunjungan'])
             ->findOrFail($id);
 
         $riwayatPemeriksaan = $data->pencatatanKunjungan;
@@ -74,19 +90,67 @@ class PencatatanIbuController extends Controller
         $data = PencatatanAwal::findOrFail($id);
 
         $validator = Validator::make($request->all(), [
-            'pendaftaran_id' => 'required|exists:pendaftaran,id',
-            'usia_kehamilan' => 'required|integer|min:1|max:42',
-            'htp' => 'required|date',
+            'no_pendaftaran' => 'required|exists:pendaftarans,id',
+            'hpht' => 'nullable|date',
+            'htp' => 'nullable|date',
+            'nama_suami' => 'nullable|string|max:255',
+            'hamil_ke' => 'nullable|integer|min:1',
+            'jarak_anak' => 'nullable|string|max:255',
+            'tinggi_badan' => 'nullable|numeric|min:100|max:250',
+            'usia_kehamilan' => 'nullable|integer|min:1|max:42',
         ]);
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
+        // Cek apakah HPHT diubah oleh user
+        if ($request->filled('hpht') && strtotime($request->hpht) !== false) {
+            $hpht_date = Carbon::parse($request->hpht);
+            $htp = $hpht_date->copy()->addDays(280)->toDateString();
+            $now = Carbon::now();
+            $usia_kehamilan = Carbon::parse($request->hpht)->diffInWeeks($now);
+        } else {
+            $htp = $request->htp;
+            $usia_kehamilan = $request->usia_kehamilan;
+        }
+
+        // Ambil input awal (bisa manual dari user)
+        // $htp = $request->htp;
+        // $usia_kehamilan = $request->usia_kehamilan;
+
+        // // Jika HPHT diisi, hitung otomatis HTP & Usia Kehamilan (jika user tidak mengisi manual)
+        // if ($request->filled('hpht') && strtotime($request->hpht) !== false) {
+        //     $hpht_date = Carbon::parse($request->hpht);
+
+        //     // Jika user tidak mengisi HTP, hitung otomatis
+        //     if (!$request->filled('htp')) {
+        //         $htp = $hpht_date->copy()->addDays(280)->toDateString();
+        //     }
+
+        //     // Jika user tidak mengisi usia kehamilan, hitung otomatis
+        //     if (!$request->filled('usia_kehamilan')) {
+        //         $usia_kehamilan = $hpht_date->diffInWeeks(Carbon::now());
+        //     }
+        // }
+
+        // // Debugging sebelum update
+        // dd([
+        //     'HPHT' => $request->hpht,
+        //     'HTP (manual/otomatis)' => $htp,
+        //     'Usia Kehamilan (manual/otomatis)' => $usia_kehamilan
+        // ]);
+
+        // Update data
         $data->update([
-            'pendaftaran_id' => $request->pendaftaran_id,
-            'usia_kehamilan' => $request->usia_kehamilan,
-            'htp' => $request->htp,
+            'no_pendaftaran' => $request->no_pendaftaran,
+            'hpht' => $request->hpht,
+            'htp' => $htp,
+            'nama_suami' => $request->nama_suami,
+            'hamil_ke' => $request->hamil_ke,
+            'jarak_anak' => $request->jarak_anak,
+            'tinggi_badan' => $request->tinggi_badan,
+            'usia_kehamilan' => $usia_kehamilan,
         ]);
 
         return redirect()->route('pencatatan.ibu.show', $data->id)->with('success', 'Data berhasil diperbarui.');
@@ -100,22 +164,17 @@ class PencatatanIbuController extends Controller
         return redirect()->route('pencatatan.ibu.index')->with('success', 'Data berhasil dihapus.');
     }
 
-    // ✅ Kunjungan untuk Ibu
-
+    // ✅ Kunjungan untuk Ibu 
     public function indexKunjungan(Request $request)
     {
-        // Mengambil parameter dari query string
         $id_pencatatan_awal = $request->query('id_pencatatan_awal');
         $id_pencatatan_kunjungan = $request->query('id_pencatatan_kunjungan');
 
-        // Mencari data
-        $data = PencatatanAwal::findOrFail($id_pencatatan_awal);
-        $data2 = PencatatanKunjungan::findOrFail($id_pencatatan_kunjungan);
-        $kunjungan = $data->pencatatanKunjungan()->paginate(10);
-        $detail_kunjungan = $data->detailPencatatanKunjungan()->paginate(10);
+        $dataAwal = PencatatanAwal::findOrFail($id_pencatatan_awal);
+        $dataKunjungan = PencatatanKunjungan::findOrFail($id_pencatatan_kunjungan);
+        $kunjungan = $dataAwal->pencatatanKunjungan()->paginate(10);
 
-        // Return ke view
-        return view('pencatatan.ibu.kunjungan.index', compact('data', 'data2', 'kunjungan', 'detail_kunjungan'));
+        return view('pencatatan.ibu.kunjungan.index', compact('dataAwal', 'dataKunjungan', 'kunjungan'));
     }
 
     public function createKunjungan($id)
@@ -125,80 +184,99 @@ class PencatatanIbuController extends Controller
 
     public function storeKunjungan(Request $request, $id)
     {
-        $request->validate([
+        $validatedData = $request->validate([
+            'waktu_kunjungan' => 'required|date',
             'berat_badan' => 'nullable|numeric|min:30|max:150',
             'lingkar_lengan' => 'nullable|numeric|min:10|max:50',
+            'mt_bumil_kek' => 'nullable|in:1,2',
+            'kelas_ibu_hamil' => 'nullable|in:1,2',
             'tekanan_darah_sistolik' => 'nullable|integer|min:80|max:200',
             'tekanan_darah_diastolik' => 'nullable|integer|min:50|max:150',
             'keluhan' => 'nullable|string|max:255',
             'edukasi' => 'nullable|string|max:255',
         ]);
 
-        $kunjungan = PencatatanKunjungan::create([
-            'pencatatan_awal_id' => $id,
-            'berat_badan' => $request->berat_badan,
-            'lingkar_lengan' => $request->lingkar_lengan,
-            'tekanan_darah_sistolik' => $request->tekanan_darah_sistolik,
-            'tekanan_darah_diastolik' => $request->tekanan_darah_diastolik,
-            'keluhan' => $request->keluhan,
-            'edukasi' => $request->edukasi,
-        ]);
+        $validatedData['id_pencatatan_awal'] = $id;
+
+        $kunjungan = PencatatanKunjungan::create($validatedData);
 
         return redirect()->route('pencatatan.ibu.kunjungan.show', [$id, $kunjungan->id])
             ->with('success', 'Kunjungan berhasil ditambahkan.');
     }
 
-    public function showKunjungan($id, Request $request)
+    public function showKunjungan(Request $request, $id)
     {
-        // $kunjungan = PencatatanKunjungan::findOrFail($id_pencatatan_kunjungan);
-        // $detail_kunjungan = $kunjungan->detailPencatatanKunjungan()->paginate(10);
+        $data = PencatatanKunjungan::findOrFail($id);
+        $kunjungan = PencatatanAwal::findOrFail($data->id_pencatatan_awal);
+        $detail_kunjungan = PencatatanKunjungan::findOrFail($id);
 
-        // return view('pencatatan.ibu.kunjungan.show', compact('awal', 'kunjungan', 'detail_kunjungan'));
-
-        // Mengambil parameter dari query string
-        $id_pencatatan_awal = $request->query('id_pencatatan_awal');
-        $id_pencatatan_kunjungan = $request->query('id_pencatatan_kunjungan');
-
-        // Mencari data
-        $data = PencatatanAwal::findOrFail($id_pencatatan_awal);
-        $data2 = PencatatanKunjungan::findOrFail($id_pencatatan_kunjungan);
-        $kunjungan = $data->pencatatanKunjungan()->paginate(10);
-        $detail_kunjungan = $data2->detailPencatatanKunjungan()->paginate(10);
-
-        // Return ke view
-        return view('pencatatan.ibu.kunjungan.show', compact('data', 'data2', 'kunjungan', 'detail_kunjungan'));
+        return view('pencatatan.ibu.kunjungan.show', compact('data', 'kunjungan', 'detail_kunjungan', 'id'));
     }
 
-    public function editKunjungan($id, $id_pencatatan_kunjungan)
-    {
-        $kunjungan = PencatatanKunjungan::findOrFail($id_pencatatan_kunjungan);
+    // public function editKunjungan(Request $request, $id)
+    // {
+    //     $data = PencatatanKunjungan::findOrFail($id);
+    //     $kunjungan = PencatatanAwal::findOrFail($data->id_pencatatan_awal);
+    //     $detail_kunjungan = PencatatanKunjungan::findOrFail($id);
 
-        return view('pencatatan.ibu.kunjungan.edit', compact('kunjungan', 'id'));
+    //     return view('pencatatan.ibu.kunjungan.edit', compact('data', 'kunjungan', 'detail_kunjungan', 'id'));
+    // }
+
+    public function editKunjungan(Request $request, $id_pencatatan_awal, $id)
+    {
+        $data = PencatatanKunjungan::findOrFail($id);
+        $kunjungan = PencatatanAwal::findOrFail($id_pencatatan_awal);
+
+        return view('pencatatan.ibu.kunjungan.edit', compact('data', 'kunjungan', 'id', 'id_pencatatan_awal'));
     }
 
-    public function updateKunjungan(Request $request, $id, $id_pencatatan_kunjungan)
+
+    public function updateKunjungan(Request $request, $id_pencatatan_awal, $id)
     {
-        $request->validate([
+        // Validasi input menggunakan Validator
+        $validator = Validator::make($request->all(), [
+            'waktu_pencatatan' => 'required|date',
             'berat_badan' => 'nullable|numeric|min:30|max:150',
             'lingkar_lengan' => 'nullable|numeric|min:10|max:50',
+            'mt_bumil_kek' => 'nullable|in:1,2',
+            'kelas_ibu_hamil' => 'nullable|in:1,2',
             'tekanan_darah_sistolik' => 'nullable|integer|min:80|max:200',
             'tekanan_darah_diastolik' => 'nullable|integer|min:50|max:150',
             'keluhan' => 'nullable|string|max:255',
             'edukasi' => 'nullable|string|max:255',
         ]);
 
-        $kunjungan = PencatatanKunjungan::findOrFail($id_pencatatan_kunjungan);
+        // Jika validasi gagal, kembali ke halaman sebelumnya dengan error
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+        
+        // dd(PencatatanKunjungan::find($id));
 
+        // Cari data kunjungan berdasarkan ID
+        $kunjungan = PencatatanKunjungan::findOrFail($id);
+
+        // $kunjungan = PencatatanKunjungan::where('id', $id)
+        //     ->where('id_pencatatan_awal', $id_pencatatan_awal)
+        //     ->findOrFail($id);
+
+        // dd($request->all());
+
+        // Update data kunjungan dengan input yang telah divalidasi
         $kunjungan->update([
+            'waktu_pencatatan' => $request->waktu_pencatatan,
             'berat_badan' => $request->berat_badan,
             'lingkar_lengan' => $request->lingkar_lengan,
+            'mt_bumil_kek' => $request->mt_bumil_kek,
+            'kelas_ibu_hamil' => $request->kelas_ibu_hamil,
             'tekanan_darah_sistolik' => $request->tekanan_darah_sistolik,
             'tekanan_darah_diastolik' => $request->tekanan_darah_diastolik,
             'keluhan' => $request->keluhan,
             'edukasi' => $request->edukasi,
         ]);
 
-        return redirect()->route('pencatatan.ibu.kunjungan.show', [$id, $id_pencatatan_kunjungan])
+        // Redirect kembali ke halaman detail dengan pesan sukses
+        return redirect()->route('pencatatan.ibu.kunjungan.show', [$id_pencatatan_awal, $id])
             ->with('success', 'Kunjungan berhasil diperbarui.');
     }
 
@@ -207,7 +285,7 @@ class PencatatanIbuController extends Controller
         $kunjungan = PencatatanKunjungan::findOrFail($id_pencatatan_kunjungan);
         $kunjungan->delete();
 
-        return redirect()->route('pencatatan.ibu.kunjungan.index', $id)
+        return redirect()->route('pencatatan.ibu.show', $id)
             ->with('success', 'Kunjungan berhasil dihapus.');
     }
 }
