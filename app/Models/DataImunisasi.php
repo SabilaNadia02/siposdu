@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class DataImunisasi extends Model
 {
     use HasFactory;
+    // protected $table = 'dt_imunisasi';
 
     protected $fillable = [
         'nama',

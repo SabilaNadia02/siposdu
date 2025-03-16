@@ -33,6 +33,8 @@ class PencatatanKunjungan extends Model
         'kolestrol',
         'keluhan',
         'edukasi',
+        'created_at',
+        'updated_at',
     ];
 
     public function pencatatanAwal(): BelongsTo

@@ -31,7 +31,7 @@
                                 <input type="text" class="form-control"
                                     value="{{ str_pad($data->pendaftaran->id, 4, '0', STR_PAD_LEFT) }}" readonly>
                                 <input type="hidden" name="no_pendaftaran" value="{{ $data->pendaftaran->id }}">
-                            </div>                            
+                            </div>
 
                             <div class="mb-3">
                                 <label class="form-label">Nama Ibu</label>
@@ -59,7 +59,7 @@
                             <div class="mb-3">
                                 <label class="form-label">Tinggi Badan (cm)</label>
                                 <input type="number" class="form-control" name="tinggi_badan"
-                                    value="{{ $data->tinggi_badan }}" required>
+                                    value="{{ $data->tinggi_badan }}" required step="any">
                             </div>
 
                             <div class="mb-3">

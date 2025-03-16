@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Edit Kunjungan Ibu Hamil')
+@section('title', 'Edit Kunjungan Balita')
 
 @section('content')
     <main class="app-main">
@@ -10,10 +10,10 @@
                     <div class="col-sm-6">
                         <h3 class="mb-0" style="color: #333333; font-size: 1.5rem;">Edit Kunjungan Posyandu</h3>
                         <p style="color: #777777; font-size: 1rem;">Halaman ini untuk mengedit data pencatatan kunjungan pada
-                            Ibu Hamil.</p>
+                            Balita.</p>
                     </div>
                     <div class="col-sm-6 d-flex justify-content-end align-items-center">
-                        <a href="{{ route('pencatatan.ibu.show', [$kunjungan->id]) }}" class="btn btn-secondary">
+                        <a href="{{ route('pencatatan.balita.show', [$kunjungan->id]) }}" class="btn btn-secondary">
                             Kembali
                         </a>
                     </div>
@@ -26,7 +26,7 @@
                 <div class="card shadow-sm" style="border-radius: 0px; border-top: 3px solid #007BFF;">
                     <div class="card-body">
                         <form
-                            action="{{ route('pencatatan.ibu.kunjungan.update', ['id_pencatatan_awal' => $kunjungan->id, 'id' => $data->id]) }}"
+                            action="{{ route('pencatatan.balita.kunjungan.update', ['id_pencatatan_awal' => $kunjungan->id, 'id' => $data->id]) }}"
                             method="POST">
                             @csrf
                             @method('PUT')
@@ -44,57 +44,77 @@
                                 <tr>
                                     <th>Berat Badan (kg)</th>
                                     <td>
-                                        <input type="number" class="form-control" name="berat_badan" step="0.01"
+                                        <input type="number" class="form-control" name="berat_badan" step=any
                                             value="{{ old('berat_badan', $data->berat_badan) }}">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Panjang Badan (cm)</th>
+                                    <td>
+                                        <input type="number" class="form-control" name="panjang_badan" step=any
+                                            value="{{ old('panjang_badan', $data->panjang_badan) }}">
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>Lingkar Lengan (cm)</th>
                                     <td>
-                                        <input type="number" class="form-control" name="lingkar_lengan" step="0.01"
+                                        <input type="number" class="form-control" name="lingkar_lengan" step=any
                                             value="{{ old('lingkar_lengan', $data->lingkar_lengan) }}">
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th>Tekanan Darah (mmHg)</th>
+                                    <th>Lingkar Kepala (cm)</th>
                                     <td>
-                                        <div class="d-flex">
-                                            <input type="number" class="form-control me-2" name="tekanan_darah_sistolik"
-                                                placeholder="Sistolik"
-                                                value="{{ old('tekanan_darah_sistolik', $data->tekanan_darah_sistolik) }}">
-                                            /
-                                            <input type="number" class="form-control ms-2" name="tekanan_darah_diastolik"
-                                                placeholder="Diastolik"
-                                                value="{{ old('tekanan_darah_diastolik', $data->tekanan_darah_diastolik) }}">
-                                        </div>
+                                        <input type="number" class="form-control" name="lingkar_kepala" step=any
+                                            value="{{ old('lingkar_kepala', $data->lingkar_kepala) }}">
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th>MT Bumil KEK</th>
+                                    <th>ASI Eksklusif?</th>
                                     <td>
-                                        <select name="mt_bumil_kek" class="form-control">
+                                        <select name="asi_eksklusif" class="form-control">
                                             <option value="">Pilih</option>
                                             <option value="1"
-                                                {{ old('mt_bumil_kek', $data->mt_bumil_kek) == 1 ? 'selected' : '' }}>Ya
+                                                {{ old('asi_eksklusif', $data->asi_eksklusif) == 1 ? 'selected' : '' }}>Ya
                                             </option>
                                             <option value="2"
-                                                {{ old('mt_bumil_kek', $data->mt_bumil_kek) == 2 ? 'selected' : '' }}>Tidak
+                                                {{ old('asi_eksklusif', $data->asi_eksklusif) == 2 ? 'selected' : '' }}>Tidak
                                             </option>
                                         </select>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th>Kelas Ibu Hamil</th>
+                                    <th>MP ASI?</th>
                                     <td>
-                                        <select name="kelas_ibu_hamil" class="form-control">
+                                        <select name="mp_asi" class="form-control">
                                             <option value="">Pilih</option>
                                             <option value="1"
-                                                {{ old('kelas_ibu_hamil', $data->kelas_ibu_hamil) == 1 ? 'selected' : '' }}>
-                                                Ya</option>
+                                                {{ old('mp_asi', $data->mp_asi) == 1 ? 'selected' : '' }}>Ya
+                                            </option>
                                             <option value="2"
-                                                {{ old('kelas_ibu_hamil', $data->kelas_ibu_hamil) == 2 ? 'selected' : '' }}>
-                                                Tidak</option>
+                                                {{ old('mp_asi', $data->mp_asi) == 2 ? 'selected' : '' }}>Tidak
+                                            </option>
                                         </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>MT Pangan Pemulihan?</th>
+                                    <td>
+                                        <select name="mt_pangan_pemulihan" class="form-control">
+                                            <option value="">Pilih</option>
+                                            <option value="1"
+                                                {{ old('mt_pangan_pemulihan', $data->mt_pangan_pemulihan) == 1 ? 'selected' : '' }}>Ya
+                                            </option>
+                                            <option value="2"
+                                                {{ old('mt_pangan_pemulihan', $data->mt_pangan_pemulihan) == 2 ? 'selected' : '' }}>Tidak
+                                            </option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Catatan Kesehatan</th>
+                                    <td>
+                                        <textarea class="form-control" name="catatan_kesehatan" maxlength="255">{{ old('catatan_kesehatan', $data->catatan_kesehatan) }}</textarea>
                                     </td>
                                 </tr>
                                 <tr>

@@ -9,8 +9,19 @@
                 <h5 class="modal-title fw-bold" id="tambahPencatatanBaruModalLabel" style="font-size: 18px;">Tambah
                     Pencatatan Lansia Baru</h5>
                 <p class="text-muted" style="font-size: 14px;">Masukkan data peserta posyandu.</p>
-                <form>
+                <form action="{{ route('pencatatan.lansia.store') }}" method="POST">
+                    @csrf
                     <div class="row g-3">
+                        <div class="col-md-12">
+                            <label for="no_pendaftaran" class="form-label">Nama Peserta Usia Subur/Lansia</label>
+                            <select class="form-select form-select-sm" id="no_pendaftaran" name="no_pendaftaran"
+                                required>
+                                <option value="" hidden>Pilih Nama</option>
+                                @foreach ($pendaftarans as $pendaftaran)
+                                    <option value="{{ $pendaftaran->id }}">{{ $pendaftaran->nama }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                         <div class="col-md-6">
                             <label class="form-label">Riwayat Keluarga</label>
                             <div class="form-check">

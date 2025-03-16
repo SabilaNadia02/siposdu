@@ -31,7 +31,7 @@
                     <div class="col-lg-4 col-md-6 col-12">
                         <div class="small-box bg-white text-dark" style="border: 1px solid #28A745; border-radius: 2px;">
                             <div class="inner">
-                                <h3>{{ $jumlahBalita }}</h3>
+                                <h3>{{ $jumlahPencatatan }}</h3>
                                 <p>Total Pencatatan</p>
                             </div>
                         </div>
@@ -55,30 +55,43 @@
                         <div class="card mb-4" style="border-radius: 0px;">
                             <div class="card-header d-flex justify-content-between align-items-center"
                                 style="border-top: 3px solid #28A745; border-radius: 0px;">
-                                <h3 class="card-title">Data Balita</h3>
+                                <h5 class="card-title">Tabel Data Ibu Balita</h5>
+                                <button type="button" class="btn btn-sm ms-auto text-light"
+                                    style="background-color: #28A745;" data-bs-toggle="modal"
+                                    data-bs-target="#tambahPencatatanBaruModal">
+                                    <i class="bi bi-plus"></i> Tambah Data
+                                </button>
                             </div>
-
+                            @include('pencatatan.balita.modal.tambah_pencatatan_baru')
                             <div class="card-body">
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
                                             <th style="width: 150px">No Pendaftaran</th>
                                             <th>Nama</th>
-                                            <th>Jenis Kelamin</th>
                                             <th>Usia</th>
                                             <th class="text-center">Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($dataBalita as $index => $balita)
+                                        @foreach ($pencatatanAwal as $index => $data)
                                             <tr class="align-middle">
-                                                <td>{{ str_pad($balita->id, 4, '0', STR_PAD_LEFT) }}</td>
-                                                <td>{{ $balita->nama }}</td>
-                                                <td>{{ $balita->jenis_kelamin == '1' ? 'Laki-Laki' : 'Perempuan' }}</td>
-                                                <td>{{ \Carbon\Carbon::parse($balita->tanggal_lahir)->age }} Tahun</td>
+                                                <td>{{ str_pad($data->pendaftaran->id, 4, '0', STR_PAD_LEFT) }}</td>
+                                                <td>{{ $data->pendaftaran->nama }}</td>
+                                                <td>
+                                                    @php
+                                                        $lahir = \Carbon\Carbon::parse(
+                                                            $data->pendaftaran->tanggal_lahir,
+                                                        );
+                                                        $sekarang = \Carbon\Carbon::now();
+                                                        $usia = $lahir->diff($sekarang);
+                                                    @endphp
+                                                    {{ $usia->y }} tahun, {{ $usia->m }} bulan,
+                                                    {{ $usia->d }} hari
+                                                </td>
                                                 <td class="text-center">
-                                                    <a href="{{ route('pendaftaran.show', $balita->id) }}" class="btn"
-                                                        title="Tambah Data"
+                                                    <a href="{{ route('pencatatan.balita.show', $data->id) }}"
+                                                        class="btn" title="Tambah Pencatatan"
                                                         style="background-color: #28A745; color: white; width: 20px; height: 20px; font-size: 10px; padding: 1px; border-radius: 2px;">
                                                         <i class="fas fa-plus"></i>
                                                     </a>
@@ -93,9 +106,8 @@
                                     </tbody>
                                 </table>
                             </div>
-
                             <div class="card-footer clearfix" style="background-color: white">
-                                {{ $dataBalita->links() }}
+                                {{ $pencatatanAwal->links() }}
                             </div>
                         </div>
                     </div>

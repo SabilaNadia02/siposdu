@@ -4,6 +4,7 @@ use App\Http\Controllers\DataImunisasiController;
 use App\Http\Controllers\DataObatController;
 use App\Http\Controllers\DataPenggunaController;
 use App\Http\Controllers\DataPosyanduController;
+use App\Http\Controllers\DataSkriningController;
 use App\Http\Controllers\DataVaksinController;
 use App\Http\Controllers\DataVitaminController;
 use App\Http\Controllers\KelulusanBalitaController;
@@ -20,6 +21,7 @@ use App\Http\Controllers\RujukanController;
 use App\Http\Controllers\SkriningPPOKController;
 use App\Http\Controllers\SkriningTBCController;
 use Illuminate\Support\Facades\Route;
+
 
 // Route Pendaftaran
 Route::resource('pendaftaran', PendaftaranController::class);
@@ -43,7 +45,7 @@ Route::group(['prefix' => 'pencatatan', 'as' => 'pencatatan.'], function () {
     });
 
     // 🔹 Kunjungan untuk Balita
-    Route::group(['prefix' => 'balita/{balita_id}/kunjungan', 'as' => 'balita.kunjungan.'], function () {
+    Route::group(['prefix' => 'balita/{id_pencatatan_awal}/kunjungan', 'as' => 'balita.kunjungan.'], function () {
         Route::get('/', [PencatatanBalitaController::class, 'indexKunjungan'])->name('index');
         Route::get('/create', [PencatatanBalitaController::class, 'createKunjungan'])->name('create');
         Route::post('/', [PencatatanBalitaController::class, 'storeKunjungan'])->name('store');
@@ -54,7 +56,7 @@ Route::group(['prefix' => 'pencatatan', 'as' => 'pencatatan.'], function () {
     });
 
     // 🔹 Kunjungan untuk Lansia
-    Route::group(['prefix' => 'lansia/{lansia_id}/kunjungan', 'as' => 'lansia.kunjungan.'], function () {
+    Route::group(['prefix' => 'lansia/{id_pencatatan_awal}/kunjungan', 'as' => 'lansia.kunjungan.'], function () {
         Route::get('/', [PencatatanLansiaController::class, 'indexKunjungan'])->name('index');
         Route::get('/create', [PencatatanLansiaController::class, 'createKunjungan'])->name('create');
         Route::post('/', [PencatatanLansiaController::class, 'storeKunjungan'])->name('store');
@@ -98,6 +100,9 @@ Route::group(['prefix' => 'data-master', 'as' => 'data-master.'], function () {
     Route::resource('vitamin', DataVitaminController::class);
     Route::resource('obat', DataObatController::class);
     Route::resource('vaksin', DataVaksinController::class);
+    // Route::resource('skrining', DataSkriningController::class);
+    // Route::resource('pertanyaan', DataPertanyaanController::class);
+    // Route::resource('pertanyaan-skrining', DataPertanyaanSkriningController::class);
     Route::resource('posyandu', DataPosyanduController::class);
     Route::resource('pengguna', DataPenggunaController::class);
 });

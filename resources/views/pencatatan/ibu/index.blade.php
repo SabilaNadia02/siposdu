@@ -58,11 +58,11 @@
                                 <h5 class="card-title">Tabel Data Ibu Hamil</h5>
                                 <button type="button" class="btn btn-sm ms-auto text-light"
                                     style="background-color: #007BFF;" data-bs-toggle="modal"
-                                    data-bs-target="#addDataModal">
+                                    data-bs-target="#tambahPencatatanBaruModal">
                                     <i class="bi bi-plus"></i> Tambah Data
                                 </button>
                             </div>
-
+                            @include('pencatatan.ibu.modal.tambah_pencatatan_baru')
                             <div class="card-body">
                                 <table class="table table-bordered">
                                     <thead>
@@ -126,3 +126,4 @@
     </script>
 
 @endsection
+

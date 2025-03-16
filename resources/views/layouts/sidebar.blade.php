@@ -158,6 +158,27 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a href="/data-master/skrining"
+                                class="nav-link {{ Request::is('data-master/skrining') ? 'active-sub' : '' }}">
+                                <i class="nav-icon bi bi-dash"></i> <!-- Ikon seragam untuk semua submenu -->
+                                Data Skrining
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/data-master/pertanyaan"
+                                class="nav-link {{ Request::is('data-master/pertanyaan') ? 'active-sub' : '' }}">
+                                <i class="nav-icon bi bi-dash"></i> <!-- Ikon seragam untuk semua submenu -->
+                                Data Pertanyaan
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/data-master/pertanyaan-skrining"
+                                class="nav-link {{ Request::is('data-master/pertanyaan-skrining') ? 'active-sub' : '' }}">
+                                <i class="nav-icon bi bi-dash"></i> <!-- Ikon seragam untuk semua submenu -->
+                                Pertanyaan Skrining
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="/data-master/posyandu"
                                 class="nav-link {{ Request::is('data-master/posyandu') ? 'active-sub' : '' }}">
                                 <i class="nav-icon bi bi-dash"></i> <!-- Ikon seragam untuk semua submenu -->

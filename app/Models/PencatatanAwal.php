@@ -27,6 +27,12 @@ class PencatatanAwal extends Model
         'perilaku_berisiko',
     ];
 
+    protected $casts = [
+        'riwayat_keluarga' => 'array',
+        'riwayat_diri_sendiri' => 'array',
+        'perilaku_berisiko' => 'array',
+    ];
+
     public function pendaftaran(): BelongsTo
     {
         return $this->belongsTo(Pendaftaran::class, 'no_pendaftaran', 'id');

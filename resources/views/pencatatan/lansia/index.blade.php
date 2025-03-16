@@ -31,7 +31,7 @@
                     <div class="col-lg-4 col-md-6 col-12">
                         <div class="small-box bg-white text-dark" style="border: 1px solid #FF8F00; border-radius: 2px;">
                             <div class="inner">
-                                <h3>{{ $jumlahLansia }}</h3>
+                                <h3>{{ $jumlahPencatatan }}</h3>
                                 <p>Total Pencatatan</p>
                             </div>
                         </div>
@@ -55,9 +55,14 @@
                         <div class="card mb-4" style="border-radius: 0px;">
                             <div class="card-header d-flex justify-content-between align-items-center"
                                 style="border-top: 3px solid #FF8F00; border-radius: 0px;">
-                                <h3 class="card-title">Data Lansia</h3>
+                                <h5 class="card-title">Tabel Data Ibu Balita</h5>
+                                <button type="button" class="btn btn-sm ms-auto text-light"
+                                    style="background-color: #FF8F00;" data-bs-toggle="modal"
+                                    data-bs-target="#tambahPencatatanBaruModal">
+                                    <i class="bi bi-plus"></i> Tambah Data
+                                </button>
                             </div>
-
+                            @include('pencatatan.lansia.modal.tambah_pencatatan_baru')
                             <div class="card-body">
                                 <table class="table table-bordered">
                                     <thead>
@@ -70,15 +75,15 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($dataLansia as $index => $lansia)
+                                        @foreach ($pencatatanAwal as $index => $data)
                                             <tr class="align-middle">
-                                                <td>{{ str_pad($lansia->id, 4, '0', STR_PAD_LEFT) }}</td>
-                                                <td>{{ $lansia->nama }}</td>
-                                                <td>{{ $lansia->jenis_kelamin == '1' ? 'Laki-Laki' : 'Perempuan' }}</td>
-                                                <td>{{ \Carbon\Carbon::parse($lansia->tanggal_lahir)->age }} Tahun</td>
+                                                <td>{{ str_pad($data->pendaftaran->id, 4, '0', STR_PAD_LEFT) }}</td>
+                                                <td>{{ $data->pendaftaran->nama }}</td>
+                                                <td>{{ $data->pendaftaran->jenis_kelamin == '1' ? 'Laki-Laki' : 'Perempuan' }}</td>
+                                                <td>{{ \Carbon\Carbon::parse($data->pendaftaran->tanggal_lahir)->age }} Tahun</td>
                                                 <td class="text-center">
-                                                    <a href="{{ route('pendaftaran.show', $lansia->id) }}" class="btn"
-                                                        title="Tambah Data"
+                                                    <a href="{{ route('pencatatan.lansia.show', $data->id) }}" class="btn"
+                                                        title="Tambah Pencatatan"
                                                         style="background-color: #FF8F00; color: white; width: 20px; height: 20px; font-size: 10px; padding: 1px; border-radius: 2px;">
                                                         <i class="fas fa-plus"></i>
                                                     </a>
@@ -93,9 +98,8 @@
                                     </tbody>
                                 </table>
                             </div>
-
                             <div class="card-footer clearfix" style="background-color: white">
-                                {{ $dataLansia->links() }}
+                                {{ $pencatatanAwal->links() }}
                             </div>
                         </div>
                     </div>

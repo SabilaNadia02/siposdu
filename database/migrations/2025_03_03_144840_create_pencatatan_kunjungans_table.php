@@ -38,6 +38,7 @@ return new class extends Migration
             $table->float('kolestrol')->nullable();
             $table->string('keluhan')->nullable();
             $table->string('edukasi')->nullable();
+            $table->timestamps();
         });
     }
 

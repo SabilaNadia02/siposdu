@@ -11,10 +11,10 @@
                     <div class="col-sm-6">
                         <h3 class="mb-0" style="color: #333333; font-size: 1.5rem;">Detail Kunjungan Posyandu</h3>
                         <p style="color: #777777; font-size: 1rem;">Halaman ini untuk mengelola data detail pencatatan
-                            kunjungan pada Ibu Hamil.</p>
+                            kunjungan pada Balita.</p>
                     </div>
                     <div class="col-sm-6 d-flex justify-content-end align-items-center">
-                        <a href="{{ route('pencatatan.ibu.show', $kunjungan->id) }}"
+                        <a href="{{ route('pencatatan.balita.show', $kunjungan->id) }}"
                             class="btn btn-secondary">Kembali</a>
                     </div>
                 </div>
@@ -33,26 +33,38 @@
                             </tr>
                             <tr>
                                 <th>Berat Badan</th>
-                                <td>{{ $data->berat_badan ?? '-' }} kg</td>
+                                <td>{{ $detail_kunjungan->berat_badan ?? '-' }} kg</td>
+                            </tr>
+                            <tr>
+                                <th>Panjang Badan</th>
+                                <td>{{ $detail_kunjungan->panjang_badan ?? '-' }} cm</td>
                             </tr>
                             <tr>
                                 <th>Lingkar Lengan</th>
                                 <td>{{ $detail_kunjungan->lingkar_lengan ?? '-' }} cm</td>
                             </tr>
                             <tr>
-                                <th>Tekanan Darah</th>
-                                <td>{{ $detail_kunjungan->tekanan_darah_sistolik ?? '-' }}/{{ $detail_kunjungan->tekanan_darah_diastolik ?? '-' }}
-                                    mmHg</td>
+                                <th>Lingkar Kepala</th>
+                                <td>{{ $detail_kunjungan->lingkar_kepala ?? '-' }} cm</td>
                             </tr>
                             <tr>
-                                <th>Pemberian MT Bumil KEK</th>
-                                <td>{{ $detail_kunjungan->mt_bumil_kek == 1 ? 'Ya' : ($detail_kunjungan->mt_bumil_kek == 2 ? 'Tidak' : '-') }}
+                                <th>ASI Eksklusif</th>
+                                <td>{{ $detail_kunjungan->asi_eksklusif == 1 ? 'Ya' : ($detail_kunjungan->asi_eksklusif == 2 ? 'Tidak' : '-') }}
                                 </td>
                             </tr>
                             <tr>
-                                <th>Mengikuti Kelas Ibu Hamil</th>
-                                <td>{{ $detail_kunjungan->kelas_ibu_hamil == 1 ? 'Ya' : ($detail_kunjungan->kelas_ibu_hamil == 2 ? 'Tidak' : '-') }}
+                                <th>MP ASI</th>
+                                <td>{{ $detail_kunjungan->mp_asi == 1 ? 'Ya' : ($detail_kunjungan->mp_asi == 2 ? 'Tidak' : '-') }}
                                 </td>
+                            </tr>
+                            <tr>
+                                <th>MP Pangan Pemulihan</th>
+                                <td>{{ $detail_kunjungan->mt_pangan_pemulihan == 1 ? 'Ya' : ($detail_kunjungan->mt_pangan_pemulihan == 2 ? 'Tidak' : '-') }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Catatan Kesehatan</th>
+                                <td>{{ $detail_kunjungan->catatan_kesehatan ?? '-' }}</td>
                             </tr>
                             <tr>
                                 <th>Keluhan</th>
