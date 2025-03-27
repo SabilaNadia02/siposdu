@@ -13,8 +13,8 @@ class DataSkriningSeeder extends Seeder
     public function run(): void
     {
         DB::table('data_skrinings')->insert([
-            ['nama_skrining' => 'Skrining TBC', 'keterangan' => 'Menilai risiko dan gejala TBC pada balita'],
-            ['nama_skrining' => 'Skrining PPOK', 'keterangan' => 'Menilai kemungkinan Penyakit Paru Obstruktif Kronis (PPOK)'],
+            ['nama_skrining' => 'TBC', 'keterangan' => 'Menilai risiko dan gejala TBC pada balita'],
+            ['nama_skrining' => 'PPOK', 'keterangan' => 'Menilai kemungkinan Penyakit Paru Obstruktif Kronis (PPOK)'],
         ]);
     }
 }

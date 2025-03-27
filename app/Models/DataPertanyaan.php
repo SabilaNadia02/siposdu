@@ -7,8 +7,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class DataPertanyaan extends Model
 {
+
+    public $timestamps = false;
+
     protected $fillable = [
-        'nama',
+        'nama_pertanyaan',
     ];
 
     public function pertanyaanSkrining(): HasMany

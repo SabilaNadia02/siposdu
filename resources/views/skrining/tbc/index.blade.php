@@ -44,7 +44,7 @@
                         <!--begin::Small Box Widget 1-->
                         <div class="small-box text-dark text-center" style="background-color: #ffdeed; border-radius: 2px;">
                             <div class="inner">
-                                <h3>0</h3>
+                                <h3>{{ $totalDenganGejala }}</h3>
                                 <p>Total Dengan Gejala</p>
                             </div>
                         </div>
@@ -57,7 +57,7 @@
                         <!--begin::Small Box Widget 2-->
                         <div class="small-box text-dark text-center" style="background-color: #ffdeed; border-radius: 2px;">
                             <div class="inner">
-                                <h3>0</h3>
+                                <h3>{{ $totalTanpaGejala }}</h3>
                                 <p>Total Tanpa Gejala</p>
                             </div>
                         </div>
@@ -71,14 +71,14 @@
                 <div class="row mb-3">
                     <div class="col-md-3">
                         <div class="input-group">
-                            <span class="input-group-text" style="color: #FF69B4; border-radius: 2px;"><i class="fas fa-calendar"></i></span>
+                            <span class="input-group-text" style="color: #FF69B4; border-radius: 2px;"><i
+                                    class="fas fa-calendar"></i></span>
                             <select class="form-control" id="tahunFilter">
                                 <option value="">Semua Tahun</option>
                                 <option value="2023">2023</option>
                                 <option value="2024">2024</option>
                                 <option value="2025">2025</option>
                             </select>
-                            <span class="input-group-text" style="border-radius: 2px;"><i class="fas fa-chevron-down"></i></span>
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -100,7 +100,6 @@
                                 <option value="11">November</option>
                                 <option value="12">Desember</option>
                             </select>
-                            <span class="input-group-text" style="border-radius: 2px;"><i class="fas fa-chevron-down"></i></span>
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -115,19 +114,18 @@
                                 <option value="Posyandu B">Posyandu Mawar</option>
                                 <option value="Posyandu B">Posyandu Melati</option>
                             </select>
-                            <span class="input-group-text" style="border-radius: 2px;"><i class="fas fa-chevron-down"></i></span>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="input-group">
-                            <span class="input-group-text" style="color: #FF69B4; border-radius: 2px;"><i class="fas fa-bullseye"></i></span>
+                            <span class="input-group-text" style="color: #FF69B4; border-radius: 2px;"><i
+                                    class="fas fa-bullseye"></i></span>
                             <select class="form-control" id="sasaranFilter" style="border-radius: 2px;">
                                 <option value="">Semua Sasaran</option>
                                 <option value="Balita">Ibu Hamil</option>
                                 <option value="Ibu Hamil">Balita</option>
                                 <option value="Lansia">Lansia</option>
                             </select>
-                            <span class="input-group-text" style="border-radius: 2px;"><i class="fas fa-chevron-down"></i></span>
                         </div>
                     </div>
                 </div>
@@ -142,95 +140,119 @@
                                 <h3 class="card-title">Tabel Data Skrining TBC</h3>
                                 <button type="button" class="btn btn-sm ms-auto text-light"
                                     style="background-color: #FF69B4;" data-bs-toggle="modal"
-                                    {{-- data-bs-target="#cariPesertaModal"> --}}
                                     data-bs-target="#tambahSkringTBCModal">
                                     Tambah Skrining TBC
                                 </button>
                             </div>
-                            @include('general_modal.cari_peserta')
                             @include('skrining.tbc.modal.tambah_skrining_tbc')
                             <!-- /.card-header -->
                             <div class="card-body">
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
-                                            <th style="font-size: 15px; width: 160px">Waktu Skrining <span
-                                                    style="font-size: smaller; font-weight: normal;">(tanggal/bulan/tahun)</span>
-                                            </th>
-                                            <th style="font-size: 15px; width: 300px">Nama</th>
-                                            <th style="font-size: 15px; width: 160px">Hasil Skrining</th>
-                                            <th style="font-size: 15px; width: 260px">Keterangan</th>
-                                            <th style="font-size: 15px; width: 100px" class="text-center">Aksi</th>
+                                            <th style="width: 50px; text-align: center">No</th>
+                                            <th style="width: 120px;">Waktu Skrining</th>
+                                            <th style="width: 200px;">Nama Peserta</th>
+                                            <th style="width: 250px;">Pertanyaan</th>
+                                            <th style="width: 100px; text-align: center">Hasil</th>
+                                            <th style="width: 120px; text-align: center">Diagnosa</th>
+                                            <th style="width: 120px; text-align: center">Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr class="align-middle">
-                                            <td>31-01-2025</td>
-                                            <td>Lorem ipsum dolor sit</td>
-                                            <td>Positif</td>
-                                            <td>-</td>
-                                            <td class="text-center">
-                                                <a href="#" class="btn btn-info" title="Lihat"
-                                                    style="width: 20px; height: 20px; font-size: 10px; padding: 1px; display: inline-flex; justify-content: center; align-items: center;">
-                                                    <i class="fas fa-eye"></i>
-                                                </a>
-                                                <a href="#" class="btn btn-warning" title="Edit"
-                                                    style="width: 20px; height: 20px; font-size: 10px; padding: 1px; display: inline-flex; justify-content: center; align-items: center;">
-                                                    <i class="fas fa-edit"></i>
-                                                </a>
-                                                <a href="#" class="btn btn-danger" title="Hapus"
-                                                    onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')"
-                                                    style="width: 20px; height: 20px; font-size: 10px; padding: 1px; display: inline-flex; justify-content: center; align-items: center;">
-                                                    <i class="fas fa-trash"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr class="align-middle">
-                                            <td>31-01-2025</td>
-                                            <td>Lorem ipsum dolor sit</td>
-                                            <td>Negatif</td>
-                                            <td>-</td>
-                                            <td class="text-center">
-                                                <a href="#" class="btn btn-info" title="Lihat"
-                                                    style="width: 20px; height: 20px; font-size: 10px; padding: 1px; display: inline-flex; justify-content: center; align-items: center;">
-                                                    <i class="fas fa-eye"></i>
-                                                </a>
-                                                <a href="#" class="btn btn-warning" title="Edit"
-                                                    style="width: 20px; height: 20px; font-size: 10px; padding: 1px; display: inline-flex; justify-content: center; align-items: center;">
-                                                    <i class="fas fa-edit"></i>
-                                                </a>
-                                                <a href="#" class="btn btn-danger" title="Hapus"
-                                                    onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')"
-                                                    style="width: 20px; height: 20px; font-size: 10px; padding: 1px; display: inline-flex; justify-content: center; align-items: center;">
-                                                    <i class="fas fa-trash"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
+                                        @foreach ($skriningTBC as $skrining)
+                                            @php
+                                                $jumlahYa = $skrining->detailPencatatanSkrining
+                                                    ->where('hasil_skrining', 1)
+                                                    ->count();
+                                                $diagnosa = $jumlahYa > 1 ? 'Ya' : 'Tidak';
+                                                $rowspan = $skrining->detailPencatatanSkrining->count();
+                                            @endphp
+
+                                            @foreach ($skrining->detailPencatatanSkrining as $index => $detail)
+                                                <tr>
+                                                    @if ($index === 0)
+                                                        <td rowspan="{{ $rowspan }}" style="text-align: center">
+                                                            {{ $loop->parent->iteration }}</td>
+                                                        <td rowspan="{{ $rowspan }}">
+                                                            {{ date('d/m/Y', strtotime($skrining->waktu_skrining)) }}</td>
+                                                        <td rowspan="{{ $rowspan }}">
+                                                            {{ $skrining->pendaftaran->nama }}</td>
+                                                    @endif
+
+                                                    <td>{{ $detail->pertanyaanSkrining->dataPertanyaan->nama_pertanyaan ?? 'N/A' }}
+                                                    </td>
+                                                    <td style="text-align: center">
+                                                        {{ $detail->hasil_skrining == 1 ? 'Y' : 'T' }}</td>
+
+                                                    @if ($index === 0)
+                                                        <td rowspan="{{ $rowspan }}" style="text-align: center">
+                                                            <span
+                                                                class="badge {{ $diagnosa == 'Ya' ? 'bg-danger' : 'bg-success' }}">
+                                                                {{ $diagnosa }}
+                                                            </span>
+                                                        </td>
+
+                                                        <td rowspan="{{ $rowspan }}" style="text-align: center">
+                                                            <div class="btn-group">
+                                                                <a href="{{ route('skrining.tbc.edit', $skrining->id) }}"
+                                                                    class="btn btn-warning btn-sm" title="Edit"
+                                                                    style="width: 20px; height: 20px; font-size: 10px; padding: 1px; display: flex; justify-content: center; align-items: center; margin-right: 5px;">
+                                                                    <i class="fas fa-edit"></i>
+                                                                </a>
+                                                                <form
+                                                                    action="{{ route('skrining.tbc.destroy', $skrining->id) }}"
+                                                                    method="POST" class="d-inline">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                    <button type="submit" class="btn btn-danger btn-sm"
+                                                                        title="Hapus"
+                                                                        onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')"
+                                                                        style="width: 20px; height: 20px; font-size: 10px; padding: 1px; display: flex; justify-content: center; align-items: center;">
+                                                                        <i class="fas fa-trash"></i>
+                                                                    </button>
+                                                                </form>
+                                                            </div>
+                                                        </td>
+                                                    @endif
+                                                </tr>
+                                            @endforeach
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
                             <!-- /.card-body -->
                             <div class="card-footer clearfix" style="background-color: white">
                                 <ul class="pagination pagination-sm m-0 float-end">
-                                    <li class="page-item"><a class="page-link" style="color: #FF69B4;"
-                                            href="#">&laquo;</a></li>
-                                    <li class="page-item"><a class="page-link" style="color: #FF69B4;"
-                                            href="#">1</a></li>
-                                    <li class="page-item"><a class="page-link" style="color: #FF69B4;"
-                                            href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" style="color: #FF69B4;"
-                                            href="#">3</a></li>
-                                    <li class="page-item"><a class="page-link" style="color: #FF69B4;"
-                                            href="#">&raquo;</a></li>
+                                    @if ($skriningTBC->onFirstPage())
+                                        <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+                                    @else
+                                        <li class="page-item"><a class="page-link"
+                                                style="background-color: #FF69B4; color: white; border: none;"
+                                                href="{{ $skriningTBC->previousPageUrl() }}">&laquo;</a></li>
+                                    @endif
+                                    @for ($i = 1; $i <= $skriningTBC->lastPage(); $i++)
+                                        <li class="page-item {{ $skriningTBC->currentPage() == $i ? 'active' : '' }}">
+                                            <a class="page-link"
+                                                style="background-color: {{ $skriningTBC->currentPage() == $i ? '#FF69B4' : 'white' }}; color: {{ $skriningTBC->currentPage() == $i ? 'white' : '#FF69B4' }}; border: none;"
+                                                href="{{ $skriningTBC->url($i) }}">{{ $i }}</a>
+                                        </li>
+                                    @endfor
+                                    @if ($skriningTBC->hasMorePages())
+                                        <li class="page-item"><a class="page-link"
+                                                style="background-color: #FF69B4; color: white; border: none;"
+                                                href="{{ $skriningTBC->nextPageUrl() }}">&raquo;</a></li>
+                                    @else
+                                        <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+                                    @endif
                                 </ul>
                             </div>
-                            <!-- /.card -->
                         </div>
+                        <!-- /.card -->
                     </div>
                 </div>
-                <!--end::Row-->
-
             </div>
+            <!--end::Row-->
         </div>
     </main>
     <!--end::App Main-->

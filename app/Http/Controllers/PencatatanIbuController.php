@@ -29,12 +29,6 @@ class PencatatanIbuController extends Controller
         return view('pencatatan.ibu.index', compact('pendaftarans', 'posyandus', 'jumlahPencatatan', 'pencatatanAwal'));
     }
 
-    public function create()
-    {
-        $pendaftaran = Pendaftaran::where('jenis_sasaran', 1)->get();
-        return view('pencatatan.ibu.create', compact('pendaftaran'));
-    }
-
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -146,22 +140,6 @@ class PencatatanIbuController extends Controller
     }
 
     // ✅ Kunjungan untuk Ibu 
-    public function indexKunjungan(Request $request)
-    {
-        $id_pencatatan_awal = $request->query('id_pencatatan_awal');
-        $id_pencatatan_kunjungan = $request->query('id_pencatatan_kunjungan');
-
-        $dataAwal = PencatatanAwal::findOrFail($id_pencatatan_awal);
-        $dataKunjungan = PencatatanKunjungan::findOrFail($id_pencatatan_kunjungan);
-        $kunjungan = $dataAwal->pencatatanKunjungan()->paginate(10);
-
-        return view('pencatatan.ibu.kunjungan.index', compact('dataAwal', 'dataKunjungan', 'kunjungan'));
-    }
-
-    public function createKunjungan($id)
-    {
-        return view('pencatatan.ibu.kunjungan.create', compact('id'));
-    }
 
     public function storeKunjungan(Request $request, $id_pencatatan_awal)
     {

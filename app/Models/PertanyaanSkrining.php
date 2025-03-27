@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class PertanyaanSkrining extends Model
 {
+    public $timestamps = false;
     protected $fillable = [
         'id_skrining',
         'id_pertanyaan',
@@ -15,11 +16,11 @@ class PertanyaanSkrining extends Model
 
     public function dataSkrining(): BelongsTo
     {
-        return $this->belongsTo(DataSkrining::class);
+        return $this->belongsTo(DataSkrining::class, 'id_skrining');
     }
     public function dataPertanyaan(): BelongsTo
     {
-        return $this->belongsTo(DataPertanyaan::class);
+        return $this->belongsTo(DataPertanyaan::class, 'id_pertanyaan');
     }
     public function detailPencatatanSkrining(): HasMany
     {

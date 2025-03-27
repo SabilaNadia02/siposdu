@@ -6,8 +6,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -15,9 +14,17 @@ return new class extends Migration
     {
         Schema::create('detail_pencatatan_skrinings', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(PencatatanSkrining::class, 'id_pencatatan_skrining')->nullable()->constrained('pencatatan_skrinings')->nullOnDelete()->cascadeOnUpdate();
-            $table->foreignIdFor(PertanyaanSkrining::class, 'id_pertanyaan_skrining')->nullable()->constrained('pertanyaan_skrinings')->nullOnDelete()->cascadeOnUpdate();
-            $table->enum('hasil_skrining', [1, 2]);
+            $table->foreignIdFor(PencatatanSkrining::class, 'id_pencatatan_skrining')
+                ->constrained('pencatatan_skrinings')
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate();
+
+            $table->foreignIdFor(PertanyaanSkrining::class, 'id_pertanyaan_skrining')
+                ->constrained('pertanyaan_skrinings')
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate();
+
+            $table->tinyInteger('hasil_skrining')->comment('1: Ya, 2: Tidak');
         });
     }
 

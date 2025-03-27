@@ -23,27 +23,27 @@ class PencatatanSkriningSeeder extends Seeder
             [
                 'id_skrining' => 1,
                 'no_pendaftaran' => 1,
-                'waktu_skrining' => Carbon::now()->subDays(10)->toDateString(),
+                'waktu_skrining' => now()->subDays(50)->toDateString(),
             ],
             [
                 'id_skrining' => 1,
                 'no_pendaftaran' => 2,
-                'waktu_skrining' => Carbon::now()->subDays(7)->toDateString(),
+                'waktu_skrining' => now()->subDays(50)->toDateString(),
             ],
             [
                 'id_skrining' => 2,
                 'no_pendaftaran' => 1,
-                'waktu_skrining' => Carbon::now()->subDays(5)->toDateString(),
+                'waktu_skrining' => now()->subDays(50)->toDateString(),
             ],
             [
                 'id_skrining' => 2,
                 'no_pendaftaran' => 3,
-                'waktu_skrining' => Carbon::now()->subDays(3)->toDateString(),
+                'waktu_skrining' => now()->subDays(50)->toDateString(),
             ],
             [
                 'id_skrining' => 2,
                 'no_pendaftaran' => 4,
-                'waktu_skrining' => Carbon::now()->toDateString(),
+                'waktu_skrining' => now()->subDays(50)->toDateString(),
             ],
         ]);
     }

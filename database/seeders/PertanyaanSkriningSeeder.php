@@ -8,28 +8,26 @@ use Illuminate\Support\Facades\DB;
 class PertanyaanSkriningSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Jalankan Seeder.
      */
     public function run(): void
     {
-        // Ambil semua id dari data_skrinings dan data_pertanyaans
-        $skriningIds = DB::table('data_skrinings')->pluck('id');
-        $pertanyaanIds = DB::table('data_pertanyaans')->pluck('id');
+        // Data dummy yang ingin dimasukkan secara manual
+        $data = [
+            ['id_skrining' => 1, 'id_pertanyaan' => 1],
+            ['id_skrining' => 1, 'id_pertanyaan' => 2],
+            ['id_skrining' => 1, 'id_pertanyaan' => 3],
+            ['id_skrining' => 1, 'id_pertanyaan' => 4],
+            ['id_skrining' => 2, 'id_pertanyaan' => 5],
+            ['id_skrining' => 2, 'id_pertanyaan' => 6],
+            ['id_skrining' => 2, 'id_pertanyaan' => 7],
+            ['id_skrining' => 2, 'id_pertanyaan' => 8],
+            ['id_skrining' => 2, 'id_pertanyaan' => 9],
+            ['id_skrining' => 2, 'id_pertanyaan' => 10],
+            ['id_skrining' => 2, 'id_pertanyaan' => 11],
+        ];
 
-        // Inisialisasi array untuk data yang akan diinsert
-        $data = [];
-
-        // Loop untuk mengisi tabel dengan pasangan id_skrining dan id_pertanyaan
-        foreach ($skriningIds as $skriningId) {
-            foreach ($pertanyaanIds as $pertanyaanId) {
-                $data[] = [
-                    'id_skrining' => $skriningId,
-                    'id_pertanyaan' => $pertanyaanId,
-                ];
-            }
-        }
-
-        // Insert data ke dalam tabel pertanyaan_skrinings
+        // Insert data manual ke tabel pertanyaan_skrinings
         DB::table('pertanyaan_skrinings')->insert($data);
     }
 }
