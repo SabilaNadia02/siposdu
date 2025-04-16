@@ -65,6 +65,7 @@ Route::group(['prefix' => 'pencatatan', 'as' => 'pencatatan.'], function () {
 
 // Route Rujukan
 Route::resource('rujukan', RujukanController::class);
+Route::get('rujukan/filter', [RujukanController::class, 'filter'])->name('rujukan.filter');
 
 // Route Kelulusan Balita
 Route::resource('kelulusan-balita', KelulusanBalitaController::class);
@@ -72,8 +73,15 @@ Route::resource('kelulusan-balita', KelulusanBalitaController::class);
 // Route Pemberian
 Route::group(['prefix' => 'pemberian', 'as' => 'pemberian.'], function () {
     Route::resource('imunisasi', PemberianImunisasiController::class);
+    Route::get(
+        'imunisasi/get-imunisasi-by-usia',
+        [PemberianImunisasiController::class, 'getImunisasiByUsia']
+    )
+        ->name('imunisasi.get-imunisasi-by-usia');
     Route::resource('vitamin', PemberianVitaminController::class);
+    // Route::resource('obat', PemberianObatController::class);
     Route::resource('obat', PemberianObatController::class);
+    Route::get('obat/get-obat-options', [PemberianObatController::class, 'getObatOptions'])->name('obat.get-obat-options');
     Route::resource('vaksin', PemberianVaksinController::class);
 });
 
@@ -85,7 +93,8 @@ Route::group(['prefix' => 'data-master', 'as' => 'data-master.'], function () {
     Route::resource('vaksin', DataVaksinController::class);
     Route::resource('skrining', DataSkriningController::class);
     Route::resource('pertanyaan', DataPertanyaanController::class);
-    Route::resource('pertanyaan-skrining', DataPertanyaanSkriningController::class);
+    Route::resource('pertanyaan-skrining', DataPertanyaanSkriningController::class)
+        ->parameters(['pertanyaan-skrining' => 'pertanyaanSkrining']);
     Route::resource('posyandu', DataPosyanduController::class);
     Route::resource('pengguna', DataPenggunaController::class);
 });

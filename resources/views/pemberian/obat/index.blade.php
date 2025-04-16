@@ -2,6 +2,10 @@
 
 @section('title', 'Pemberian Obat')
 
+@php
+    use Carbon\Carbon;
+@endphp
+
 @section('content')
     <!--begin::App Main-->
     <main class="app-main">
@@ -44,7 +48,7 @@
                         <!--begin::Small Box Widget 1-->
                         <div class="small-box text-dark" style="background-color: #ffdeed; border-radius: 2px;">
                             <div class="inner">
-                                <h3>0</h3>
+                                <h3>{{ $totalPemberian }}</h3>
                                 <p>Total Pemberian Obat</p>
                             </div>
                         </div>
@@ -55,69 +59,64 @@
                 <!--end::Row-->
 
                 <!--begin::Filter Row-->
-                <div class="row mb-3">
-                    <div class="col-md-3">
-                        <div class="input-group">
-                            <span class="input-group-text" style="color: #FF69B4;"><i class="fas fa-calendar"></i></span>
-                            <select class="form-control" id="tahunFilter">
-                                <option value="">Semua Tahun</option>
-                                <option value="2023">2023</option>
-                                <option value="2024">2024</option>
-                                <option value="2025">2025</option>
-                            </select>
-                            <span class="input-group-text"><i class="fas fa-chevron-down"></i></span>
+                {{-- <div class="row mb-3">
+                    <form id="filterForm" method="GET" action="{{ route('pemberian.obat.index') }}">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <span class="input-group-text" style="color: #FF69B4;"><i class="fas fa-calendar"></i></span>
+                                    <select class="form-control" name="tahun" id="tahunFilter">
+                                        <option value="">Semua Tahun</option>
+                                        @for ($year = date('Y'); $year >= 2020; $year--)
+                                            <option value="{{ $year }}" {{ request('tahun') == $year ? 'selected' : '' }}>{{ $year }}</option>
+                                        @endfor
+                                    </select>
+                                    <span class="input-group-text"><i class="fas fa-chevron-down"></i></span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <span class="input-group-text" style="color: #FF69B4;"><i class="fas fa-calendar-alt"></i></span>
+                                    <select class="form-control" name="bulan" id="bulanFilter">
+                                        <option value="">Semua Bulan</option>
+                                        @foreach(range(1, 12) as $month)
+                                            <option value="{{ str_pad($month, 2, '0', STR_PAD_LEFT) }}" {{ request('bulan') == str_pad($month, 2, '0', STR_PAD_LEFT) ? 'selected' : '' }}>
+                                                {{ DateTime::createFromFormat('!m', $month)->format('F') }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <span class="input-group-text"><i class="fas fa-chevron-down"></i></span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <span class="input-group-text" style="color: #FF69B4;"><i class="fas fa-map-marker-alt"></i></span>
+                                    <select class="form-control" name="posyandu" id="posyanduFilter">
+                                        <option value="">Semua Posyandu</option>
+                                        @foreach($posyandus as $posyandu)
+                                            <option value="{{ $posyandu->id }}" {{ request('posyandu') == $posyandu->id ? 'selected' : '' }}>
+                                                {{ $posyandu->nama }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <span class="input-group-text"><i class="fas fa-chevron-down"></i></span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <span class="input-group-text" style="color: #FF69B4;"><i class="fas fa-bullseye"></i></span>
+                                    <select class="form-control" name="sasaran" id="sasaranFilter">
+                                        <option value="">Semua Sasaran</option>
+                                        <option value="Ibu Hamil" {{ request('sasaran') == 'Ibu Hamil' ? 'selected' : '' }}>Ibu Hamil</option>
+                                        <option value="Balita" {{ request('sasaran') == 'Balita' ? 'selected' : '' }}>Balita</option>
+                                        <option value="Lansia" {{ request('sasaran') == 'Lansia' ? 'selected' : '' }}>Lansia</option>
+                                    </select>
+                                    <span class="input-group-text"><i class="fas fa-chevron-down"></i></span>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="input-group">
-                            <span class="input-group-text" style="color: #FF69B4;"><i
-                                    class="fas fa-calendar-alt"></i></span>
-                            <select class="form-control" id="bulanFilter">
-                                <option value="">Semua Bulan</option>
-                                <option value="01">Januari</option>
-                                <option value="02">Februari</option>
-                                <option value="03">Maret</option>
-                                <option value="04">April</option>
-                                <option value="05">Mei</option>
-                                <option value="06">Juni</option>
-                                <option value="07">Juli</option>
-                                <option value="08">Agustus</option>
-                                <option value="09">September</option>
-                                <option value="10">Oktober</option>
-                                <option value="11">November</option>
-                                <option value="12">Desember</option>
-                            </select>
-                            <span class="input-group-text"><i class="fas fa-chevron-down"></i></span>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="input-group">
-                            <span class="input-group-text" style="color: #FF69B4;"><i
-                                    class="fas fa-map-marker-alt"></i></span>
-                            <select class="form-control" id="posyanduFilter">
-                                <option value="">Semua Posyandu</option>
-                                <option value="Posyandu A">Posyandu Anggrek</option>
-                                <option value="Posyandu B">Posyandu Kenanga</option>
-                                <option value="Posyandu B">Posyandu Matahari</option>
-                                <option value="Posyandu B">Posyandu Mawar</option>
-                                <option value="Posyandu B">Posyandu Melati</option>
-                            </select>
-                            <span class="input-group-text"><i class="fas fa-chevron-down"></i></span>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="input-group">
-                            <span class="input-group-text" style="color: #FF69B4;"><i class="fas fa-bullseye"></i></span>
-                            <select class="form-control" id="sasaranFilter">
-                                <option value="">Semua Sasaran</option>
-                                <option value="Balita">Ibu Hamil</option>
-                                <option value="Ibu Hamil">Balita</option>
-                                <option value="Lansia">Lansia</option>
-                            </select>
-                            <span class="input-group-text"><i class="fas fa-chevron-down"></i></span>
-                        </div>
-                    </div>
-                </div>
+                    </form>
+                </div> --}}
                 <!--end::Filter Row-->
 
                 <!--begin::Row-->
@@ -129,64 +128,66 @@
                                 <h3 class="card-title">Data Pemberian Obat</h3>
                                 <button type="button" class="btn btn-sm ms-auto text-light"
                                     style="background-color: #FF69B4;" data-bs-toggle="modal"
-                                    {{-- data-bs-target="#cariPesertaModal"> --}}
                                     data-bs-target="#tambahPemberianObatModal">
                                     Tambah Pemberian Obat
                                 </button>
                             </div>
-                            @include('general_modal.cari_peserta')
-                            @include('pemberian.obat.modal.tambah_pemberian_obat')
+                            
                             <!-- /.card-header -->
                             <div class="card-body">
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
-                                            <th style="font-size: 15px; width: 10px">#</th>
+                                            {{-- <th style="font-size: 15px; width: 10px">#</th> --}}
+                                            <th style="font-size: 15px">Waktu Pemberian</th>
                                             <th style="font-size: 15px">Nama</th>
                                             <th style="font-size: 15px">Usia (Tahun)</th>
                                             <th style="font-size: 15px">Nama Obat</th>
+                                            <th style="font-size: 15px">Dosis</th>
                                             <th style="font-size: 15px; width: 100px" class="text-center">Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        @foreach($pemberianObat as $index => $item)
                                         <tr class="align-middle">
-                                            <td>1.</td>
-                                            <td>Lorem ipsum dolor sit</td>
-                                            <td>Lorem ipsum dolor sit</td>
-                                            <td>Lorem ipsum dolor sit</td>
+                                            {{-- <td>{{ $index + $pemberianObat->firstItem() }}</td> --}}
+                                            <td>{{ $item->waktu_pemberian->format('d/m/Y') }}</td>
+                                            <td>{{ $item->pendaftaran->nama }}</td>
+                                            <td>{{ Carbon::parse($item->pendaftaran->tanggal_lahir)->age }}</td>
+                                            <td>{{ $item->obat->nama }}</td>
+                                            <td>{{ $item->dosis }}</td>
                                             <td class="text-center">
-                                                <a href="#" class="btn btn-info" title="Lihat"
+                                                {{-- <a href="{{ route('pemberian.obat.show', $item->id) }}"
+                                                    class="btn btn-info" title="Lihat"
                                                     style="width: 20px; height: 20px; font-size: 10px; padding: 1px; display: inline-flex; justify-content: center; align-items: center;">
                                                     <i class="fas fa-eye"></i>
-                                                </a>
-                                                <a href="#" class="btn btn-warning" title="Edit"
+                                                </a> --}}
+                                                <a href="{{ route('pemberian.obat.edit', $item->id) }}"
+                                                    class="btn btn-warning" title="Edit"
                                                     style="width: 20px; height: 20px; font-size: 10px; padding: 1px; display: inline-flex; justify-content: center; align-items: center;">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
-                                                <a href="#" class="btn btn-danger" title="Hapus"
-                                                    onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')"
-                                                    style="width: 20px; height: 20px; font-size: 10px; padding: 1px; display: inline-flex; justify-content: center; align-items: center;">
-                                                    <i class="fas fa-trash"></i>
-                                                </a>
+                                                <form action="{{ route('pemberian.obat.destroy', $item->id) }}"
+                                                    method="POST" style="display: inline;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger" title="Hapus"
+                                                        onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')"
+                                                        style="width: 20px; height: 20px; font-size: 10px; padding: 1px; display: inline-flex; justify-content: center; align-items: center;">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </form>
                                             </td>
                                         </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
                             <!-- /.card-body -->
                             <div class="card-footer clearfix" style="background-color: white">
-                                <ul class="pagination pagination-sm m-0 float-end">
-                                    <li class="page-item"><a class="page-link" style="color: #FF69B4;"
-                                            href="#">&laquo;</a></li>
-                                    <li class="page-item"><a class="page-link" style="color: #FF69B4;"
-                                            href="#">1</a></li>
-                                    <li class="page-item"><a class="page-link" style="color: #FF69B4;"
-                                            href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" style="color: #FF69B4;"
-                                            href="#">3</a></li>
-                                    <li class="page-item"><a class="page-link" style="color: #FF69B4;"
-                                            href="#">&raquo;</a></li>
-                                </ul>
+                                <div class="float-end">
+                                    {{ $pemberianObat->links() }}
+                                </div>
                             </div>
                             <!-- /.card -->
                         </div>
@@ -199,20 +200,82 @@
         <!--end::App Content-->
     </main>
 
-    <script>
-        document.getElementById("searchNoPeserta").addEventListener("keyup", function() {
-            var input = this.value.toLowerCase();
-            var rows = document.querySelectorAll("#dataRujukan tr");
+    @include('pemberian.obat.modal.tambah_pemberian_obat')
+    @include('pemberian.obat.edit')
+    @include('pemberian.obat.show')
 
-            rows.forEach(function(row) {
-                var nama = row.cells[1].textContent.toLowerCase();
-                if (nama.includes(input)) {
-                    row.style.display = "";
-                } else {
-                    row.style.display = "none";
-                }
+    <script>
+        // Filter form submission
+        document.getElementById('tahunFilter').addEventListener('change', function() {
+            document.getElementById('filterForm').submit();
+        });
+        document.getElementById('bulanFilter').addEventListener('change', function() {
+            document.getElementById('filterForm').submit();
+        });
+        document.getElementById('posyanduFilter').addEventListener('change', function() {
+            document.getElementById('filterForm').submit();
+        });
+        document.getElementById('sasaranFilter').addEventListener('change', function() {
+            document.getElementById('filterForm').submit();
+        });
+
+        // View button click handler
+        document.querySelectorAll('.view-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const id = this.getAttribute('data-id');
+                fetch(`/pemberian-obat/${id}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById('viewNama').textContent = data.pendaftaran.nama;
+                        document.getElementById('viewUsia').textContent = calculateAge(data.pendaftaran.tanggal_lahir);
+                        document.getElementById('viewObat').textContent = data.obat.nama;
+                        document.getElementById('viewDosis').textContent = data.dosis;
+                        document.getElementById('viewWaktu').textContent = formatDateTime(data.waktu_pemberian);
+                        document.getElementById('viewKeterangan').textContent = data.keterangan || '-';
+                        
+                        // Show modal
+                        new bootstrap.Modal(document.getElementById('viewPemberianObatModal')).show();
+                    });
             });
         });
+
+        // Edit button click handler
+        document.querySelectorAll('.edit-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const id = this.getAttribute('data-id');
+                fetch(`/pemberian-obat/${id}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById('edit_id').value = data.id;
+                        document.getElementById('edit_id_obat').value = data.id_obat;
+                        document.getElementById('edit_dosis').value = data.dosis;
+                        document.getElementById('edit_waktu_pemberian').value = data.waktu_pemberian.split(' ')[0];
+                        document.getElementById('edit_keterangan').value = data.keterangan;
+                        
+                        // Show modal
+                        new bootstrap.Modal(document.getElementById('editPemberianObatModal')).show();
+                    });
+            });
+        });
+
+        // Helper functions
+        function calculateAge(birthdate) {
+            const birthDate = new Date(birthdate);
+            const today = new Date();
+            let age = today.getFullYear() - birthDate.getFullYear();
+            const monthDiff = today.getMonth() - birthDate.getMonth();
+            
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            
+            return age;
+        }
+
+        function formatDateTime(dateTimeString) {
+            const date = new Date(dateTimeString);
+            return date.toLocaleDateString('id-ID') + ' ' + date.toLocaleTimeString('id-ID');
+        }
     </script>
 
 @endsection

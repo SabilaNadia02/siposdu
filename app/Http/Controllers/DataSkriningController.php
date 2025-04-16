@@ -50,34 +50,35 @@ class DataSkriningController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)
+    public function edit(DataSkrining $skrining)
     {
-        $dataskrining = DataSkrining::findOrFail($id);
-        return view('data_master.skrining.edit', compact('dataskrining'));
+        return view('data_master.skrining.edit', compact('skrining'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, DataSkrining $skrining)
     {
-        $request->validate([
+        $validated = $request->validate([
             'nama_skrining' => 'required|string|max:255',
             'keterangan' => 'nullable|string',
         ]);
 
-        $dataskrining = DataSkrining::findOrFail($id);
-        $dataskrining->update($request->all());
-        return redirect()->route('data-master.skrining.index')->with('success', 'Data skrining berhasil diperbarui.');
+        $skrining->update($validated);
+
+        return redirect()->route('data-master.skrining.index')
+            ->with('success', 'Data skrining berhasil diperbarui.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(DataSkrining $skrining)
     {
-        $dataskrining = DataSkrining::findOrFail($id);
-        $dataskrining->delete();
-        return redirect()->route('data-master.skrining.index')->with('success', 'Data skrining berhasil dihapus.');
+        $skrining->delete();
+
+        return redirect()->route('data-master.skrining.index')
+            ->with('success', 'Data skrining berhasil dihapus.');
     }
 }

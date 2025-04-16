@@ -16,7 +16,7 @@ class DataPertanyaanSkriningController extends Controller
     {
         $dataSkrining = DataSkrining::all();
         $dataPertanyaan = DataPertanyaan::all();
-        $pertanyaanskrining = PertanyaanSkrining::paginate(10);
+        $pertanyaanskrining = PertanyaanSkrining::with(['dataSkrining', 'dataPertanyaan'])->paginate(10);
         return view('data_master.pertanyaan_skrining.index', compact('dataSkrining', 'dataPertanyaan', 'pertanyaanskrining'));
     }
 
@@ -45,42 +45,45 @@ class DataPertanyaanSkriningController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    public function show(PertanyaanSkrining $pertanyaanSkrining)
     {
-        $pertanyaanskrining = PertanyaanSkrining::findOrFail($id);
-        return view('data_master.pertanyaan_skrining.show', compact('pertanyaanskrining'));
+        return view('data_master.pertanyaan_skrining.show', compact('pertanyaanSkrining'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)
+    public function edit(PertanyaanSkrining $pertanyaanSkrining)
     {
-        $pertanyaanskrining = PertanyaanSkrining::findOrFail($id);
-        return view('data_master.pertanyaan_skrining.edit', compact('pertanyaanskrining'));
+        $dataSkrining = DataSkrining::all();
+        $dataPertanyaan = DataPertanyaan::all();
+        return view('data_master.pertanyaan_skrining.edit', compact('pertanyaanSkrining', 'dataSkrining', 'dataPertanyaan'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, PertanyaanSkrining $pertanyaanSkrining)
     {
-        $request->validate([
-            'nama_pertanyaan' => 'required|string|max:255',
+        $validated = $request->validate([
+            'id_skrining' => 'required|exists:data_skrinings,id',
+            'id_pertanyaan' => 'required|exists:data_pertanyaans,id',
         ]);
 
-        $pertanyaanskrining = PertanyaanSkrining::findOrFail($id);
-        $pertanyaanskrining->update($request->all());
-        return redirect()->route('data-master.pertanyaan-skrining.index')->with('success', 'Data berhasil diperbarui.');
+        $pertanyaanSkrining->update($validated);
+
+        return redirect()->route('data-master.pertanyaan-skrining.index')
+            ->with('success', 'Data pertanyaan skrining berhasil diperbarui.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(PertanyaanSkrining $pertanyaanSkrining)
     {
-        $pertanyaanskrining = PertanyaanSkrining::findOrFail($id);
-        $pertanyaanskrining->delete();
-        return redirect()->route('data-master.pertanyaan-skrining.index')->with('success', 'Data berhasil dihapus.');
+        $pertanyaanSkrining->delete();
+
+        return redirect()->route('data-master.pertanyaan-skrining.index')
+            ->with('success', 'Data pertanyaan skrining berhasil dihapus.');
     }
 }

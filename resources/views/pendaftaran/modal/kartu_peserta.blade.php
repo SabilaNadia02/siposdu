@@ -21,7 +21,7 @@
                     </tr>
                     <tr>
                         <td><strong>Tanggal Lahir</strong></td>
-                        <td>: {{ \Carbon\Carbon::parse($pendaftaran->tanggal_lahir)->translatedFormat('j F Y') }}</td>
+                        <td>: {{ \Carbon\Carbon::parse($pendaftaran->tanggal_lahir)->translatedFormat('m-d-Y') }}</td>
                     </tr>
                     <tr>
                         <td><strong>Posyandu</strong></td>

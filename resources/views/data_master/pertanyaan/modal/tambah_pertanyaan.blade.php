@@ -1,7 +1,7 @@
 <!-- Modal -->
 <div class="modal fade" id="tambahPertanyaanModal" tabindex="-1" aria-labelledby="tambahPertanyaanModalLabel"
     aria-hidden="true">
-    <div class="modal-dialog modal-lg" style="position: absolute; right: 35%; top: 20%; transform: translateY(-50%);">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content" style="font-size: 14px; padding: 10px;">
             <div class="modal-body">
                 <button type="button" class="btn-close position-absolute top-0 end-0 m-2" data-bs-dismiss="modal"
@@ -14,7 +14,8 @@
                     <div class="row g-3">
                         <!-- Pertanyaan -->
                         <div class="col-md-12">
-                            <label for="nama_pertanyaan" class="form-label" style="font-size: 14px; margin-bottom: 2px;">Pertanyaan</label>
+                            <label for="nama_pertanyaan" class="form-label" style="font-size: 14px; margin-bottom: 2px;">Pertanyaan <span
+                                class="text-danger">*</span></label>
                             <textarea class="form-control form-control-sm" name="nama_pertanyaan" rows="5" placeholder="Masukkan Pertanyaan" required></textarea>
                         </div>
                 

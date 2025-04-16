@@ -69,21 +69,22 @@
                                                 <td>{{ $imunisasi->sampai_umur }}</td>
                                                 <td>{{ $imunisasi->keterangan ?? '-' }}</td>
                                                 <td class="text-center">
-                                                    <a href="{{ route('data-master.imunisasi.show', $imunisasi->id) }}"
-                                                        class="btn btn-info btn-sm" title="Lihat">
-                                                        <i class="fas fa-eye"></i>
-                                                    </a>
+                                                    <!-- Tombol Edit -->
                                                     <a href="{{ route('data-master.imunisasi.edit', $imunisasi->id) }}"
-                                                        class="btn btn-warning btn-sm" title="Edit">
+                                                        class="btn btn-warning btn-sm" title="Edit"
+                                                        style="width: 20px; height: 20px; font-size: 10px; padding: 1px;">
                                                         <i class="fas fa-edit"></i>
                                                     </a>
+
+                                                    <!-- Tombol Hapus -->
                                                     <form
                                                         action="{{ route('data-master.imunisasi.destroy', $imunisasi->id) }}"
-                                                        method="POST" style="display: inline;">
+                                                        method="POST" class="d-inline">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger btn-sm" title="Hapus"
-                                                            onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
+                                                        <button type="button" class="btn btn-danger btn-sm btn-hapus"
+                                                            title="Hapus"
+                                                            style="width: 20px; height: 20px; font-size: 10px; padding: 1px;">
                                                             <i class="fas fa-trash"></i>
                                                         </button>
                                                     </form>
@@ -108,8 +109,7 @@
                                                     href="{{ $dataImunisasi->previousPageUrl() }}">&laquo;</a></li>
                                         @endif
                                         @for ($i = 1; $i <= $dataImunisasi->lastPage(); $i++)
-                                            <li
-                                                class="page-item {{ $dataImunisasi->currentPage() == $i ? 'active' : '' }}">
+                                            <li class="page-item {{ $dataImunisasi->currentPage() == $i ? 'active' : '' }}">
                                                 <a class="page-link"
                                                     style="background-color: {{ $dataImunisasi->currentPage() == $i ? '#FF69B4' : 'white' }}; color: {{ $dataImunisasi->currentPage() == $i ? 'white' : '#FF69B4' }}; border: none;"
                                                     href="{{ $dataImunisasi->url($i) }}">{{ $i }}</a>
@@ -132,4 +132,30 @@
         </div>
     </main>
 
+@endsection
+
+@section('scripts')
+    <script>
+        $(document).ready(function() {
+            $('.btn-hapus').on('click', function(e) {
+                e.preventDefault();
+                var form = $(this).closest('form');
+
+                Swal.fire({
+                    title: 'Apakah Anda yakin?',
+                    text: "Data ini akan dihapus secara permanen!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#FF69B4',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya, Hapus!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+        });
+    </script>
 @endsection

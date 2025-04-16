@@ -49,33 +49,35 @@ class DataPertanyaanController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)
+    public function edit(DataPertanyaan $pertanyaan)
     {
-        $datapertanyaan = DataPertanyaan::findOrFail($id);
-        return view('data_master.pertanyaan.edit', compact('datapertanyaan'));
+        return view('data_master.pertanyaan.edit', compact('pertanyaan'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, DataPertanyaan $pertanyaan)
     {
-        $request->validate([
+        $validated = $request->validate([
             'nama_pertanyaan' => 'required|string|max:255',
+            'keterangan' => 'nullable|string',
         ]);
 
-        $datapertanyaan = DataPertanyaan::findOrFail($id);
-        $datapertanyaan->update($request->all());
-        return redirect()->route('data-master.pertanyaan.index')->with('success', 'Data pertanyaan berhasil diperbarui.');
+        $pertanyaan->update($validated);
+
+        return redirect()->route('data-master.pertanyaan.index')
+            ->with('success', 'Data pertanyaan berhasil diperbarui.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(DataPertanyaan $pertanyaan)
     {
-        $datapertanyaan = DataPertanyaan::findOrFail($id);
-        $datapertanyaan->delete();
-        return redirect()->route('data-master.pertanyaan.index')->with('success', 'Data pertanyaan berhasil dihapus.');
+        $pertanyaan->delete();
+
+        return redirect()->route('data-master.pertanyaan.index')
+            ->with('success', 'Data pertanyaan berhasil dihapus.');
     }
 }

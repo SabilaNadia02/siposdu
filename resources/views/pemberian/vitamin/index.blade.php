@@ -44,7 +44,7 @@
                         <!--begin::Small Box Widget 1-->
                         <div class="small-box text-dark" style="background-color: #ffdeed; border-radius: 2px;">
                             <div class="inner">
-                                <h3>0</h3>
+                                <h3>{{ $totalPemberian }}</h3>
                                 <p>Total Pemberian Vitamin</p>
                             </div>
                         </div>
@@ -55,7 +55,7 @@
                 <!--end::Row-->
 
                 <!--begin::Filter Row-->
-                <div class="row mb-3">
+                {{-- <div class="row mb-3">
                     <div class="col-md-3">
                         <div class="input-group">
                             <span class="input-group-text" style="color: #FF69B4;"><i class="fas fa-calendar"></i></span>
@@ -117,7 +117,7 @@
                             <span class="input-group-text"><i class="fas fa-chevron-down"></i></span>
                         </div>
                     </div>
-                </div>
+                </div> --}}
                 <!--end::Filter Row-->
 
                 <!--begin::Row-->
@@ -129,63 +129,69 @@
                                 <h3 class="card-title">Data Pemberian Vitamin</h3>
                                 <button type="button" class="btn btn-sm ms-auto text-light"
                                     style="background-color: #FF69B4;" data-bs-toggle="modal"
-                                    {{-- data-bs-target="#cariPesertaModal"> --}}
                                     data-bs-target="#tambahPemberianVitaminModal">
                                     Tambah Pemberian Vitamin
                                 </button>
                             </div>
-                            @include('general_modal.cari_peserta')
                             @include('pemberian.vitamin.modal.tambah_pemberian_vitamin')
                             <!-- /.card-header -->
                             <div class="card-body">
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
-                                            <th style="font-size: 15px; width: 10px">#</th>
+                                            {{-- <th style="font-size: 15px; width: 10px">#</th> --}}
+                                            <th style="font-size: 15px">Tanggal Pemberian</th>
                                             <th style="font-size: 15px">Nama</th>
                                             <th style="font-size: 15px">Usia (Tahun)</th>
                                             <th style="font-size: 15px">Nama Vitamin</th>
+                                            <th style="font-size: 15px">Jumlah/Dosis</th>
+                                            <th style="font-size: 15px">Keterangan</th>
                                             <th style="font-size: 15px; width: 100px" class="text-center">Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr class="align-middle">
-                                            <td>1.</td>
-                                            <td>Lorem ipsum dolor sit</td>
-                                            <td>Lorem ipsum dolor sit</td>
-                                            <td>Lorem ipsum dolor sit</td>
-                                            <td class="text-center">
-                                                <a href="#" class="btn btn-info" title="Lihat"
-                                                    style="width: 20px; height: 20px; font-size: 10px; padding: 1px; display: inline-flex; justify-content: center; align-items: center;">
-                                                    <i class="fas fa-eye"></i>
-                                                </a>
-                                                <a href="#" class="btn btn-warning" title="Edit"
-                                                    style="width: 20px; height: 20px; font-size: 10px; padding: 1px; display: inline-flex; justify-content: center; align-items: center;">
-                                                    <i class="fas fa-edit"></i>
-                                                </a>
-                                                <a href="#" class="btn btn-danger" title="Hapus"
-                                                    onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')"
-                                                    style="width: 20px; height: 20px; font-size: 10px; padding: 1px; display: inline-flex; justify-content: center; align-items: center;">
-                                                    <i class="fas fa-trash"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
+                                        @foreach ($pemberianVitamins as $key => $item)
+                                            <tr class="align-middle">
+                                                {{-- <td>{{ $key + 1 }}</td> --}}
+                                                <td>{{ $item->waktu_pemberian ? \Carbon\Carbon::parse($item->waktu_pemberian)->format('d-m-Y') : '-' }}</td>
+                                                <td>{{ $item->pendaftaran->nama ?? '-' }}</td>
+                                                <td>{{ $item->pendaftaran ? \Carbon\Carbon::parse($item->pendaftaran->tanggal_lahir)->age : '-' }}
+                                                </td>
+                                                <td>{{ $item->vitamin->nama ?? '-'}}</td>
+                                                <td>{{ $item->dosis ?? '-'}}</td>
+                                                <td>{{ $item->keterangan ?? '-'}}</td>
+                                                </td>
+                                                <td class="text-center">
+                                                    {{-- <a href="{{ route('pemberian.vitamin.show', $item->id) }}"
+                                                        class="btn btn-info" title="Lihat"
+                                                        style="width: 20px; height: 20px; font-size: 10px; padding: 1px; display: inline-flex; justify-content: center; align-items: center;">
+                                                        <i class="fas fa-eye"></i>
+                                                    </a> --}}
+                                                    <a href="{{ route('pemberian.vitamin.edit', $item->id) }}"
+                                                        class="btn btn-warning" title="Edit"
+                                                        style="width: 20px; height: 20px; font-size: 10px; padding: 1px; display: inline-flex; justify-content: center; align-items: center;">
+                                                        <i class="fas fa-edit"></i>
+                                                    </a>
+                                                    <form action="{{ route('pemberian.vitamin.destroy', $item->id) }}"
+                                                        method="POST" style="display: inline;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-danger" title="Hapus"
+                                                            onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')"
+                                                            style="width: 20px; height: 20px; font-size: 10px; padding: 1px; display: inline-flex; justify-content: center; align-items: center;">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
                             <!-- /.card-body -->
                             <div class="card-footer clearfix" style="background-color: white">
                                 <ul class="pagination pagination-sm m-0 float-end">
-                                    <li class="page-item"><a class="page-link" style="color: #FF69B4;"
-                                            href="#">&laquo;</a></li>
-                                    <li class="page-item"><a class="page-link" style="color: #FF69B4;"
-                                            href="#">1</a></li>
-                                    <li class="page-item"><a class="page-link" style="color: #FF69B4;"
-                                            href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" style="color: #FF69B4;"
-                                            href="#">3</a></li>
-                                    <li class="page-item"><a class="page-link" style="color: #FF69B4;"
-                                            href="#">&raquo;</a></li>
+                                    {{ $pemberianVitamins->links() }}
                                 </ul>
                             </div>
                             <!-- /.card -->

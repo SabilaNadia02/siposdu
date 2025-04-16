@@ -31,7 +31,7 @@ class DataPosyanduController extends Controller
     {
         $request->validate([
             'nama' => 'required|string|max:255',
-            'alamat' => 'nullable|string',
+            'alamat' => 'required|string',
         ]);
 
         DataPosyandu::create($request->all());
@@ -50,34 +50,35 @@ class DataPosyanduController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)
+    public function edit(DataPosyandu $posyandu)
     {
-        $dataPosyandu = DataPosyandu::findOrFail($id);
-        return view('data_master.posyandu.edit', compact('dataPosyandu'));
+        return view('data_master.posyandu.edit', compact('posyandu'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, DataPosyandu $posyandu)
     {
-        $request->validate([
+        $validated = $request->validate([
             'nama' => 'required|string|max:255',
-            'alamat' => 'nullable|string',
+            'alamat' => 'required|string',
         ]);
 
-        $dataPosyandu = DataPosyandu::findOrFail($id);
-        $dataPosyandu->update($request->all());
-        return redirect()->route('data-master.posyandu.index')->with('success', 'Data posyandu berhasil diperbarui.');
+        $posyandu->update($validated);
+
+        return redirect()->route('data-master.posyandu.index')
+            ->with('success', 'Data posyandu berhasil diperbarui.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(DataPosyandu $posyandu)
     {
-        $dataPosyandu = DataPosyandu::findOrFail($id);
-        $dataPosyandu->delete();
-        return redirect()->route('data-master.posyandu.index')->with('success', 'Data posyandu berhasil dihapus.');
+        $posyandu->delete();
+
+        return redirect()->route('data-master.posyandu.index')
+            ->with('success', 'Data posyandu berhasil dihapus.');
     }
 }

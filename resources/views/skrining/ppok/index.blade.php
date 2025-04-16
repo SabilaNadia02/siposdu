@@ -3,10 +3,8 @@
 @section('title', 'Skrining PPOK')
 
 @section('content')
-
     <!--begin::App Main-->
     <main class="app-main">
-
         <!--begin::App Content Header-->
         <div class="app-content-header">
             <!--begin::Container-->
@@ -19,8 +17,9 @@
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-end">
-                            <li class="breadcrumb-item"><a href="#"
-                                    style="color: #FF8F00; font-size: 16px;">Dashboard</a></li>
+                            <li class="breadcrumb-item">
+                                <a href="#" style="color: #FF8F00; font-size: 16px;">Dashboard</a>
+                            </li>
                             <li class="breadcrumb-item active" aria-current="page">Skrining PPOK</li>
                         </ol>
                     </div>
@@ -35,16 +34,15 @@
         <div class="app-content">
             <!--begin::Container-->
             <div class="container-fluid">
-
                 <!--begin::Row-->
                 <div class="row justify-content-center">
                     <!--begin::Col-->
                     <div class="col-lg-4 col-md-6 col-12">
                         <!--begin::Small Box Widget 1-->
-                        <div class="small-box text-dark text-center" style="background-color: #FFE0B2; border-radius: 2px;">
+                        <div class="small-box text-dark text-center" style="background-color: #FFF3E0; border-radius: 2px;">
                             <div class="inner">
-                                <h3>0</h3>
-                                <p>Total Dengan Gejala</p>
+                                <h3>{{ $totalDenganGejala }}</h3>
+                                <p>Total Dengan Gejala (Skor > 6)</p>
                             </div>
                         </div>
                         <!--end::Small Box Widget 1-->
@@ -54,10 +52,10 @@
                     <!--begin::Col-->
                     <div class="col-lg-4 col-md-6 col-12">
                         <!--begin::Small Box Widget 2-->
-                        <div class="small-box text-dark text-center" style="background-color: #FFE0B2; border-radius: 2px;">
+                        <div class="small-box text-dark text-center" style="background-color: #FFF3E0; border-radius: 2px;">
                             <div class="inner">
-                                <h3>0</h3>
-                                <p>Total Tanpa Gejala</p>
+                                <h3>{{ $totalTanpaGejala }}</h3>
+                                <p>Total Tanpa Gejala (Skor ≤ 6)</p>
                             </div>
                         </div>
                         <!--end::Small Box Widget 2-->
@@ -66,194 +64,234 @@
                 </div>
                 <!--end::Row-->
 
-                <!--begin::Filter Row-->
+                {{-- <!--begin::Row-->
                 <div class="row mb-3">
-                    <div class="col-md-3">
-                        <div class="input-group">
-                            <span class="input-group-text text-warning"><i class="fas fa-calendar"
-                                    style="border-radius: 2px; color: #FF8F00;"></i></span>
-                            <select class="form-control" id="tahunFilter" style="border-radius: 2px;">
-                                <option value="">Semua Tahun</option>
-                                <option value="2023">2023</option>
-                                <option value="2024">2024</option>
-                                <option value="2025">2025</option>
-                            </select>
-                            <span class="input-group-text" style="border-radius: 2px;"><i
-                                    class="fas fa-chevron-down"></i></span>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="input-group">
-                            <span class="input-group-text text-warning"><i class="fas fa-calendar-alt"
-                                    style="border-radius: 2px; color: #FF8F00;"></i></span>
-                            <select class="form-control" id="bulanFilter" style="border-radius: 2px;">
-                                <option value="">Semua Bulan</option>
-                                <option value="01">Januari</option>
-                                <option value="02">Februari</option>
-                                <option value="03">Maret</option>
-                                <option value="04">April</option>
-                                <option value="05">Mei</option>
-                                <option value="06">Juni</option>
-                                <option value="07">Juli</option>
-                                <option value="08">Agustus</option>
-                                <option value="09">September</option>
-                                <option value="10">Oktober</option>
-                                <option value="11">November</option>
-                                <option value="12">Desember</option>
-                            </select>
-                            <span class="input-group-text" style="border-radius: 2px;"><i
-                                    class="fas fa-chevron-down"></i></span>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="input-group">
-                            <span class="input-group-text text-warning"><i class="fas fa-map-marker-alt"
-                                    style="border-radius: 2px; color: #FF8F00;"></i></span>
-                            <select class="form-control" id="posyanduFilter" style="border-radius: 2px;">
-                                <option value="">Semua Posyandu</option>
-                                <option value="Posyandu A">Posyandu Anggrek</option>
-                                <option value="Posyandu B">Posyandu Kenanga</option>
-                                <option value="Posyandu B">Posyandu Matahari</option>
-                                <option value="Posyandu B">Posyandu Mawar</option>
-                                <option value="Posyandu B">Posyandu Melati</option>
-                            </select>
-                            <span class="input-group-text" style="border-radius: 2px;"><i
-                                    class="fas fa-chevron-down"></i></span>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="input-group">
-                            <span class="input-group-text text-warning"><i class="fas fa-bullseye"
-                                    style="border-radius: 2px; color: #FF8F00;"></i></span>
-                            <select class="form-control" id="sasaranFilter" style="border-radius: 2px;">
-                                <option value="">Semua Sasaran</option>
-                                <option value="Balita">Ibu Hamil</option>
-                                <option value="Ibu Hamil">Balita</option>
-                                <option value="Lansia">Lansia</option>
-                            </select>
-                            <span class="input-group-text" style="border-radius: 2px;"><i
-                                    class="fas fa-chevron-down"></i></span>
+                    <div class="col-sm-3">
+                        <div class="float-sm">
+                            <div class="input-group">
+                                <input type="text" class="form-control form-control-sm" id="searchPeserta"
+                                    placeholder="Cari nama peserta..." style="border-radius: 2px;">
+                                <span class="input-group-text" style="border-radius: 2px; color: #FF8F00;">
+                                    <i class="fas fa-search"></i>
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <!--end::Filter Row-->
+                <!--end::Row--> --}}
 
                 <!--begin::Row-->
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="card mb-4" style="border-radius: 2px;">
+                        <div class="card mb-4" style="border-radius: 0px;">
                             <div class="card-header d-flex justify-content-between align-items-center"
-                                style="border-top: 3px solid #FF8F00; border-radius: 2px;">
+                                style="border-top: 3px solid #FF8F00; border-radius: 0px;">
                                 <h3 class="card-title">Tabel Data Skrining PPOK</h3>
                                 <button type="button" class="btn btn-sm ms-auto text-light"
                                     style="background-color: #FF8F00;" data-bs-toggle="modal"
-                                    {{-- data-bs-target="#cariPesertaModal"> --}}
                                     data-bs-target="#tambahSkringPPOKModal">
                                     Tambah Skrining PPOK
                                 </button>
                             </div>
-                            @include('skrining.ppok.modal.cari_peserta')
                             @include('skrining.ppok.modal.tambah_skrining_ppok')
                             <!-- /.card-header -->
                             <div class="card-body">
-                                <table class="table table-bordered">
+                                <table class="table table-bordered" id="ppokTable">
                                     <thead>
                                         <tr>
-                                            <th style="font-size: 15px; width: 160px">Waktu Skrining <span
-                                                    style="font-size: smaller; font-weight: normal;">(tanggal/bulan/tahun)</span>
-                                            </th>
-                                            <th style="font-size: 15px; width: 300px">Nama</th>
-                                            <th style="font-size: 15px; width: 160px">Hasil Skrining</th>
-                                            <th style="font-size: 15px; width: 260px">Keterangan</th>
-                                            <th style="font-size: 15px; width: 100px" class="text-center">Aksi</th>
+                                            <th style="width: 50px; text-align: center">No</th>
+                                            <th style="width: 120px;">Waktu Skrining</th>
+                                            <th style="width: 200px;">Nama Peserta</th>
+                                            <th style="width: 250px;">Pertanyaan</th>
+                                            <th style="width: 80px; text-align: center">Skor</th>
+                                            <th style="width: 100px; text-align: center">Total Skor</th>
+                                            <th style="width: 100px; text-align: center">Diagnosa</th>
+                                            <th style="width: 120px; text-align: center">Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr class="align-middle">
-                                            <td>31-01-2025</td>
-                                            <td>Lorem ipsum dolor sit</td>
-                                            <td>Positif</td>
-                                            <td>-</td>
-                                            <td class="text-center">
-                                                <a href="#" class="btn btn-info" title="Lihat"
-                                                    style="width: 20px; height: 20px; font-size: 10px; padding: 1px; display: inline-flex; justify-content: center; align-items: center;">
-                                                    <i class="fas fa-eye"></i>
-                                                </a>
-                                                <a href="#" class="btn btn-warning" title="Edit"
-                                                    style="width: 20px; height: 20px; font-size: 10px; padding: 1px; display: inline-flex; justify-content: center; align-items: center;">
-                                                    <i class="fas fa-edit"></i>
-                                                </a>
-                                                <a href="#" class="btn btn-danger" title="Hapus"
-                                                    onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')"
-                                                    style="width: 20px; height: 20px; font-size: 10px; padding: 1px; display: inline-flex; justify-content: center; align-items: center;">
-                                                    <i class="fas fa-trash"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr class="align-middle">
-                                            <td>31-01-2025</td>
-                                            <td>Lorem ipsum dolor sit</td>
-                                            <td>Negatif</td>
-                                            <td>-</td>
-                                            <td class="text-center">
-                                                <a href="#" class="btn btn-info" title="Lihat"
-                                                    style="width: 20px; height: 20px; font-size: 10px; padding: 1px; display: inline-flex; justify-content: center; align-items: center;">
-                                                    <i class="fas fa-eye"></i>
-                                                </a>
-                                                <a href="#" class="btn btn-warning" title="Edit"
-                                                    style="width: 20px; height: 20px; font-size: 10px; padding: 1px; display: inline-flex; justify-content: center; align-items: center;">
-                                                    <i class="fas fa-edit"></i>
-                                                </a>
-                                                <a href="#" class="btn btn-danger" title="Hapus"
-                                                    onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')"
-                                                    style="width: 20px; height: 20px; font-size: 10px; padding: 1px; display: inline-flex; justify-content: center; align-items: center;">
-                                                    <i class="fas fa-trash"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
+                                        @foreach ($skriningPPOK as $skrining)
+                                            @php
+                                                $totalSkor = 0;
+                                                $detailSkor = [];
+
+                                                foreach ($skrining->detailPencatatanSkrining as $detail) {
+                                                    $pertanyaanId = $detail->pertanyaanSkrining->id;
+                                                    $jawaban = $detail->hasil_skrining;
+                                                    $skor = 0;
+
+                                                    switch ($pertanyaanId) {
+                                                        case 5: // Jenis Kelamin
+                                                            $skor = $jawaban == 1 ? 1 : 0;
+                                                            break;
+                                                        case 6: // Usia
+                                                            if ($jawaban >= 60) {
+                                                                $skor = 2;
+                                                            } elseif ($jawaban >= 50) {
+                                                                $skor = 1;
+                                                            }
+                                                            break;
+                                                        case 7: // Merokok
+                                                            if ($jawaban == 3) {
+                                                                // 20-30 bungkus/tahun
+                                                                $skor = 1;
+                                                            } elseif ($jawaban == 4) {
+                                                                // >=30 bungkus/tahun
+                                                                $skor = 2;
+                                                            }
+                                                            break;
+                                                        case 8: // Nafas pendek
+                                                        case 9: // Dahak dari paru
+                                                        case 10: // Batuk tanpa flu
+                                                        case 11: // Pemeriksaan spirometri
+                                                            $skor = $jawaban == 1 ? 1 : 0;
+                                                            break;
+                                                    }
+
+                                                    $totalSkor += $skor;
+                                                    $detailSkor[$detail->id] = $skor;
+                                                }
+
+                                                $diagnosa = $totalSkor > 6 ? 'Ya' : 'Tidak';
+                                                $rowspan = $skrining->detailPencatatanSkrining->count();
+                                            @endphp
+
+                                            @foreach ($skrining->detailPencatatanSkrining as $index => $detail)
+                                                <tr class="participant-row" data-participant-id="{{ $skrining->id }}">
+                                                    @if ($index === 0)
+                                                        <td rowspan="{{ $rowspan }}" style="text-align: center">
+                                                            {{ $loop->parent->iteration }}</td>
+                                                        <td rowspan="{{ $rowspan }}">
+                                                            {{ date('d/m/Y', strtotime($skrining->waktu_skrining)) }}</td>
+                                                        <td rowspan="{{ $rowspan }}" class="participant-name">
+                                                            {{ $skrining->pendaftaran->nama }}</td>
+                                                    @endif
+
+                                                    <td>{{ $detail->pertanyaanSkrining->dataPertanyaan->nama_pertanyaan ?? 'N/A' }}
+                                                    </td>
+                                                    <td style="text-align: center">
+                                                        {{ $detailSkor[$detail->id] ?? 0 }}
+                                                    </td>
+
+                                                    @if ($index === 0)
+                                                        <td rowspan="{{ $rowspan }}" style="text-align: center">
+                                                            <strong>{{ $totalSkor }}</strong>
+                                                        </td>
+                                                        <td rowspan="{{ $rowspan }}" style="text-align: center">
+                                                            <span
+                                                                class="badge {{ $diagnosa == 'Ya' ? 'bg-danger' : 'bg-success' }}">
+                                                                {{ $diagnosa }}
+                                                            </span>
+                                                        </td>
+
+                                                        <td rowspan="{{ $rowspan }}" style="text-align: center">
+                                                            <div class="btn-group">
+                                                                <a href="{{ route('skrining.ppok.edit', $skrining->id) }}"
+                                                                    class="btn btn-warning btn-sm" title="Edit"
+                                                                    style="width: 20px; height: 20px; font-size: 10px; padding: 1px; display: flex; justify-content: center; align-items: center; margin-right: 5px;">
+                                                                    <i class="fas fa-edit"></i>
+                                                                </a>
+                                                                <form
+                                                                    action="{{ route('skrining.ppok.destroy', $skrining->id) }}"
+                                                                    method="POST" class="d-inline">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                    <button type="submit" class="btn btn-danger btn-sm"
+                                                                        title="Hapus"
+                                                                        onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')"
+                                                                        style="width: 20px; height: 20px; font-size: 10px; padding: 1px; display: flex; justify-content: center; align-items: center;">
+                                                                        <i class="fas fa-trash"></i>
+                                                                    </button>
+                                                                </form>
+                                                            </div>
+                                                        </td>
+                                                    @endif
+                                                </tr>
+                                            @endforeach
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
                             <!-- /.card-body -->
                             <div class="card-footer clearfix" style="background-color: white">
                                 <ul class="pagination pagination-sm m-0 float-end">
-                                    <li class="page-item"><a class="page-link" style="color: #FF8F00;"
-                                            href="#">&laquo;</a></li>
-                                    <li class="page-item"><a class="page-link" style="color: #FF8F00;"
-                                            href="#">1</a></li>
-                                    <li class="page-item"><a class="page-link" style="color: #FF8F00;"
-                                            href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" style="color: #FF8F00;"
-                                            href="#">3</a></li>
-                                    <li class="page-item"><a class="page-link" style="color: #FF8F00;"
-                                            href="#">&raquo;</a></li>
+                                    @if ($skriningPPOK->onFirstPage())
+                                        <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+                                    @else
+                                        <li class="page-item"><a class="page-link"
+                                                style="background-color: #FF8F00; color: white; border: none;"
+                                                href="{{ $skriningPPOK->previousPageUrl() }}">&laquo;</a></li>
+                                    @endif
+                                    @for ($i = 1; $i <= $skriningPPOK->lastPage(); $i++)
+                                        <li class="page-item {{ $skriningPPOK->currentPage() == $i ? 'active' : '' }}">
+                                            <a class="page-link"
+                                                style="background-color: {{ $skriningPPOK->currentPage() == $i ? '#FF8F00' : 'white' }}; color: {{ $skriningPPOK->currentPage() == $i ? 'white' : '#FF8F00' }}; border: none;"
+                                                href="{{ $skriningPPOK->url($i) }}">{{ $i }}</a>
+                                        </li>
+                                    @endfor
+                                    @if ($skriningPPOK->hasMorePages())
+                                        <li class="page-item"><a class="page-link"
+                                                style="background-color: #FF8F00; color: white; border: none;"
+                                                href="{{ $skriningPPOK->nextPageUrl() }}">&raquo;</a></li>
+                                    @else
+                                        <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+                                    @endif
                                 </ul>
                             </div>
-                            <!-- /.card -->
                         </div>
+                        <!-- /.card -->
                     </div>
                 </div>
-                <!--end::Row-->
-
             </div>
+            <!--end::Row-->
         </div>
     </main>
     <!--end::App Main-->
 
     <script>
-        document.getElementById("searchNoPeserta").addEventListener("keyup", function() {
-            var input = this.value.toLowerCase();
-            var rows = document.querySelectorAll("#dataRujukan tr");
+        $(document).ready(function() {
+            $('#searchPeserta').on('input', function() {
+                const searchTerm = $(this).val().toLowerCase().trim();
 
-            rows.forEach(function(row) {
-                var nama = row.cells[1].textContent.toLowerCase();
-                if (nama.includes(input)) {
-                    row.style.display = "";
-                } else {
-                    row.style.display = "none";
+                if (searchTerm === '') {
+                    // Jika pencarian kosong, tampilkan semua baris
+                    $('tbody tr').show();
+                    return;
                 }
+
+                // Sembunyikan semua baris terlebih dahulu
+                $('tbody tr').hide();
+
+                // Cari baris yang sesuai dengan kriteria pencarian
+                $('tbody tr').each(function() {
+                    const row = $(this);
+                    const participantName = row.find('.participant-name').text().toLowerCase();
+
+                    // Jika baris ini adalah baris utama (memiliki class participant-name)
+                    if (participantName.includes(searchTerm)) {
+                        const participantId = row.data('participant-id');
+
+                        // Tampilkan semua baris dengan participant-id yang sama
+                        $(`tr[data-participant-id="${participantId}"]`).show();
+                    }
+                });
             });
         });
     </script>
 
+    <style>
+        .float-sm-end {
+            float: right !important;
+        }
+
+        .input-group {
+            width: 250px;
+        }
+
+        /* Style untuk hasil pencarian */
+        .highlight {
+            background-color: yellow;
+            font-weight: bold;
+        }
+    </style>
 @endsection

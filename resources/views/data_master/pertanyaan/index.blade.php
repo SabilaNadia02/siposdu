@@ -50,9 +50,20 @@
                                     Tambah Pertanyaan
                                 </button>
                             </div>
+
+                            <!-- Modal Tambah Pertanyaan -->
                             @include('data_master.pertanyaan.modal.tambah_pertanyaan')
-                            <!-- /.card-header -->
+                            
                             <div class="card-body">
+
+                                @if (session('success'))
+                                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                        {{ session('success') }}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                            aria-label="Close"></button>
+                                    </div>
+                                @endif
+
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
@@ -67,23 +78,22 @@
                                                 <td>{{ $pertanyaan->id }}</td>
                                                 <td>{{ $pertanyaan->nama_pertanyaan ?? '-' }}</td>
                                                 <td class="text-center">
-                                                    {{-- <a href="{{ route('data-master.pertanyaan.show', $pertanyaan->id) }}" class="btn btn-info" title="Lihat"
-                                                        style="width: 20px; height: 20px; font-size: 10px; padding: 1px; display: inline-flex; justify-content: center; align-items: center;">
-                                                        <i class="fas fa-eye"></i>
-                                                    </a> --}}
-                                                    <a href="{{ route('data-master.pertanyaan.edit', $pertanyaan->id) }}"
-                                                        class="btn btn-warning" title="Edit"
-                                                        style="width: 20px; height: 20px; font-size: 10px; padding: 1px; display: inline-flex; justify-content: center; align-items: center;">
+                                                    <!-- Tombol Edit -->
+                                                    <a href="{{ route('data-master.pertanyaan.edit', $pertanyaan) }}"
+                                                        class="btn btn-warning btn-sm" title="Edit"
+                                                        style="width: 20px; height: 20px; font-size: 10px; padding: 1px;">
                                                         <i class="fas fa-edit"></i>
                                                     </a>
+
+                                                    <!-- Tombol Hapus -->
                                                     <form
                                                         action="{{ route('data-master.pertanyaan.destroy', $pertanyaan->id) }}"
-                                                        method="POST" style="display: inline;">
+                                                        method="POST" class="d-inline">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger" title="Hapus"
-                                                            onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')"
-                                                            style="width: 20px; height: 20px; font-size: 10px; padding: 1px; display: inline-flex; justify-content: center; align-items: center;">
+                                                        <button type="button" class="btn btn-danger btn-sm btn-hapus"
+                                                            title="Hapus"
+                                                            style="width: 20px; height: 20px; font-size: 10px; padding: 1px;">
                                                             <i class="fas fa-trash"></i>
                                                         </button>
                                                     </form>
@@ -136,4 +146,30 @@
         </div>
     </main>
     <!--end::App Main-->
+@endsection
+
+@section('scripts')
+    <script>
+        $(document).ready(function() {
+            $('.btn-hapus').on('click', function(e) {
+                e.preventDefault();
+                var form = $(this).closest('form');
+
+                Swal.fire({
+                    title: 'Apakah Anda yakin?',
+                    text: "Data ini akan dihapus secara permanen!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#FF69B4',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya, Hapus!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+        });
+    </script>
 @endsection

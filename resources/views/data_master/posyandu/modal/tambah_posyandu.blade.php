@@ -1,6 +1,6 @@
 <!-- Modal -->
 <div class="modal fade" id="tambahPosyanduModal" tabindex="-1" aria-labelledby="tambahPosyanduLabel" aria-hidden="true">
-    <div class="modal-dialog" style="position: absolute; right: 30%; top: 30%; transform: translateY(-50%);">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content" style="font-size: 14px; padding: 10px;">
             <div class="modal-body">
                 <button type="button" class="btn-close position-absolute top-0 end-0 m-2" data-bs-dismiss="modal"
@@ -11,14 +11,16 @@
                     @csrf
                     <div class="row g-3">
                         <div class="col-md-12">
-                            <label for="nama" class="form-label">Nama Posyandu</label>
+                            <label for="nama" class="form-label">Nama Posyandu <span
+                                class="text-danger">*</span></label>
                             <input type="text" class="form-control form-control-sm" id="nama" name="nama"
-                                placeholder="Masukkan Nama Posyandu">
+                                placeholder="Masukkan nama posyandu">
                         </div>
                         <div class="col-md-12">
-                            <label for="alamat" class="form-label">Alamat</label>
+                            <label for="alamat" class="form-label">Alamat <span
+                                class="text-danger">*</span></label>
                             <textarea class="form-control form-control-sm" id="alamat" name="alamat" rows="3"
-                                placeholder="Masukkan Alamat"></textarea>
+                                placeholder="Masukkan alamat"></textarea>
                         </div>
                     </div>
                     <div class="mt-3 d-grid">

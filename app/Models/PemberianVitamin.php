@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class PemberianVitamin extends Model
 {
+    public $timestamps = false;
     protected $fillable = [
         'no_pendaftaran',
         'id_vitamin',
@@ -17,10 +18,10 @@ class PemberianVitamin extends Model
 
     public function pendaftaran(): BelongsTo
     {
-        return $this->belongsTo(Pendaftaran::class);
+        return $this->belongsTo(Pendaftaran::class, 'no_pendaftaran');
     }
     public function vitamin(): BelongsTo
     {
-        return $this->belongsTo(DataVitamin::class);
+        return $this->belongsTo(DataVitamin::class, 'id_vitamin');
     }
 }

@@ -67,7 +67,7 @@
                 </div>
                 <!--end::Row-->
 
-                <!--begin::Filter Row-->
+                {{-- <!--begin::Filter Row-->
                 <div class="row mb-3">
                     <div class="col-md-3">
                         <div class="input-group">
@@ -129,7 +129,7 @@
                         </div>
                     </div>
                 </div>
-                <!--end::Filter Row-->
+                <!--end::Filter Row--> --}}
 
                 <!--begin::Row-->
                 <div class="row">

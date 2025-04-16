@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\DataVaksin;
+use Illuminate\Http\Request;
 
 class DataVaksinController extends Controller
 {
@@ -12,8 +12,8 @@ class DataVaksinController extends Controller
      */
     public function index()
     {
-        $datavaksin = DataVaksin::paginate(10);
-        return view('data_master.vaksin.index', compact('datavaksin'));
+        $dataVaksin = DataVaksin::paginate(10);
+        return view('data_master.vaksin.index', compact('dataVaksin'));
     }
 
     /**
@@ -50,34 +50,35 @@ class DataVaksinController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)
+    public function edit(DataVaksin $vaksin)
     {
-        $dataVaksin = DataVaksin::findOrFail($id);
-        return view('data_master.vaksin.edit', compact('dataVaksin'));
+        return view('data_master.vaksin.edit', compact('vaksin'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, DataVaksin $vaksin)
     {
-        $request->validate([
+        $validated = $request->validate([
             'nama' => 'required|string|max:255',
             'keterangan' => 'nullable|string',
         ]);
 
-        $dataVaksin = DataVaksin::findOrFail($id);
-        $dataVaksin->update($request->all());
-        return redirect()->route('data-master.vaksin.index')->with('success', 'Data vaksin berhasil diperbarui.');
+        $vaksin->update($validated);
+
+        return redirect()->route('data-master.vaksin.index')
+            ->with('success', 'Data vaksin berhasil diperbarui.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(DataVaksin $vaksin)
     {
-        $dataVaksin = DataVaksin::findOrFail($id);
-        $dataVaksin->delete();
-        return redirect()->route('data-master.vaksin.index')->with('success', 'Data vaksin berhasil dihapus.');
+        $vaksin->delete();
+
+        return redirect()->route('data-master.vaksin.index')
+            ->with('success', 'Data vaksin berhasil dihapus.');
     }
 }

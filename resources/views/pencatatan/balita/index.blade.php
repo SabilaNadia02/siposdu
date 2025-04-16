@@ -55,7 +55,7 @@
                         <div class="card mb-4" style="border-radius: 0px;">
                             <div class="card-header d-flex justify-content-between align-items-center"
                                 style="border-top: 3px solid #28A745; border-radius: 0px;">
-                                <h5 class="card-title">Tabel Data Ibu Balita</h5>
+                                <h5 class="card-title">Tabel Data Balita</h5>
                                 <button type="button" class="btn btn-sm ms-auto text-light"
                                     style="background-color: #28A745;" data-bs-toggle="modal"
                                     data-bs-target="#tambahPencatatanBaruModal">
@@ -70,6 +70,7 @@
                                             <th style="width: 150px">No Pendaftaran</th>
                                             <th>Nama</th>
                                             <th>Usia</th>
+                                            <th>Status</th>
                                             <th class="text-center">Aksi</th>
                                         </tr>
                                     </thead>
@@ -88,6 +89,15 @@
                                                     @endphp
                                                     {{ $usia->y }} tahun, {{ $usia->m }} bulan,
                                                     {{ $usia->d }} hari
+                                                </td>
+                                                <td>
+                                                    @if($data->status_balita == \App\Models\PencatatanAwal::STATUS_BALITA)
+                                                        <span class="badge bg-success">Aktif</span>
+                                                    @elseif($data->status_balita == \App\Models\PencatatanAwal::STATUS_LULUS)
+                                                        <span class="badge bg-secondary">Lulus</span>
+                                                    @else
+                                                        <span class="badge bg-warning">Tidak Diketahui</span>
+                                                    @endif
                                                 </td>
                                                 <td class="text-center">
                                                     <a href="{{ route('pencatatan.balita.show', $data->id) }}"

@@ -54,10 +54,10 @@
                                 placeholder="0" min="0" step=any>
                         </div>
                         <div class="col-6" style="margin-top: 8px;">
-                            <label for="kolesterol" class="form-label" style="font-size: 14px; margin-bottom: 2px;">
+                            <label for="kolestrol" class="form-label" style="font-size: 14px; margin-bottom: 2px;">
                                 Kolesterol (mg/dL)
                             </label>
-                            <input type="number" class="form-control form-control-sm" id="kolesterol" name="kolesterol"
+                            <input type="number" class="form-control form-control-sm" id="kolestrol" name="kolestrol"
                                 placeholder="0" min="0" step=any>
                         </div>
                         <div class="col-6" style="margin-top: 8px;">
@@ -66,7 +66,7 @@
                                 Tekanan Darah (Sistolik)
                             </label>
                             <input type="number" class="form-control form-control-sm" id="tekanan_darah_sistolik"
-                                name="tekanan_darah_sistolik" placeholder="0" min="0" step=any>
+                                name="tekanan_darah_sistolik" placeholder="0" step=any>
                         </div>
                         <div class="col-6" style="margin-top: 8px;">
                             <label for="tekanan_darah_diastolik" class="form-label"
@@ -74,14 +74,14 @@
                                 Tekanan Darah (Diastolik)
                             </label>
                             <input type="number" class="form-control form-control-sm" id="tekanan_darah_diastolik"
-                                name="tekanan_darah_diastolik" placeholder="0" min="0" step=any>
+                                name="tekanan_darah_diastolik" placeholder="0" step=any>
                         </div>
                         <div class="col-6" style="margin-top: 8px;">
                             <label for="tes_mata_kanan" class="form-label"
                                 style="font-size: 14px; margin-bottom: 2px;">
                                 Tes Hitung Jari (Mata Kanan)
                             </label>
-                            <select class="form-select form-select-sm" id="tes_mata_kanan">
+                            <select class="form-select form-select-sm" id="tes_mata_kanan" name="tes_mata_kanan">
                                 <option selected disabled>Pilih Jawaban</option>
                                 <option value="1">Normal (N)</option>
                                 <option value="2">Tidak Normal (TN)</option>
@@ -92,7 +92,7 @@
                                 style="font-size: 14px; margin-bottom: 2px;">
                                 Tes Hitung Jari (Mata Kiri)
                             </label>
-                            <select class="form-select form-select-sm" id="tes_mata_kiri">
+                            <select class="form-select form-select-sm" id="tes_mata_kiri" name="tes_mata_kiri">
                                 <option selected disabled>Pilih Jawaban</option>
                                 <option value="1">Normal (N)</option>
                                 <option value="2">Tidak Normal (TN)</option>
@@ -103,7 +103,7 @@
                                 style="font-size: 14px; margin-bottom: 2px;">
                                 Tes Berbisik (Telinga Kanan)
                             </label>
-                            <select class="form-select form-select-sm" id="tes_telinga_kanan">
+                            <select class="form-select form-select-sm" id="tes_telinga_kanan" name="tes_telinga_kanan">
                                 <option selected disabled>Pilih Jawaban</option>
                                 <option value="1">Normal (N)</option>
                                 <option value="2">Tidak Normal (TN)</option>
@@ -114,7 +114,7 @@
                                 style="font-size: 14px; margin-bottom: 2px;">
                                 Tes Berbisik (Telinga Kiri)
                             </label>
-                            <select class="form-select form-select-sm" id="tes_telinga_kiri">
+                            <select class="form-select form-select-sm" id="tes_telinga_kiri" name="tes_telinga_kiri">
                                 <option selected disabled>Pilih Jawaban</option>
                                 <option value="1">Normal (N)</option>
                                 <option value="2">Tidak Normal (TN)</option>

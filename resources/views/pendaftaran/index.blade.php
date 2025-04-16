@@ -35,15 +35,15 @@
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6 col-12">
-                        <div class="small-box text-dark" style="background-color: #ffdeed; border-radius: 2px;">
+                        <div class="small-box text-dark" style="background-color: white; border: 1px solid #FF69B4; border-radius: 2px;">
                             <div class="inner">
                                 <h3>{{ $totalIbuHamil }}</h3>
-                                <p>Total Ibu Hamil, Menyusui, dan Nifas</p>
+                                <p>Total Ibu Hamil</p>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6 col-12">
-                        <div class="small-box text-dark" style="background-color: #ffdeed; border-radius: 2px;">
+                        <div class="small-box text-dark" style="background-color: white; border: 1px solid #FF69B4; border-radius: 2px;">
                             <div class="inner">
                                 <h3>{{ $totalBayiBalita }}</h3>
                                 <p>Total Bayi, Balita, dan APRAS</p>
@@ -51,14 +51,14 @@
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6 col-12">
-                        <div class="small-box text-dark" style="background-color: #ffdeed; border-radius: 2px;">
+                        <div class="small-box text-dark" style="background-color: white; border: 1px solid #FF69B4; border-radius: 2px;">
                             <div class="inner">
                                 <h3>{{ $totalUsiaSuburLansia }}</h3>
                                 <p>Total Usia Subur atau Lansia</p>
                             </div>
                         </div>
-                    </div>
-                </div>                
+                    </div>                    
+                </div>
 
                 <div class="row">
                     <div class="col-md-12">
@@ -131,12 +131,39 @@
                                     @endforelse
                                 </tbody>
                             </table>
-
-                            <div class="card-footer clearfix" style="background-color: white">
+                            {{-- <div class="card-footer clearfix" style="background-color: white">
                                 {{ $pendaftaran->links('pagination::bootstrap-4') }}
-                            </div>
+                            </div> --}}
+                        </div>
+
+                        <!-- /.card-body -->
+                        <div class="card-footer clearfix" style="background-color: white">
+                            <ul class="pagination pagination-sm m-0 float-end">
+                                @if ($pendaftaran->onFirstPage())
+                                    <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+                                @else
+                                    <li class="page-item"><a class="page-link"
+                                            style="background-color: #FF69B4; color: white; border: none;"
+                                            href="{{ $pendaftaran->previousPageUrl() }}">&laquo;</a></li>
+                                @endif
+                                @for ($i = 1; $i <= $pendaftaran->lastPage(); $i++)
+                                    <li class="page-item {{ $pendaftaran->currentPage() == $i ? 'active' : '' }}">
+                                        <a class="page-link"
+                                            style="background-color: {{ $pendaftaran->currentPage() == $i ? '#FF69B4' : 'white' }}; color: {{ $pendaftaran->currentPage() == $i ? 'white' : '#FF69B4' }}; border: none;"
+                                            href="{{ $pendaftaran->url($i) }}">{{ $i }}</a>
+                                    </li>
+                                @endfor
+                                @if ($pendaftaran->hasMorePages())
+                                    <li class="page-item"><a class="page-link"
+                                            style="background-color: #FF69B4; color: white; border: none;"
+                                            href="{{ $pendaftaran->nextPageUrl() }}">&raquo;</a></li>
+                                @else
+                                    <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+                                @endif
+                            </ul>
                         </div>
                     </div>
+                    <!-- /.card -->
                 </div>
             </div>
         </div>

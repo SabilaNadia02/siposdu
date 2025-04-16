@@ -14,12 +14,15 @@ class PemberianImunisasi extends Model
         'keterangan',
     ];
 
+    protected $dates = ['waktu_pemberian'];
+
     public function pendaftaran(): BelongsTo
     {
-        return $this->belongsTo(Pendaftaran::class);
+        return $this->belongsTo(Pendaftaran::class, 'no_pendaftaran');
     }
+
     public function imunisasi(): BelongsTo
     {
-        return $this->belongsTo(DataImunisasi::class);
+        return $this->belongsTo(DataImunisasi::class, 'id_imunisasi');
     }
 }

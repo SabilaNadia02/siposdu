@@ -12,8 +12,8 @@ class DataObatController extends Controller
      */
     public function index()
     {
-        $dataobat = DataObat::paginate(10);
-        return view('data_master.obat.index', compact('dataobat'));
+        $dataObat = DataObat::paginate(10);
+        return view('data_master.obat.index', compact('dataObat'));
     }
 
     /**
@@ -50,34 +50,35 @@ class DataObatController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)
+    public function edit(DataObat $obat)
     {
-        $dataObat = DataObat::findOrFail($id);
-        return view('data_master.obat.edit', compact('dataObat'));
+        return view('data_master.obat.edit', compact('obat'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, DataObat $obat)
     {
-        $request->validate([
+        $validated = $request->validate([
             'nama' => 'required|string|max:255',
             'keterangan' => 'nullable|string',
         ]);
 
-        $dataObat = DataObat::findOrFail($id);
-        $dataObat->update($request->all());
-        return redirect()->route('data-master.obat.index')->with('success', 'Data obat berhasil diperbarui.');
+        $obat->update($validated);
+
+        return redirect()->route('data-master.obat.index')
+            ->with('success', 'Data obat berhasil diperbarui.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(DataObat $obat)
     {
-        $dataObat = DataObat::findOrFail($id);
-        $dataObat->delete();
-        return redirect()->route('data-master.obat.index')->with('success', 'Data obat berhasil dihapus.');
+        $obat->delete();
+
+        return redirect()->route('data-master.obat.index')
+            ->with('success', 'Data obat berhasil dihapus.');
     }
 }

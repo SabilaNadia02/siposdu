@@ -1,6 +1,6 @@
 <!-- Modal -->
 <div class="modal fade" id="tambahVaksinModal" tabindex="-1" aria-labelledby="tambahVaksinLabel" aria-hidden="true">
-    <div class="modal-dialog" style="position: absolute; right: 30%; top: 30%; transform: translateY(-50%);">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content" style="font-size: 14px; padding: 10px;">
             <div class="modal-body">
                 <button type="button" class="btn-close position-absolute top-0 end-0 m-2" data-bs-dismiss="modal"
@@ -11,7 +11,8 @@
                     @csrf
                     <div class="row g-3">
                         <div class="col-md-12">
-                            <label for="nama" class="form-label">Nama Vaksin</label>
+                            <label for="nama" class="form-label">Nama Vaksin <span
+                                class="text-danger">*</span></label>
                             <input type="text" class="form-control form-control-sm" id="nama" name="nama"
                                 placeholder="Masukkan Nama Vaksin">
                         </div>

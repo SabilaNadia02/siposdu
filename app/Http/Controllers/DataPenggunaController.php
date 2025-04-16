@@ -12,7 +12,7 @@ class DataPenggunaController extends Controller
      */
     public function index()
     {
-        $penggunas = DataPengguna::all();
+        $penggunas = DataPengguna::paginate(10);
         return view('data_master.pengguna.index', compact('penggunas'));
     }
 
@@ -31,13 +31,13 @@ class DataPenggunaController extends Controller
     {
         $request->validate([
             'nama' => 'required|string|max:255',
-            'email' => 'required|email|unique:data_penggunas,email',
+            'email' => 'required|email',
             'peran' => 'required|in:1,2,3',
         ]);
 
         DataPengguna::create($request->all());
 
-        return redirect()->route('pengguna.index')->with('success', 'Data pengguna berhasil ditambahkan.');
+        return redirect()->route('data-master.pengguna.index')->with('success', 'Data pengguna berhasil ditambahkan.');
     }
 
     /**
@@ -52,38 +52,37 @@ class DataPenggunaController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)
+    public function edit(DataPengguna $pengguna)
     {
-        $pengguna = DataPengguna::findOrFail($id);
         return view('data_master.pengguna.edit', compact('pengguna'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
-    {
-        $pengguna = DataPengguna::findOrFail($id);
 
-        $request->validate([
+    public function update(Request $request, DataPengguna $pengguna)
+    {
+        $validated = $request->validate([
             'nama' => 'required|string|max:255',
-            'email' => 'required|email|unique:data_penggunas,email,' . $pengguna->id,
+            'email' => 'required|email',
             'peran' => 'required|in:1,2,3',
         ]);
 
-        $pengguna->update($request->all());
+        $pengguna->update($validated);
 
-        return redirect()->route('pengguna.index')->with('success', 'Data pengguna berhasil diperbarui.');
+        return redirect()->route('data-master.pengguna.index')
+            ->with('success', 'Data pengguna berhasil diperbarui.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(DataPengguna $pengguna)
     {
-        $pengguna = DataPengguna::findOrFail($id);
         $pengguna->delete();
 
-        return redirect()->route('pengguna.index')->with('success', 'Data pengguna berhasil dihapus.');
+        return redirect()->route('data-master.pengguna.index')
+            ->with('success', 'Data pengguna berhasil dihapus.');
     }
 }

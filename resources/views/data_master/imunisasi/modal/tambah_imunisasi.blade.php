@@ -1,6 +1,6 @@
 <!-- Modal -->
 <div class="modal fade" id="tambahImunisasiModal" tabindex="-1" aria-labelledby="tambahImunisasiLabel" aria-hidden="true">
-    <div class="modal-dialog" style="position: absolute; right: 30%; top: 35%; transform: translateY(-50%);">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content" style="font-size: 14px; padding: 10px;">
             <div class="modal-body">
                 <button type="button" class="btn-close position-absolute top-0 end-0 m-2" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -12,7 +12,8 @@
                     @csrf
                     <div class="row g-3">
                         <div class="col-md-12">
-                            <label for="nama" class="form-label">Nama Imunisasi</label>
+                            <label for="nama" class="form-label">Nama Imunisasi <span
+                                class="text-danger">*</span></label>
                             <input type="text" class="form-control form-control-sm" id="nama" name="nama" placeholder="Masukkan Nama" required>
                         </div>
                         <div class="col-md-12">
@@ -20,11 +21,13 @@
                             <textarea class="form-control form-control-sm" id="keterangan" name="keterangan" rows="3" placeholder="Masukkan Keterangan"></textarea>
                         </div>
                         <div class="col-md-6">
-                            <label for="dari_umur" class="form-label">Dari Umur (bulan)</label>
+                            <label for="dari_umur" class="form-label">Dari Umur (bulan) <span
+                                class="text-danger">*</span></label>
                             <input type="number" class="form-control form-control-sm" id="dari_umur" name="dari_umur" placeholder="0" min="0" required>
                         </div>
                         <div class="col-md-6">
-                            <label for="sampai_umur" class="form-label">Sampai Umur (bulan)</label>
+                            <label for="sampai_umur" class="form-label">Sampai Umur (bulan) <span
+                                class="text-danger">*</span></label>
                             <input type="number" class="form-control form-control-sm" id="sampai_umur" name="sampai_umur" placeholder="0" min="0" required>
                         </div>
                     </div>
@@ -33,7 +36,6 @@
                     </div>
                 </form>
                 <!-- End Form -->
-
             </div>
         </div>
     </div>

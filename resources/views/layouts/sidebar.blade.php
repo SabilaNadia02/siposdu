@@ -1,11 +1,11 @@
 <!--begin::Sidebar-->
 <aside class="app-sidebar bg-white shadow" data-bs-theme="light">
     <!--begin::Sidebar Brand-->
-    <div class="sidebar-brand p-3">
+    <div class="sidebar-brand">
         <a href="./index.html" class="brand-link d-flex align-items-center text-dark text-decoration-none">
             {{-- <img src="{{ asset('adminlte') }}/dist/assets/img/AdminLTELogo.png" alt="AdminLTE Logo"
                 class="brand-image opacity-75 shadow me-2" /> --}}
-            <span class="brand-text fw-bold">SIPOSDU ILP</span>
+            <span class="brand-text fw-bold">POSYANDU ILP</span>
         </a>
     </div>
     <!--end::Sidebar Brand-->

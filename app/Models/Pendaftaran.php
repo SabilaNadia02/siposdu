@@ -10,7 +10,26 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Pendaftaran extends Model
 {
     use HasFactory;
+    
+    const PEKERJAAN_TIDAK_BEKERJA = 1;
+    const PEKERJAAN_PNS = 2;
+    const PEKERJAAN_TNI_POLRI = 3;
+    const PEKERJAAN_SWASTA = 4;
+    const PEKERJAAN_WIRAUSAHA = 5;
+    const PEKERJAAN_PETANI = 6;
+    const PEKERJAAN_LAINNYA = 7;
 
+    public static $pekerjaanOptions = [
+        self::PEKERJAAN_TIDAK_BEKERJA => 'Tidak Bekerja',
+        self::PEKERJAAN_PNS => 'PNS',
+        self::PEKERJAAN_TNI_POLRI => 'TNI/Polri',
+        self::PEKERJAAN_SWASTA => 'Swasta',
+        self::PEKERJAAN_WIRAUSAHA => 'Wirausaha',
+        self::PEKERJAAN_PETANI => 'Petani',
+        self::PEKERJAAN_LAINNYA => 'Lainnya',
+    ];
+
+    protected $table = 'pendaftarans';
     protected $fillable = [
         'nik',
         'nama',
@@ -26,6 +45,11 @@ class Pendaftaran extends Model
         'jenis_sasaran',
         'data_posyandu_id',
     ];
+
+    public function getPekerjaanTextAttribute()
+    {
+        return self::$pekerjaanOptions[$this->pekerjaan] ?? 'Tidak Diketahui';
+    }
 
     public function PencatatanAwal(): HasMany
     {

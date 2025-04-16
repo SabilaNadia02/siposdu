@@ -1,7 +1,7 @@
 <!--begin::Footer-->
 <footer class="app-footer">
     <!--begin::To the end-->
-    <strong><div class="float-end d-none d-sm-inline" style="color: #FF69B4;">SIPOSDU-ILP Jambean</div></strong>
+    <strong><div class="float-end d-none d-sm-inline" style="color: #FF69B4;">Sistem Informasi Pengelolaan Posyandu ILP - Desa Jambean, Kabupaten Kediri</div></strong>
     <!--end::To the end-->
     <!--begin::Copyright-->
     <strong>

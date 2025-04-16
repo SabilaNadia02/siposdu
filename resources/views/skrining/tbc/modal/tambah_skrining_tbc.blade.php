@@ -1,7 +1,7 @@
 <!-- Modal -->
 <div class="modal fade" id="tambahSkringTBCModal" tabindex="-1" aria-labelledby="tambahSkringTBCModalLabel"
     aria-hidden="true">
-    <div class="modal-dialog" style="position: absolute; right: 30%; top: 45%; transform: translateY(-50%);">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content" style="font-size: 14px; padding: 10px;">
             <div class="modal-body">
                 <button type="button" class="btn-close position-absolute top-0 end-0 m-2" data-bs-dismiss="modal"
@@ -12,6 +12,15 @@
                 <form action="{{ route('skrining.tbc.store') }}" method="POST">
                     @csrf
                     <div class="row g-3">
+                        <div class="col-12">
+                            <label for="waktu_skrining" class="form-label" style="font-size: 14px; margin-bottom: 2px;">
+                                Waktu Skrining
+                            </label>
+                            <input type="date" class="form-control form-control-sm" id="waktu_skrining"
+                                name="waktu_skrining" required>
+                        </div>
+
+                        <!-- Peserta -->
                         <div class="col-md-12">
                             <label for="no_pendaftaran" class="form-label">Nama Peserta Posyandu</label>
                             <select class="form-select form-select-sm" id="no_pendaftaran" name="no_pendaftaran"
@@ -22,14 +31,10 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-12">
-                            <label for="waktu_skrining" class="form-label" style="font-size: 14px; margin-bottom: 2px;">
-                                Waktu Skrining
-                            </label>
-                            <input type="date" class="form-control form-control-sm" id="waktu_skrining"
-                                name="waktu_skrining" required>
-                        </div>
+
+                        <!-- Pertanyaan -->
                         <h6 style="margin-top: 20px; margin-bottom: 4px;">Pertanyaan Skrining TBC</h6>
+
                         <div class="col-12" style="margin-top: 8px;">
                             <label for="skrining1" class="form-label" style="font-size: 14px; margin-bottom: 2px;">
                                 Batuk terus menerus?
@@ -71,6 +76,7 @@
                             </select>
                         </div>
                     </div>
+
                     <div class="mt-3 d-grid">
                         <button type="submit" class="btn btn-sm text-light"
                             style="background-color: #FF69B4;">SIMPAN</button>
@@ -80,3 +86,12 @@
         </div>
     </div>
 </div>
+
+<!-- Set Today Script -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const inputTanggal = document.getElementById('waktu_skrining');
+        const today = new Date().toISOString().split('T')[0];
+        inputTanggal.value = today;
+    });
+</script>

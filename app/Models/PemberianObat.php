@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class PemberianObat extends Model
 {
+    protected $table = 'pemberian_obats';
     protected $fillable = [
         'no_pendaftaran',
         'id_obat',
@@ -15,12 +16,17 @@ class PemberianObat extends Model
         'keterangan',
     ];
 
+    protected $casts = [
+        'waktu_pemberian' => 'datetime',
+    ];    
+
     public function pendaftaran(): BelongsTo
     {
-        return $this->belongsTo(Pendaftaran::class);
+        return $this->belongsTo(Pendaftaran::class, 'no_pendaftaran');
     }
+
     public function obat(): BelongsTo
     {
-        return $this->belongsTo(DataObat::class);
+        return $this->belongsTo(DataObat::class, 'id_obat');
     }
 }

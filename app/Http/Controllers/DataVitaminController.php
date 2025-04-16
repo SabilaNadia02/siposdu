@@ -50,34 +50,35 @@ class DataVitaminController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)
+    public function edit(DataVitamin $vitamin)
     {
-        $dataVitamin = DataVitamin::findOrFail($id);
-        return view('data_master.vitamin.edit', compact('dataVitamin'));
+        return view('data_master.vitamin.edit', compact('vitamin'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, DataVitamin $vitamin)
     {
-        $request->validate([
+        $validated = $request->validate([
             'nama' => 'required|string|max:255',
             'keterangan' => 'nullable|string',
         ]);
 
-        $dataVitamin = DataVitamin::findOrFail($id);
-        $dataVitamin->update($request->all());
-        return redirect()->route('data-master.vitamin.index')->with('success', 'Data vitamin berhasil diperbarui.');
+        $vitamin->update($validated);
+
+        return redirect()->route('data-master.vitamin.index')
+            ->with('success', 'Data vitamin berhasil diperbarui.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(DataVitamin $vitamin)
     {
-        $dataVitamin = DataVitamin::findOrFail($id);
-        $dataVitamin->delete();
-        return redirect()->route('data-master.vitamin.index')->with('success', 'Data vitamin berhasil dihapus.');
+        $vitamin->delete();
+
+        return redirect()->route('data-master.vitamin.index')
+            ->with('success', 'Data vitamin berhasil dihapus.');
     }
 }
