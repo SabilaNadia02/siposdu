@@ -34,6 +34,17 @@
                     <div class="col-md-8" style="border-radius: 0px">
                         <div class="card" style="border-top: 3px solid #FF69B4; border-radius: 0px">
                             <div class="card-body" style="border-radius: 0px">
+
+                                @if ($errors->any())
+                                    <div class="alert alert-danger">
+                                        <ul>
+                                            @foreach ($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
+
                                 <form action="{{ route('pendaftaran.update', $pendaftaran->id) }}" method="POST">
                                     @csrf
                                     @method('PUT')

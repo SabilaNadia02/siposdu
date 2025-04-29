@@ -48,27 +48,32 @@
                                     @csrf
 
                                     <div class="mb-3">
-                                        <label for="waktu_pemberian" class="form-label">Tanggal Pemberian <span class="text-danger">*</span></label>
+                                        <label for="waktu_pemberian" class="form-label">Tanggal Pemberian</label>
                                         <input type="date" class="form-control" id="waktu_pemberian"
                                             name="waktu_pemberian" value="{{ date('Y-m-d') }}" required>
                                     </div>
 
                                     <div class="mb-3">
-                                        <label for="no_pendaftaran" class="form-label">Pilih Peserta <span class="text-danger">*</span></label>
+                                        <label for="no_pendaftaran" class="form-label">Pilih Peserta</label>
                                         <select class="form-select" id="no_pendaftaran" name="no_pendaftaran" required>
                                             <option value="" selected disabled>-- Pilih Peserta --</option>
                                             @foreach ($pendaftaran as $item)
+                                                @php
+                                                    $usiaBulan = (int) Carbon::parse(
+                                                        $item->tanggal_lahir,
+                                                    )->diffInMonths(now());
+                                                @endphp
                                                 <option value="{{ $item->id }}"
-                                                    data-tanggal-lahir="{{ $item->tanggal_lahir }}">
-                                                    {{ $item->nama }}
+                                                    data-tanggal-lahir="{{ $item->tanggal_lahir }}"
+                                                    data-usia="{{ $usiaBulan }}">
+                                                    {{ $item->nama }} ({{ $usiaBulan }} bulan)
                                                 </option>
                                             @endforeach
                                         </select>
-                                        <small id="usiaDisplay" class="text-muted">Usia: -</small>
                                     </div>
 
                                     <div class="mb-3">
-                                        <label for="id_imunisasi" class="form-label">Jenis Imunisasi <span class="text-danger">*</span></label>
+                                        <label for="id_imunisasi" class="form-label">Jenis Imunisasi</label>
                                         <select class="form-select" id="id_imunisasi" name="id_imunisasi" required>
                                             <option value="" selected disabled>-- Pilih peserta terlebih dahulu --
                                             </option>
@@ -79,7 +84,7 @@
                                     </div>
 
                                     <div class="mb-3">
-                                        <label for="keterangan" class="form-label">Keterangan <span>(optional)</span></label>
+                                        <label for="keterangan" class="form-label">Keterangan</label>
                                         <textarea class="form-control" id="keterangan" name="keterangan" rows="2"></textarea>
                                     </div>
                                 </form>
@@ -96,33 +101,6 @@
     <script>
         $(document).ready(function() {
             console.log("Document ready - Imunisasi Form");
-
-            // Fungsi untuk menghitung usia dalam bulan
-            function calculateAgeInMonths(birthDate, referenceDate) {
-                const birth = new Date(birthDate);
-                const ref = new Date(referenceDate);
-                let months = (ref.getFullYear() - birth.getFullYear()) * 12;
-                months += ref.getMonth() - birth.getMonth();
-                // Adjust for day of month
-                if (ref.getDate() < birth.getDate()) {
-                    months--;
-                }
-                return months;
-            }
-
-            // Update tampilan usia
-            function updateAgeDisplay() {
-                const peserta = $('#no_pendaftaran').find('option:selected');
-                const tglLahir = peserta.data('tanggal-lahir');
-                const tglPemberian = $('#waktu_pemberian').val();
-
-                if (tglLahir && tglPemberian) {
-                    const usiaBulan = calculateAgeInMonths(tglLahir, tglPemberian);
-                    $('#usiaDisplay').text(`Usia: ${usiaBulan} bulan`);
-                } else {
-                    $('#usiaDisplay').text('Usia: -');
-                }
-            }
 
             // Load imunisasi options based on selected participant and date
             function loadImunisasiOptions(tglLahir, tglPemberian) {
@@ -189,11 +167,11 @@
             function showAlert(type, message) {
                 $('.alert').remove();
                 const alertHtml = `
-                    <div class="alert alert-${type} alert-dismissible fade show" role="alert">
-                        ${message}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                `;
+            <div class="alert alert-${type} alert-dismissible fade show" role="alert">
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        `;
                 $('.app-content').prepend(alertHtml);
                 setTimeout(() => $('.alert').alert('close'), 5000);
             }
@@ -201,7 +179,6 @@
             // Handle participant and date change
             $('#no_pendaftaran, #waktu_pemberian').on('change', function() {
                 console.log("Selection changed - updating imunisasi options");
-                updateAgeDisplay();
 
                 const peserta = $('#no_pendaftaran').find('option:selected');
                 const tglLahir = peserta.data('tanggal-lahir');
@@ -259,9 +236,78 @@
             console.log("Initializing form state");
             $('#id_imunisasi').html(
                 '<option value="" selected disabled>-- Pilih peserta terlebih dahulu --</option>');
-            
-            // Update age display on page load if values exist
-            updateAgeDisplay();
         });
     </script>
 @endsection
+
+{{-- Testing --}}
+{{-- <script>
+        $(document).ready(function() {
+            // Enable DB query logging
+            $.ajax({
+                url: '/enable-query-log',
+                method: 'GET'
+            });
+
+            function updateImunisasiOptions() {
+                const selectedPeserta = $('#no_pendaftaran option:selected');
+                const tglLahir = selectedPeserta.data('tanggal-lahir');
+                const tglPemberian = $('#waktu_pemberian').val();
+
+                console.log('Debug - Tanggal Lahir:', tglLahir);
+                console.log('Debug - Tanggal Pemberian:', tglPemberian);
+
+                if (!tglLahir || !tglPemberian || selectedPeserta.val() === '') {
+                    $('#id_imunisasi').html(
+                        '<option value="" selected disabled>-- Pilih peserta dan tanggal dulu --</option>');
+                    return;
+                }
+
+                $('#imunisasiLoading').show();
+                $('#id_imunisasi').prop('disabled', false);
+
+                $.ajax({
+                    url: '{{ route('pemberian.imunisasi.get-imunisasi-by-usia') }}',
+                    method: 'GET',
+                    data: {
+                        tanggal_lahir: tglLahir,
+                        waktu_pemberian: tglPemberian,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        console.log('Debug - Response dari Server:', response);
+
+                        let options =
+                            '<option value="" selected disabled>-- Pilih Imunisasi --</option>';
+
+                        if (response && response.length > 0) {
+                            response.forEach(function(imunisasi) {
+                                options +=
+                                    `<option value="${imunisasi.id}">${imunisasi.nama} (${imunisasi.dari_umur}-${imunisasi.sampai_umur} bln)</option>`;
+                            });
+                        } else {
+                            options =
+                                '<option value="" selected disabled>-- Tidak ada imunisasi untuk usia ini --</option>';
+                            console.warn('Debug - Tidak ada imunisasi yang sesuai');
+                        }
+
+                        $('#id_imunisasi').html(options).prop('disabled', false);
+                    },
+                    error: function(xhr) {
+                        console.error('Debug - Error:', xhr.responseText);
+                        $('#id_imunisasi').html(
+                            '<option value="" selected disabled>-- Gagal memuat data --</option>');
+                    },
+                    complete: function() {
+                        $('#imunisasiLoading').hide();
+                    }
+                });
+            }
+
+            // Inisialisasi
+            $('#id_imunisasi').prop('disabled', false)
+                .html('<option value="" selected disabled>-- Pilih peserta dan tanggal dulu --</option>');
+
+            $('#no_pendaftaran, #waktu_pemberian').on('change', updateImunisasiOptions);
+        });
+    </script> --}}

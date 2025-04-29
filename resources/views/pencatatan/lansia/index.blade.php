@@ -75,15 +75,17 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($pencatatanAwal as $index => $data)
+                                        @forelse ($pencatatanAwal as $index => $data)
                                             <tr class="align-middle">
                                                 <td>{{ str_pad($data->pendaftaran->id, 4, '0', STR_PAD_LEFT) }}</td>
                                                 <td>{{ $data->pendaftaran->nama }}</td>
-                                                <td>{{ $data->pendaftaran->jenis_kelamin == '1' ? 'Laki-Laki' : 'Perempuan' }}</td>
-                                                <td>{{ \Carbon\Carbon::parse($data->pendaftaran->tanggal_lahir)->age }} Tahun</td>
+                                                <td>{{ $data->pendaftaran->jenis_kelamin == '1' ? 'Laki-Laki' : 'Perempuan' }}
+                                                </td>
+                                                <td>{{ \Carbon\Carbon::parse($data->pendaftaran->tanggal_lahir)->age }}
+                                                    Tahun</td>
                                                 <td class="text-center">
-                                                    <a href="{{ route('pencatatan.lansia.show', $data->id) }}" class="btn"
-                                                        title="Tambah Pencatatan"
+                                                    <a href="{{ route('pencatatan.lansia.show', $data->id) }}"
+                                                        class="btn" title="Tambah Pencatatan"
                                                         style="background-color: #FF8F00; color: white; width: 20px; height: 20px; font-size: 10px; padding: 1px; border-radius: 2px;">
                                                         <i class="fas fa-plus"></i>
                                                     </a>
@@ -94,7 +96,13 @@
                                                     </a>
                                                 </td>
                                             </tr>
-                                        @endforeach
+                                        @empty
+                                            <tr>
+                                                <td colspan="6" class="text-center text-muted">Tidak ada data pencatatan
+                                                    lansia.
+                                                </td>
+                                            </tr>
+                                        @endforelse
                                     </tbody>
                                 </table>
                             </div>

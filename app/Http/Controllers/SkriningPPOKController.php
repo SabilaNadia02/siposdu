@@ -149,7 +149,7 @@ class SkriningPPOKController extends Controller
             }
 
             DB::commit();
-            return redirect()->route('skrining.ppok.index')->with('success', 'Data berhasil disimpan!');
+            return redirect()->route('skrining.ppok.index')->with('success', 'Data skrining PPOK berhasil disimpan!');
 
         } catch (\Exception $e) {
             DB::rollBack();
@@ -283,6 +283,6 @@ class SkriningPPOKController extends Controller
         $pencatatanSkrining = PencatatanSkrining::findOrFail($id);
         $pencatatanSkrining->delete();
 
-        return redirect()->route('skrining.ppok.index')->with('success', 'Data skrining PPOK berhasil dihapus.');
+        return redirect()->route('skrining.ppok.index')->with('success', 'Data skrining PPOK berhasil dihapus!');
     }
 }

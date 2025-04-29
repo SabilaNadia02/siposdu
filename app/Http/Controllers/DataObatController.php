@@ -29,13 +29,19 @@ class DataObatController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'nama' => 'required|string|max:255',
             'keterangan' => 'nullable|string',
         ]);
 
-        DataObat::create($request->all());
-        return redirect()->route('data-master.obat.index')->with('success', 'Data obat berhasil ditambahkan.');
+        if (!empty($validated['keterangan'])) {
+            $validated['keterangan'] = ucfirst(strtolower($validated['keterangan']));
+        }
+
+        DataObat::create($validated);
+
+        return redirect()->route('data-master.obat.index')
+            ->with('success', 'Data obat berhasil ditambahkan.');
     }
 
     /**
@@ -64,6 +70,10 @@ class DataObatController extends Controller
             'nama' => 'required|string|max:255',
             'keterangan' => 'nullable|string',
         ]);
+
+        if (!empty($validated['keterangan'])) {
+            $validated['keterangan'] = ucfirst(strtolower($validated['keterangan']));
+        }
 
         $obat->update($validated);
 

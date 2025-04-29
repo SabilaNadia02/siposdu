@@ -47,7 +47,8 @@
 
                                 <div class="col-md-6">
                                     <label class="form-label">
-                                        Nama Peserta
+                                        Nama Peserta <span
+                                        class="text-danger">*</span>
                                     </label>
                                     <input type="text" class="form-control form-control-sm"
                                         value="{{ $pencatatanSkrining->pendaftaran->nama }}" readonly>
@@ -57,7 +58,8 @@
 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Jenis Kelamin</label>
+                                        <label>Jenis Kelamin <span
+                                            class="text-danger">*</span></label>
                                         <div class="input-group">
                                             <input type="text" class="form-control form-control-sm"
                                                 value="{{ $pencatatanSkrining->pendaftaran->jenis_kelamin == 1 ? 'Laki-Laki' : 'Perempuan' }}"
@@ -73,7 +75,8 @@
 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Usia</label>
+                                        <label>Usia <span
+                                            class="text-danger">*</span></label>
                                         <div class="input-group">
                                             @php
                                                 // Pastikan ada data pendaftaran dan tanggal lahir
@@ -137,7 +140,8 @@
                                 <div class="col-md-12">
                                     <label for="pertanyaan_7" class="form-label">
                                         Merokok? <small class="text-muted">(Skor: Tidak=0, <20 bungkus/tahun=0, 20-30=1,
-                                                ≥30=2)</small>
+                                                ≥30=2)</small><span
+                                                class="text-danger">*</span>
                                     </label>
                                     <select class="form-select form-select-sm" id="pertanyaan_7" name="pertanyaan[7]"
                                         required>
@@ -161,7 +165,8 @@
                                 <div class="col-md-12">
                                     <label for="pertanyaan_8" class="form-label">
                                         Pernah merasa nafas pendek ketika berjalan cepat? <small class="text-muted">(Skor:
-                                            Ya=1, Tidak=0)</small>
+                                            Ya=1, Tidak=0)</small><span
+                                            class="text-danger">*</span>
                                     </label>
                                     <select class="form-select form-select-sm" id="pertanyaan_8" name="pertanyaan[8]"
                                         required>
@@ -179,7 +184,8 @@
                                 <div class="col-12">
                                     <label for="pertanyaan_9" class="form-label">
                                         Punya dahak dari paru saat tidak flu? <small class="text-muted">(Skor: Ya=1,
-                                            Tidak=0)</small>
+                                            Tidak=0)</small><span
+                                            class="text-danger">*</span>
                                     </label>
                                     <select class="form-select form-select-sm" id="pertanyaan_9" name="pertanyaan[9]"
                                         required>
@@ -197,7 +203,8 @@
                                 <div class="col-12">
                                     <label for="pertanyaan_10" class="form-label">
                                         Biasanya batuk saat tidak flu? <small class="text-muted">(Skor: Ya=1,
-                                            Tidak=0)</small>
+                                            Tidak=0)</small><span
+                                            class="text-danger">*</span>
                                     </label>
                                     <select class="form-select form-select-sm" id="pertanyaan_10" name="pertanyaan[10]"
                                         required>
@@ -215,7 +222,8 @@
                                 <div class="col-12">
                                     <label for="pertanyaan_11" class="form-label">
                                         Pernah diminta melakukan spirometri? <small class="text-muted">(Skor: Ya=1,
-                                            Tidak=0)</small>
+                                            Tidak=0)</small><span
+                                            class="text-danger">*</span>
                                     </label>
                                     <select class="form-select form-select-sm" id="pertanyaan_11" name="pertanyaan[11]"
                                         required>

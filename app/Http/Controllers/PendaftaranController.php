@@ -58,6 +58,12 @@ class PendaftaranController extends Controller
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
+        $nama = ucwords(strtolower($request->nama));
+        $tempatLahir = ucwords(strtolower($request->tempat_lahir));
+        $alamat = preg_replace_callback('/\b(rt|rw)\b/i', function ($matches) {
+            return strtoupper($matches[0]);
+        }, ucwords(strtolower($request->alamat)));
+
         // Ambil ID terakhir dan tambahkan 1
         $lastId = Pendaftaran::max('id');
         $newId = $lastId ? $lastId + 1 : 1;
@@ -65,14 +71,15 @@ class PendaftaranController extends Controller
         // Tambahkan ID baru ke data request
         $data = $request->all();
         $data['id'] = $newId;
+        $data['nama'] = $nama;
+        $data['tempat_lahir'] = $tempatLahir;
+        $data['alamat'] = $alamat;
 
         // Simpan data pendaftaran
-        $pendaftaran = Pendaftaran::create($data);
+        Pendaftaran::create($data);
 
-        return response()->json([
-            'success' => 'Pendaftaran berhasil ditambahkan',
-            'redirect' => route('pendaftaran.show', $pendaftaran->id)
-        ]);
+        // Redirect kembali ke halaman index setelah berhasil menyimpan data
+        return redirect()->route('pendaftaran.index')->with('success', 'Data pendaftaran berhasil ditambahkan.');
     }
 
     /**
@@ -123,21 +130,45 @@ class PendaftaranController extends Controller
         // Cari data berdasarkan ID
         $pendaftaran = Pendaftaran::findOrFail($id);
 
-        // Update data
-        $pendaftaran->update($request->all());
+        // Proses nama, tempat lahir, dan alamat
+        $nama = ucwords(strtolower($request->nama)); // Setiap kata pertama besar
+        $tempatLahir = ucwords(strtolower($request->tempat_lahir)); // Setiap kata pertama besar
+        $alamat = preg_replace_callback('/\b(rt|rw)\b/i', function ($matches) {
+            return strtoupper($matches[0]); // Ubah "rt" dan "rw" menjadi huruf besar
+        }, ucwords(strtolower($request->alamat))); // Setiap kata pertama besar, kecuali "rt" dan "rw"
 
-        // Redirect kembali dengan pesan sukses
-        return redirect()->route('pendaftaran.show', $pendaftaran->id)->with('success', 'Data berhasil diperbarui!');
+        // Update data
+        $pendaftaran->update([
+            'nama' => $nama,
+            'tempat_lahir' => $tempatLahir,
+            'alamat' => $alamat,
+            'nik' => $request->nik,
+            'jenis_kelamin' => $request->jenis_kelamin,
+            'status_perkawinan' => $request->status_perkawinan,
+            'tanggal_lahir' => $request->tanggal_lahir,
+            'pendidikan' => $request->pendidikan,
+            'pekerjaan' => $request->pekerjaan,
+            'no_hp' => $request->no_hp,
+            'no_jkn' => $request->no_jkn,
+            'jenis_sasaran' => $request->jenis_sasaran,
+            'data_posyandu_id' => $request->data_posyandu_id,
+        ]);
+
+        // Redirect kembali ke halaman index setelah berhasil memperbarui data
+        return redirect()->route('pendaftaran.index')->with('success', 'Data pendaftaran berhasil diperbarui!');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Pendaftaran $pendaftaran)
     {
-        $pendaftaran = Pendaftaran::findOrFail($id);
-        $pendaftaran->delete();
-
-        return response()->json(['success' => 'Data pendaftaran berhasil dihapus']);
+        try {
+            $pendaftaran->delete();
+            return redirect()->route('pendaftaran.index')
+                ->with('success', 'Data peserta berhasil dihapus!');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Gagal menghapus data: ' . $e->getMessage());
+        }
     }
 }

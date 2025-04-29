@@ -36,36 +36,11 @@
                         <p>Pencatatan</p>
                     </a>
                 </li>
-                <li class="nav-item has-treeview {{ Request::is('skrining/*') ? 'menu-open' : '' }}">
-                    <a href="#" class="nav-link {{ Request::is('skrining/*') ? 'active' : '' }}">
-                        <i class="nav-icon bi bi-shield-plus"></i>
-                        <p class="d-flex w-100 justify-content-between">
-                            Skrining
-                            <i class="bi bi-chevron-down ms-auto"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="/skrining/tbc"
-                                class="nav-link {{ Request::is('skrining/tbc') ? 'active-sub' : '' }}">
-                                <i class="nav-icon bi bi-dash"></i> <!-- Ikon seragam untuk semua submenu -->
-                                Skrining TBC
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/skrining/ppok"
-                                class="nav-link {{ Request::is('skrining/ppok') ? 'active-sub' : '' }}">
-                                <i class="nav-icon bi bi-dash"></i> <!-- Ikon seragam untuk semua submenu -->
-                                Skrining PPOK
-                            </a>
-                        </li>
-                    </ul>
-                </li>
                 <li class="nav-item has-treeview {{ Request::is('pemberian/*') ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ Request::is('pemberian/*') ? 'active' : '' }}">
                         <i class="nav-icon bi bi-capsule"></i>
                         <p class="d-flex w-100 justify-content-between">
-                            Pemberian
+                            Layanan Kesehatan
                             <i class="bi bi-chevron-down ms-auto"></i>
                         </p>
                     </a>
@@ -96,6 +71,31 @@
                                 class="nav-link {{ Request::is('pemberian/vaksin') ? 'active-sub' : '' }}">
                                 <i class="nav-icon bi bi-dash"></i> <!-- Ikon seragam untuk semua submenu -->
                                 Pemberian Vaksin
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item has-treeview {{ Request::is('skrining/*') ? 'menu-open' : '' }}">
+                    <a href="#" class="nav-link {{ Request::is('skrining/*') ? 'active' : '' }}">
+                        <i class="nav-icon bi bi-shield-plus"></i>
+                        <p class="d-flex w-100 justify-content-between">
+                            Layanan Skrining
+                            <i class="bi bi-chevron-down ms-auto"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="/skrining/tbc"
+                                class="nav-link {{ Request::is('skrining/tbc') ? 'active-sub' : '' }}">
+                                <i class="nav-icon bi bi-dash"></i> <!-- Ikon seragam untuk semua submenu -->
+                                Skrining TBC
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/skrining/ppok"
+                                class="nav-link {{ Request::is('skrining/ppok') ? 'active-sub' : '' }}">
+                                <i class="nav-icon bi bi-dash"></i> <!-- Ikon seragam untuk semua submenu -->
+                                Skrining PPOK
                             </a>
                         </li>
                     </ul>

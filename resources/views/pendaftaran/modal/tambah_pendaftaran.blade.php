@@ -8,6 +8,17 @@
                 <h5 class="modal-title fw-bold" id="tambahKunjunganBaruModalLabel" style="font-size: 18px;">Tambah
                     Pendaftaran Peserta Posyandu</h5>
                 <p class="text-muted" style="font-size: 14px;">Masukkan data peserta posyandu.</p>
+
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
                 <form action="{{ route('pendaftaran.store') }}" method="POST">
                     @csrf
                     <div class="row g-3">

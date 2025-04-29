@@ -15,14 +15,10 @@ return new class extends Migration {
         Schema::create('detail_pencatatan_skrinings', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(PencatatanSkrining::class, 'id_pencatatan_skrining')
-                ->constrained('pencatatan_skrinings')
-                ->cascadeOnDelete()
-                ->cascadeOnUpdate();
+                ->constrained('pencatatan_skrinings')->onDelete('cascade')->onUpdate('cascade');
 
             $table->foreignIdFor(PertanyaanSkrining::class, 'id_pertanyaan_skrining')
-                ->constrained('pertanyaan_skrinings')
-                ->cascadeOnDelete()
-                ->cascadeOnUpdate();
+                ->constrained('pertanyaan_skrinings')->onDelete('cascade')->onUpdate('cascade');
 
             $table->tinyInteger('hasil_skrining')->comment('1: Ya, 2: Tidak');
         });

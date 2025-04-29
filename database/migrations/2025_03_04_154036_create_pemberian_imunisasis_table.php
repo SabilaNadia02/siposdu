@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('pemberian_imunisasis', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Pendaftaran::class, 'no_pendaftaran')->nullable()->constrained('pendaftarans')->nullOnDelete()->cascadeOnUpdate();
-            $table->foreignIdFor(DataImunisasi::class, 'id_imunisasi')->nullable()->constrained('data_imunisasis')->nullOnDelete()->cascadeOnUpdate();
+            $table->foreignIdFor(Pendaftaran::class, 'no_pendaftaran')->nullable()->constrained('pendaftarans')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignIdFor(DataImunisasi::class, 'id_imunisasi')->nullable()->constrained('data_imunisasis')->onDelete('cascade')->onUpdate('cascade');
             $table->date('waktu_pemberian');
             $table->string('keterangan')->nullable();
         });

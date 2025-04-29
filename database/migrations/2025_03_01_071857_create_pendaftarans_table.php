@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('no_hp');
             $table->string('no_jkn')->nullable();
             $table->enum('jenis_sasaran', [1, 2, 3]);
-            $table->foreignId('data_posyandu_id')->nullable()->constrained('data_posyandus')->nullOnDelete()->cascadeOnUpdate();
+            $table->foreignId('data_posyandu_id')->nullable()->constrained('data_posyandus')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

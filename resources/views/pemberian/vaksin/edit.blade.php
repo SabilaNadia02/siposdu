@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Edit Pemberian Obat')
+@section('title', 'Edit Pemberian Vaksin')
 
 @section('content')
     <main class="app-main">
@@ -8,8 +8,8 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-sm-8">
-                        <h3 class="mb-0" style="color: #333333;">Edit Pemberian Obat</h3>
-                        <p style="color: #777777;">Halaman ini digunakan untuk mengubah data pemberian obat kepada peserta
+                        <h3 class="mb-0" style="color: #333333;">Edit Pemberian Vaksin</h3>
+                        <p style="color: #777777;">Halaman ini digunakan untuk mengubah data pemberian vaksin kepada peserta
                             posyandu.</p>
                     </div>
                     <div class="col-sm-4">
@@ -18,8 +18,8 @@
                                 <a href="#" style="color: #FF69B4; font-size: 16px;">Dashboard</a>
                             </li>
                             <li class="breadcrumb-item">
-                                <a href="{{ route('pemberian.obat.index') }}"
-                                    style="color: #FF69B4; font-size: 16px;">Pemberian Obat</a>
+                                <a href="{{ route('pemberian.vaksin.index') }}"
+                                    style="color: #FF69B4; font-size: 16px;">Pemberian Vaksin</a>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">Edit</li>
                         </ol>
@@ -35,7 +35,7 @@
                         <div class="card" style="border-top: 3px solid #FF69B4; border-radius: 0px">
                             <div class="card-body" style="border-radius: 0px">
 
-                                {{-- @dd($pemberianObat) --}}
+                                {{-- @dd($pemberianVaksin) --}}
 
                                 @if ($errors->any())
                                     <div class="alert alert-danger">
@@ -47,7 +47,7 @@
                                     </div>
                                 @endif
 
-                                <form action="{{ route('pemberian.obat.update', $pemberianObat->id) }}" method="POST">
+                                <form action="{{ route('pemberian.vaksin.update', $pemberianVaksin->id) }}" method="POST">
                                     @csrf
                                     @method('PUT')
 
@@ -58,7 +58,7 @@
                                             <select class="form-select" name="no_pendaftaran" disabled>
                                                 @foreach ($pendaftarans as $pendaftaran)
                                                     <option value="{{ $pendaftaran->id }}"
-                                                        {{ $pemberianObat->no_pendaftaran == $pendaftaran->id ? 'selected' : '' }}>
+                                                        {{ $pemberianVaksin->no_pendaftaran == $pendaftaran->id ? 'selected' : '' }}>
                                                         {{ $pendaftaran->nama }}
                                                     </option>
                                                 @endforeach
@@ -69,26 +69,26 @@
                                             <label for="waktu_pemberian" class="form-label">Waktu Pemberian <span
                                                     class="text-danger">*</span></label>
                                             <input type="date" class="form-control" name="waktu_pemberian"
-                                                value="{{ old('waktu_pemberian', \Carbon\Carbon::parse($pemberianObat->waktu_pemberian)->format('Y-m-d')) }}"
+                                                value="{{ old('waktu_pemberian', \Carbon\Carbon::parse($pemberianVaksin->waktu_pemberian)->format('Y-m-d')) }}"
                                                 required>
                                         </div>
 
                                         <div class="col-12">
-                                            <label class="form-label">Obat dan Dosis <span
+                                            <label class="form-label">Vaksin dan Dosis <span
                                                     class="text-danger">*</span></label>
-                                            <div id="edit-obat-container">
+                                            <div id="edit-vaksin-container">
                                                 @php
-                                                    $dataObatArray = json_decode($pemberianObat->data, true) ?? [];
+                                                    $dataVaksinArray = json_decode($pemberianVaksin->data, true) ?? [];
                                                 @endphp
-                                                @foreach ($dataObatArray as $index => $data)
-                                                    <div class="row g-2 mb-2 obat-group">
+                                                @foreach ($dataVaksinArray as $index => $data)
+                                                    <div class="row g-2 mb-2 vaksin-group">
                                                         <div class="col-md-6">
-                                                            <select class="form-select" name="id_obat[]" required>
-                                                                <option value="" disabled>Pilih Obat</option>
-                                                                @foreach ($dataObat as $obat)
-                                                                    <option value="{{ $obat->id }}"
-                                                                        {{ $data['id_obat'] == $obat->id ? 'selected' : '' }}>
-                                                                        {{ $obat->nama }}
+                                                            <select class="form-select" name="id_vaksin[]" required>
+                                                                <option value="" disabled>Pilih Vaksin</option>
+                                                                @foreach ($dataVaksin as $vaksin)
+                                                                    <option value="{{ $vaksin->id }}"
+                                                                        {{ $data['id_vaksin'] == $vaksin->id ? 'selected' : '' }}>
+                                                                        {{ $vaksin->nama }}
                                                                     </option>
                                                                 @endforeach
                                                             </select>
@@ -100,25 +100,25 @@
                                                         </div>
                                                         <div class="col-md-1 d-flex align-items-end">
                                                             <button type="button"
-                                                                class="btn btn-sm btn-danger remove-obat">×</button>
+                                                                class="btn btn-sm btn-danger remove-vaksin">×</button>
                                                         </div>
                                                     </div>
                                                 @endforeach
                                             </div>
                                             <div class="mt-2">
-                                                <button type="button" class="btn btn-sm btn-secondary" id="edit-add-obat">+
-                                                    Tambah Obat</button>
+                                                <button type="button" class="btn btn-sm btn-secondary" id="edit-add-vaksin">+
+                                                    Tambah Vaksin</button>
                                             </div>
                                         </div>
 
                                         <div class="col-12">
                                             <label for="keterangan" class="form-label">Keterangan (opsional)</label>
-                                            <textarea class="form-control" name="keterangan" rows="3">{{ old('keterangan', $pemberianObat->keterangan) }}</textarea>
+                                            <textarea class="form-control" name="keterangan" rows="3">{{ old('keterangan', $pemberianVaksin->keterangan) }}</textarea>
                                         </div>
                                     </div>
 
                                     <div class="d-flex justify-content-end">
-                                        <a href="{{ route('pemberian.obat.index') }}"
+                                        <a href="{{ route('pemberian.vaksin.index') }}"
                                             class="btn btn-secondary me-2">Batal</a>
                                         <button type="submit" class="btn text-light"
                                             style="background-color: #FF69B4;">Simpan Perubahan</button>
@@ -136,34 +136,34 @@
 @push('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Add obat field
-            document.getElementById('edit-add-obat').addEventListener('click', function() {
-                const container = document.getElementById('edit-obat-container');
-                const newGroup = createObatGroup();
+            // Add vaksin field
+            document.getElementById('edit-add-vaksin').addEventListener('click', function() {
+                const container = document.getElementById('edit-vaksin-container');
+                const newGroup = createVaksinGroup();
                 container.appendChild(newGroup);
             });
 
-            // Remove obat field
+            // Remove vaksin field
             document.addEventListener('click', function(e) {
-                if (e.target.classList.contains('remove-obat')) {
-                    const groups = document.querySelectorAll('.obat-group');
+                if (e.target.classList.contains('remove-vaksin')) {
+                    const groups = document.querySelectorAll('.vaksin-group');
                     if (groups.length > 1) {
-                        e.target.closest('.obat-group').remove();
+                        e.target.closest('.vaksin-group').remove();
                     } else {
-                        alert('Minimal harus ada satu obat');
+                        alert('Minimal harus ada satu vaksin');
                     }
                 }
             });
 
-            function createObatGroup() {
+            function createVaksinGroup() {
                 const group = document.createElement('div');
-                group.className = 'row g-2 mb-2 obat-group';
+                group.className = 'row g-2 mb-2 vaksin-group';
                 group.innerHTML = `
                 <div class="col-md-6">
-                    <select class="form-select" name="id_obat[]" required>
-                        <option value="" disabled selected>Pilih Obat</option>
-                        @foreach ($dataObat as $obat)
-                            <option value="{{ $obat->id }}">{{ $obat->nama }}</option>
+                    <select class="form-select" name="id_vaksin[]" required>
+                        <option value="" disabled selected>Pilih Vaksin</option>
+                        @foreach ($dataVaksin as $vaksin)
+                            <option value="{{ $vaksin->id }}">{{ $vaksin->nama }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -171,7 +171,7 @@
                     <input type="text" class="form-control" name="dosis[]" placeholder="Masukkan Dosis" required>
                 </div>
                 <div class="col-md-1 d-flex align-items-end">
-                    <button type="button" class="btn btn-sm btn-danger remove-obat">×</button>
+                    <button type="button" class="btn btn-sm btn-danger remove-vaksin">×</button>
                 </div>
             `;
                 return group;

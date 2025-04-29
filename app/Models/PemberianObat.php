@@ -8,25 +8,27 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class PemberianObat extends Model
 {
     protected $table = 'pemberian_obats';
+
+    public $timestamps = false;
+
     protected $fillable = [
         'no_pendaftaran',
-        'id_obat',
         'waktu_pemberian',
-        'dosis',
+        'data',
         'keterangan',
     ];
 
     protected $casts = [
-        'waktu_pemberian' => 'datetime',
+        'waktu_pemberian' => 'date',
+        'data' => 'array', 
     ];    
 
     public function pendaftaran(): BelongsTo
     {
         return $this->belongsTo(Pendaftaran::class, 'no_pendaftaran');
     }
-
     public function obat(): BelongsTo
     {
-        return $this->belongsTo(DataObat::class, 'id_obat');
+        return $this->belongsTo(DataObat::class);
     }
 }

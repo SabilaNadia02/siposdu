@@ -35,7 +35,8 @@
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6 col-12">
-                        <div class="small-box text-dark" style="background-color: white; border: 1px solid #FF69B4; border-radius: 2px;">
+                        <div class="small-box text-dark"
+                            style="background-color: white; border: 1px solid #FF69B4; border-radius: 2px;">
                             <div class="inner">
                                 <h3>{{ $totalIbuHamil }}</h3>
                                 <p>Total Ibu Hamil</p>
@@ -43,7 +44,8 @@
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6 col-12">
-                        <div class="small-box text-dark" style="background-color: white; border: 1px solid #FF69B4; border-radius: 2px;">
+                        <div class="small-box text-dark"
+                            style="background-color: white; border: 1px solid #FF69B4; border-radius: 2px;">
                             <div class="inner">
                                 <h3>{{ $totalBayiBalita }}</h3>
                                 <p>Total Bayi, Balita, dan APRAS</p>
@@ -51,13 +53,14 @@
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6 col-12">
-                        <div class="small-box text-dark" style="background-color: white; border: 1px solid #FF69B4; border-radius: 2px;">
+                        <div class="small-box text-dark"
+                            style="background-color: white; border: 1px solid #FF69B4; border-radius: 2px;">
                             <div class="inner">
                                 <h3>{{ $totalUsiaSuburLansia }}</h3>
                                 <p>Total Usia Subur atau Lansia</p>
                             </div>
                         </div>
-                    </div>                    
+                    </div>
                 </div>
 
                 <div class="row">
@@ -76,6 +79,15 @@
                         </div>
 
                         <div class="card-body">
+
+                            @if (session('success'))
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    {{ session('success') }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                        aria-label="Close"></button>
+                                </div>
+                            @endif
+
                             <table class="table table-bordered">
                                 <thead>
                                     <tr>
@@ -106,21 +118,31 @@
                                             </td>
                                             <td>{{ $data->posyandus->nama ?? '-' }}</td>
                                             <td class="text-center">
+                                                <!-- Tombol Detail -->
                                                 <a href="{{ route('pendaftaran.show', $data->id) }}"
                                                     class="btn btn-info btn-sm" title="Lihat"
                                                     style="width: 20px; height: 20px; font-size: 10px; padding: 1px;">
                                                     <i class="fas fa-eye"></i>
                                                 </a>
+
+                                                <!-- Tombol Edit -->
                                                 <a href="{{ route('pendaftaran.edit', $data->id) }}"
                                                     class="btn btn-warning btn-sm" title="Edit"
                                                     style="width: 20px; height: 20px; font-size: 10px; padding: 1px;">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
-                                                <button class="btn btn-danger btn-sm btn-hapus" title="Hapus"
-                                                    style="width: 20px; height: 20px; font-size: 10px; padding: 1px;"
-                                                    data-url="{{ route('pendaftaran.destroy', $data->id) }}">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
+
+                                                <!-- Tombol Hapus -->
+                                                <form action="{{ route('pendaftaran.destroy', $data->id) }}" method="POST"
+                                                    class="d-inline">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger btn-sm btn-hapus"
+                                                        title="Hapus"
+                                                        style="width: 20px; height: 20px; font-size: 10px; padding: 1px;">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </form>
                                             </td>
                                         </tr>
                                     @empty
@@ -168,31 +190,29 @@
             </div>
         </div>
     </main>
+@endsection
 
+@section('scripts')
     <script>
-        document.querySelectorAll(".btn-hapus").forEach(button => {
-            button.addEventListener("click", function(event) {
-                event.preventDefault();
-                let url = this.getAttribute("data-url");
+        $(document).ready(function() {
+            $('.btn-hapus').on('click', function(e) {
+                e.preventDefault();
+                var form = $(this).closest('form');
 
-                if (confirm("Apakah Anda yakin ingin menghapus data ini?")) {
-                    fetch(url, {
-                            method: "DELETE",
-                            headers: {
-                                "X-CSRF-TOKEN": "{{ csrf_token() }}"
-                            }
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success) {
-                                alert("Data berhasil dihapus!");
-                                location.reload();
-                            } else {
-                                alert("Gagal menghapus data!");
-                            }
-                        })
-                        .catch(error => console.error("Error:", error));
-                }
+                Swal.fire({
+                    title: 'Apakah Anda yakin?',
+                    text: "Data ini akan dihapus secara permanen!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#FF69B4',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya, Hapus!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
             });
         });
     </script>

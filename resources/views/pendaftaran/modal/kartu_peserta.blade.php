@@ -1,6 +1,6 @@
 <!-- Modal Kartu Peserta -->
 <div class="modal fade" id="kartuPesertaModal" tabindex="-1" aria-labelledby="kartuPesertaLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" style="max-width: 400px;">
+    <div class="modal-dialog modal-lg modal-dialog-centered" style="max-width: 800px;">
         <div class="modal-content">
             <div class="modal-body text-center" id="printArea">
                 <h5 class="modal-title fw-bold">Kartu Peserta Posyandu</h5>
@@ -16,12 +16,12 @@
                         <td>: {{ $pendaftaran->nama }}</td>
                     </tr>
                     <tr>
-                        <td><strong>Alamat</strong></td>
-                        <td>: {{ $pendaftaran->alamat }}</td>
-                    </tr>
-                    <tr>
                         <td><strong>Tanggal Lahir</strong></td>
                         <td>: {{ \Carbon\Carbon::parse($pendaftaran->tanggal_lahir)->translatedFormat('m-d-Y') }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Alamat</strong></td>
+                        <td>: {{ $pendaftaran->alamat }}</td>
                     </tr>
                     <tr>
                         <td><strong>Posyandu</strong></td>

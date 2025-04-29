@@ -12,15 +12,23 @@ class PemberianVitaminController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $pemberianVitamins = PemberianVitamin::with(['pendaftaran', 'vitamin'])
-            ->orderBy('id', 'desc') 
-            ->paginate(10);
+        $pendaftarans = Pendaftaran::all();
+        $dataVitamin = DataVitamin::all()->keyBy('id');
 
+        $query = PemberianVitamin::with('pendaftaran')
+            ->orderBy('waktu_pemberian', 'desc');
+
+        $pemberianVitamin = $query->paginate(10);
         $totalPemberian = PemberianVitamin::count();
 
-        return view('pemberian.vitamin.index', compact('pemberianVitamins', 'totalPemberian'));
+        return view('pemberian.vitamin.index', compact(
+            'pemberianVitamin',
+            'totalPemberian',
+            'pendaftarans',
+            'dataVitamin'
+        ));
     }
 
     /**
@@ -28,8 +36,7 @@ class PemberianVitaminController extends Controller
      */
     public function create()
     {
-        $vitamins = DataVitamin::all();
-        return view('pemberian.vitamin.create', compact('vitamins'));
+        //
     }
 
     /**
@@ -39,21 +46,39 @@ class PemberianVitaminController extends Controller
     {
         $request->validate([
             'no_pendaftaran' => 'required|exists:pendaftarans,id',
-            'id_vitamin' => 'required|exists:data_vitamins,id',
-            'dosis' => 'required|string',
-            'keterangan' => 'nullable|string',
+            'waktu_pemberian' => 'required|date',
+            'id_vitamin' => 'required|array',
+            'id_vitamin.*' => 'exists:data_vitamins,id',
+            'dosis' => 'required|array',
+            'dosis.*' => 'string|max:100',
+            'keterangan' => 'nullable|string|max:255',
         ]);
 
-        PemberianVitamin::create([
-            'no_pendaftaran' => $request->no_pendaftaran,
-            'id_vitamin' => $request->id_vitamin,
-            'waktu_pemberian' => now(),
-            'dosis' => $request->dosis,
-            'keterangan' => $request->keterangan,
-        ]);
+        try {
+            $vitaminData = [];
+            foreach ($request->id_vitamin as $index => $idVitamin) {
+                $vitaminData[] = [
+                    'id' => $index + 1,
+                    'id_vitamin' => $idVitamin,
+                    'dosis' => $request->dosis[$index],
+                ];
+            }
 
-        return redirect()->route('pemberian.vitamin.index')
-            ->with('success', 'Pemberian vitamin berhasil ditambahkan');
+            $keterangan = $request->keterangan ? ucwords(strtolower($request->keterangan)) : null;
+
+            PemberianVitamin::create([
+                'no_pendaftaran' => $request->no_pendaftaran,
+                'waktu_pemberian' => $request->waktu_pemberian,
+                'data' => json_encode($vitaminData),
+                'keterangan' => $keterangan,
+            ]);
+
+            return redirect()->route('pemberian.vitamin.index')
+                ->with('success', 'Data pemberian vitamin berhasil disimpan.');
+        } catch (\Exception $e) {
+            return back()->withInput()
+                ->with('error', 'Gagal menyimpan data: ' . $e->getMessage());
+        }
     }
 
     /**
@@ -61,18 +86,20 @@ class PemberianVitaminController extends Controller
      */
     public function show(string $id)
     {
-        $pemberianVitamin = PemberianVitamin::with(['pendaftaran', 'vitamin'])->findOrFail($id);
-        return view('pemberian.vitamin.show', compact('pemberianVitamin'));
+        $pemberianVitamin = PemberianVitamin::with(['pendaftaran'])->findOrFail($id);
+        return response()->json($pemberianVitamin);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
         $pemberianVitamin = PemberianVitamin::findOrFail($id);
-        $vitamins = DataVitamin::all();
-        return view('pemberian.vitamin.edit', compact('pemberianVitamin', 'vitamins'));
+        $pendaftarans = Pendaftaran::all();
+        $dataVitamin = DataVitamin::all();
+
+        return view('pemberian.vitamin.edit', compact('pemberianVitamin', 'pendaftarans', 'dataVitamin'));
     }
 
     /**
@@ -81,31 +108,55 @@ class PemberianVitaminController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'id_vitamin' => 'required|exists:data_vitamins,id',
-            'dosis' => 'required|string',
-            'keterangan' => 'nullable|string',
+            'waktu_pemberian' => 'required|date',
+            'id_vitamin' => 'required|array',
+            'id_vitamin.*' => 'exists:data_vitamins,id',
+            'dosis' => 'required|array',
+            'dosis.*' => 'string|max:100',
+            'keterangan' => 'nullable|string|max:255',
         ]);
 
-        $pemberianVitamin = PemberianVitamin::findOrFail($id);
-        $pemberianVitamin->update([
-            'id_vitamin' => $request->id_vitamin,
-            'dosis' => $request->dosis,
-            'keterangan' => $request->keterangan,
-        ]);
+        try {
+            $pemberianVitamin = PemberianVitamin::findOrFail($id);
 
-        return redirect()->route('pemberian.vitamin.index')
-            ->with('success', 'Data pemberian vitamin berhasil diperbarui');
+            $vitaminData = [];
+            foreach ($request->id_vitamin as $index => $idVitamin) {
+                $vitaminData[] = [
+                    'id' => $index + 1,
+                    'id_vitamin' => $idVitamin,
+                    'dosis' => $request->dosis[$index],
+                ];
+            }
+
+            $keterangan = $request->keterangan ? ucwords(strtolower($request->keterangan)) : null;
+
+            $pemberianVitamin->update([
+                'waktu_pemberian' => $request->waktu_pemberian,
+                'data' => json_encode($vitaminData),
+                'keterangan' => $keterangan,
+            ]);
+
+            return redirect()->route('pemberian.vitamin.index')
+                ->with('success', 'Data pemberian vitamin berhasil diperbarui.');
+        } catch (\Exception $e) {
+            return back()->withInput()
+                ->with('error', 'Gagal memperbarui data: ' . $e->getMessage());
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        $pemberianVitamin = PemberianVitamin::findOrFail($id);
-        $pemberianVitamin->delete();
+        try {
+            $pemberianVitamin = PemberianVitamin::findOrFail($id);
+            $pemberianVitamin->delete();
 
-        return redirect()->route('pemberian.vitamin.index')
-            ->with('success', 'Data pemberian vitamin berhasil dihapus');
+            return redirect()->route('pemberian.vitamin.index')
+                ->with('success', 'Data pemberian vitamin berhasil dihapus.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Gagal menghapus data: ' . $e->getMessage());
+        }
     }
 }

@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class PemberianImunisasi extends Model
 {
+    public $timestamps = false;
+
     protected $fillable = [
         'no_pendaftaran',
         'id_imunisasi',
@@ -14,7 +16,9 @@ class PemberianImunisasi extends Model
         'keterangan',
     ];
 
-    protected $dates = ['waktu_pemberian'];
+    protected $casts = [
+        'waktu_pemberian' => 'date',
+    ];
 
     public function pendaftaran(): BelongsTo
     {

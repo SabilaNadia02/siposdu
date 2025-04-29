@@ -29,13 +29,19 @@ class DataVitaminController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'nama' => 'required|string|max:255',
             'keterangan' => 'nullable|string',
         ]);
 
-        DataVitamin::create($request->all());
-        return redirect()->route('data-master.vitamin.index')->with('success', 'Data vitamin berhasil ditambahkan.');
+        if (!empty($validated['keterangan'])) {
+            $validated['keterangan'] = ucfirst(strtolower($validated['keterangan']));
+        }
+
+        DataVitamin::create($validated);
+
+        return redirect()->route('data-master.vitamin.index')
+            ->with('success', 'Data vitamin berhasil ditambahkan.');
     }
 
     /**
@@ -64,6 +70,10 @@ class DataVitaminController extends Controller
             'nama' => 'required|string|max:255',
             'keterangan' => 'nullable|string',
         ]);
+
+        if (!empty($validated['keterangan'])) {
+            $validated['keterangan'] = ucfirst(strtolower($validated['keterangan']));
+        }
 
         $vitamin->update($validated);
 

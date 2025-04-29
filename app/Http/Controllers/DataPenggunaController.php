@@ -35,7 +35,13 @@ class DataPenggunaController extends Controller
             'peran' => 'required|in:1,2,3',
         ]);
 
-        DataPengguna::create($request->all());
+        $nama = ucwords(strtolower($request->nama));
+
+        DataPengguna::create([
+            'nama' => $nama,
+            'email' => $request->email,
+            'peran' => $request->peran,
+        ]);
 
         return redirect()->route('data-master.pengguna.index')->with('success', 'Data pengguna berhasil ditambahkan.');
     }
@@ -69,7 +75,13 @@ class DataPenggunaController extends Controller
             'peran' => 'required|in:1,2,3',
         ]);
 
-        $pengguna->update($validated);
+        $nama = ucwords(strtolower($request->nama));
+
+        $pengguna->update([
+            'nama' => $nama,
+            'email' => $request->email,
+            'peran' => $request->peran,
+        ]);
 
         return redirect()->route('data-master.pengguna.index')
             ->with('success', 'Data pengguna berhasil diperbarui.');

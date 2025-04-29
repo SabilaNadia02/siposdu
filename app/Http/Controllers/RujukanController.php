@@ -17,15 +17,15 @@ class RujukanController extends Controller
             ->paginate(10);
 
         $totalRujukan = Rujukan::count();
-        $totalLaki = Rujukan::whereHas('pendaftaran', function($query) {
+        $totalLaki = Rujukan::whereHas('pendaftaran', function ($query) {
             $query->where('jenis_kelamin', '1');
         })->count();
-        $totalPerempuan = Rujukan::whereHas('pendaftaran', function($query) {
+        $totalPerempuan = Rujukan::whereHas('pendaftaran', function ($query) {
             $query->where('jenis_kelamin', '2');
         })->count();
 
         return view('rujukan.index', compact(
-            'rujukan', 
+            'rujukan',
             'totalRujukan',
             'totalLaki',
             'totalPerempuan',
@@ -43,7 +43,15 @@ class RujukanController extends Controller
         ]);
 
         try {
-            Rujukan::create($request->all());
+            $keterangan = $request->keterangan ? ucwords(strtolower($request->keterangan)) : null;
+
+            Rujukan::create([
+                'no_pendaftaran' => $request->no_pendaftaran,
+                'waktu_rujukan' => $request->waktu_rujukan,
+                'jenis_rujukan' => $request->jenis_rujukan,
+                'keterangan' => $keterangan,
+            ]);
+
             return redirect()->route('rujukan.index')
                 ->with('success', 'Data rujukan berhasil disimpan');
         } catch (\Exception $e) {
@@ -71,7 +79,13 @@ class RujukanController extends Controller
         ]);
 
         try {
-            $rujukan->update($request->all());
+            $keterangan = $request->keterangan ? ucwords(strtolower($request->keterangan)) : null;
+
+            $rujukan->update([
+                'jenis_rujukan' => $request->jenis_rujukan,
+                'keterangan' => $keterangan,
+            ]);
+
             return redirect()->route('rujukan.index')
                 ->with('success', 'Data rujukan berhasil diperbarui');
         } catch (\Exception $e) {
@@ -90,33 +104,4 @@ class RujukanController extends Controller
             return back()->with('error', 'Gagal menghapus data: ' . $e->getMessage());
         }
     }
-
-    // public function filter(Request $request)
-    // {
-    //     $query = Rujukan::with('pendaftaran');
-
-    //     if ($request->tahun) {
-    //         $query->whereYear('waktu_rujukan', $request->tahun);
-    //     }
-
-    //     if ($request->bulan) {
-    //         $query->whereMonth('waktu_rujukan', $request->bulan);
-    //     }
-
-    //     if ($request->posyandu) {
-    //         $query->whereHas('pendaftaran', function($q) use ($request) {
-    //             $q->where('posyandu', $request->posyandu);
-    //         });
-    //     }
-
-    //     if ($request->sasaran) {
-    //         $query->whereHas('pendaftaran', function($q) use ($request) {
-    //             $q->where('jenis_peserta', $request->sasaran);
-    //         });
-    //     }
-
-    //     $rujukan = $query->orderBy('waktu_rujukan', 'desc')->paginate(10);
-
-    //     return view('rujukan.partials.table', compact('rujukan'));
-    // }
 }

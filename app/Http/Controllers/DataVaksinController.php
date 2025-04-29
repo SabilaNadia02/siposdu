@@ -29,12 +29,17 @@ class DataVaksinController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'nama' => 'required|string|max:255',
             'keterangan' => 'nullable|string',
         ]);
 
-        DataVaksin::create($request->all());
+        if (!empty($validated['keterangan'])) {
+            $validated['keterangan'] = ucfirst(strtolower($validated['keterangan']));
+        }
+
+        DataVaksin::create($validated);
+
         return redirect()->route('data-master.vaksin.index')->with('success', 'Data vaksin berhasil ditambahkan.');
     }
 
@@ -64,6 +69,10 @@ class DataVaksinController extends Controller
             'nama' => 'required|string|max:255',
             'keterangan' => 'nullable|string',
         ]);
+
+        if (!empty($validated['keterangan'])) {
+            $validated['keterangan'] = ucfirst(strtolower($validated['keterangan']));
+        }
 
         $vaksin->update($validated);
 

@@ -26,7 +26,7 @@
                         <div class="col-md-6">
                             <label for="waktu_skrining" class="form-label" style="font-size: 14px; margin-bottom: 2px;">
                                 Waktu Skrining <span class="text-danger">*</span>
-                                <span style="font-size: 11px; font-weight: normal;">(tanggal/bulan/tahun)</span>
+                                <span style="font-size: 11px; font-weight: normal;">(tanggal/bulan/tahun) </span>
                             </label>
                             <input type="date" class="form-control form-control-sm" id="waktu_skrining"
                                 name="waktu_skrining" required>
@@ -52,7 +52,8 @@
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label style="font-size: 14px;">Jenis Kelamin</label>
+                                <label style="font-size: 14px;">Jenis Kelamin <span
+                                    class="text-danger">*</span></label>
                                 <div class="input-group">
                                     <input type="text" class="form-control form-control-sm"
                                         id="display_jenis_kelamin" readonly>
@@ -66,7 +67,8 @@
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label style="font-size: 14px;">Usia</label>
+                                <label style="font-size: 14px;">Usia <span
+                                    class="text-danger">*</span></label>
                                 <div class="input-group">
                                     <input type="number" class="form-control form-control-sm" id="usia" readonly>
                                     <span class="input-group-text">tahun</span>
@@ -86,7 +88,8 @@
                         <div class="col-md-12">
                             <label for="pertanyaan_7" class="form-label" style="font-size: 14px;">
                                 Merokok? <small class="text-muted">(Skor: Tidak=0, <20 bungkus/tahun=0, 20-30=1,
-                                        ≥30=2)</small>
+                                        ≥30=2)</small><span
+                                        class="text-danger">*</span>
                             </label>
                             <select class="form-select form-select-sm" id="pertanyaan_7" name="pertanyaan[7]" required>
                                 <option value="" selected disabled>Pilih Jawaban</option>
@@ -101,7 +104,8 @@
                         <div class="col-md-12">
                             <label for="pertanyaan_8" class="form-label" style="font-size: 14px;">
                                 Pernah merasa nafas pendek ketika berjalan cepat? <small class="text-muted">(Skor:
-                                    Ya=1, Tidak=0)</small>
+                                    Ya=1, Tidak=0)</small><span
+                                    class="text-danger">*</span>
                             </label>
                             <select class="form-select form-select-sm" id="pertanyaan_8" name="pertanyaan[8]" required>
                                 <option value="" selected disabled>Pilih Jawaban</option>
@@ -114,7 +118,8 @@
                         <div class="col-12">
                             <label for="pertanyaan_9" class="form-label" style="font-size: 14px;">
                                 Punya dahak dari paru saat tidak flu? <small class="text-muted">(Skor: Ya=1,
-                                    Tidak=0)</small>
+                                    Tidak=0)</small><span
+                                    class="text-danger">*</span>
                             </label>
                             <select class="form-select form-select-sm" id="pertanyaan_9" name="pertanyaan[9]"
                                 required>
@@ -127,7 +132,8 @@
                         <!-- Question 6: Batuk tanpa flu -->
                         <div class="col-12">
                             <label for="pertanyaan_10" class="form-label" style="font-size: 14px;">
-                                Biasanya batuk saat tidak flu? <small class="text-muted">(Skor: Ya=1, Tidak=0)</small>
+                                Biasanya batuk saat tidak flu? <small class="text-muted">(Skor: Ya=1, Tidak=0)</small><span
+                                class="text-danger">*</span>
                             </label>
                             <select class="form-select form-select-sm" id="pertanyaan_10" name="pertanyaan[10]"
                                 required>
@@ -141,7 +147,8 @@
                         <div class="col-12">
                             <label for="pertanyaan_11" class="form-label" style="font-size: 14px;">
                                 Pernah diminta melakukan spirometri? <small class="text-muted">(Skor: Ya=1,
-                                    Tidak=0)</small>
+                                    Tidak=0)</small><span
+                                    class="text-danger">*</span>
                             </label>
                             <select class="form-select form-select-sm" id="pertanyaan_11" name="pertanyaan[11]"
                                 required>
@@ -151,12 +158,9 @@
                             </select>
                         </div>
                     </div>
-
-                    <div class="modal-footer mt-4" style="border-top: 1px solid #FF8F00; padding: 15px 0 0 0;">
-                        <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"
-                            style="border-radius: 2px;">Batal</button>
+                    <div class="mt-3 d-grid">
                         <button type="submit" class="btn btn-sm text-light"
-                            style="background-color: #FF8F00; border-radius: 2px;">SIMPAN DATA</button>
+                            style="background-color: #FF8F00;">SIMPAN</button>
                     </div>
                 </form>
             </div>

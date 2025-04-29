@@ -75,7 +75,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($pencatatanAwal as $index => $data)
+                                        @forelse ($pencatatanAwal as $index => $data)
                                             <tr class="align-middle">
                                                 <td>{{ str_pad($data->pendaftaran->id, 4, '0', STR_PAD_LEFT) }}</td>
                                                 <td>{{ $data->pendaftaran->nama }}</td>
@@ -91,7 +91,7 @@
                                                     {{ $usia->d }} hari
                                                 </td>
                                                 <td>
-                                                    @if($data->status_balita == \App\Models\PencatatanAwal::STATUS_BALITA)
+                                                    @if ($data->status_balita == \App\Models\PencatatanAwal::STATUS_BALITA)
                                                         <span class="badge bg-success">Aktif</span>
                                                     @elseif($data->status_balita == \App\Models\PencatatanAwal::STATUS_LULUS)
                                                         <span class="badge bg-secondary">Lulus</span>
@@ -112,7 +112,13 @@
                                                     </a>
                                                 </td>
                                             </tr>
-                                        @endforeach
+                                        @empty
+                                            <tr>
+                                                <td colspan="6" class="text-center text-muted">Tidak ada data pencatatan
+                                                    balita.
+                                                </td>
+                                            </tr>
+                                        @endforelse
                                     </tbody>
                                 </table>
                             </div>

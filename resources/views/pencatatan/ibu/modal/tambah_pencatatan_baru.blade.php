@@ -1,7 +1,7 @@
 <!-- Modal -->
 <div class="modal fade" id="tambahPencatatanBaruModal" tabindex="-1" aria-labelledby="tambahPencatatanBaruModalLabel"
     aria-hidden="true">
-    <div class="modal-dialog" style="position: absolute; right: 30%; top: 35%; transform: translateY(-50%);">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content" style="font-size: 14px; padding: 10px;">
             <div class="modal-body">
                 <button type="button" class="btn-close position-absolute top-0 end-0 m-2" data-bs-dismiss="modal"
@@ -16,7 +16,7 @@
                             <label for="no_pendaftaran" class="form-label">Nama Ibu Hamil</label>
                             <select class="form-select form-select-sm" id="no_pendaftaran" name="no_pendaftaran"
                                 required>
-                                <option value="" hidden>Pilih Nama Ibu</option>
+                                <option value="" hidden>Pilih nama ibu</option>
                                 @foreach ($pendaftarans as $pendaftaran)
                                     <option value="{{ $pendaftaran->id }}">{{ $pendaftaran->nama }}</option>
                                 @endforeach

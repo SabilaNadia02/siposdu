@@ -14,7 +14,8 @@
                     <div class="row g-3">
                         <div class="col-12">
                             <label for="waktu_skrining" class="form-label" style="font-size: 14px; margin-bottom: 2px;">
-                                Waktu Skrining
+                                Waktu Skrining <span
+                                class="text-danger">*</span>
                             </label>
                             <input type="date" class="form-control form-control-sm" id="waktu_skrining"
                                 name="waktu_skrining" required>
@@ -22,7 +23,8 @@
 
                         <!-- Peserta -->
                         <div class="col-md-12">
-                            <label for="no_pendaftaran" class="form-label">Nama Peserta Posyandu</label>
+                            <label for="no_pendaftaran" class="form-label">Nama Peserta Posyandu <span
+                                class="text-danger">*</span></label>
                             <select class="form-select form-select-sm" id="no_pendaftaran" name="no_pendaftaran"
                                 required>
                                 <option value="" hidden>Pilih Nama</option>
@@ -37,7 +39,8 @@
 
                         <div class="col-12" style="margin-top: 8px;">
                             <label for="skrining1" class="form-label" style="font-size: 14px; margin-bottom: 2px;">
-                                Batuk terus menerus?
+                                Batuk terus menerus? <span
+                                class="text-danger">*</span>
                             </label>
                             <select class="form-select form-select-sm" id="skrining1" name="pertanyaan[1]" required>
                                 <option selected disabled>Pilih Jawaban</option>
@@ -47,7 +50,8 @@
                         </div>
                         <div class="col-12">
                             <label for="skrining2" class="form-label" style="font-size: 14px; margin-bottom: 2px;">
-                                Demam lebih dari 2 minggu?
+                                Demam lebih dari 2 minggu? <span
+                                class="text-danger">*</span>
                             </label>
                             <select class="form-select form-select-sm" id="skrining2" name="pertanyaan[2]" required>
                                 <option selected disabled>Pilih Jawaban</option>
@@ -57,7 +61,8 @@
                         </div>
                         <div class="col-12">
                             <label for="skrining3" class="form-label" style="font-size: 14px; margin-bottom: 2px;">
-                                Berat Badan (BB) naik atau turun dalam 2 bulan berturut-turut?
+                                Berat Badan (BB) naik atau turun dalam 2 bulan berturut-turut? <span
+                                class="text-danger">*</span>
                             </label>
                             <select class="form-select form-select-sm" id="skrining3" name="pertanyaan[3]" required>
                                 <option selected disabled>Pilih Jawaban</option>
@@ -67,7 +72,8 @@
                         </div>
                         <div class="col-12">
                             <label for="skrining4" class="form-label" style="font-size: 14px; margin-bottom: 2px;">
-                                Kontak erat dengan pasien TBC?
+                                Kontak erat dengan pasien TBC? <span
+                                class="text-danger">*</span>
                             </label>
                             <select class="form-select form-select-sm" id="skrining4" name="pertanyaan[4]" required>
                                 <option selected disabled>Pilih Jawaban</option>

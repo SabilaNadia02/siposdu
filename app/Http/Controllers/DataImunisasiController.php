@@ -35,7 +35,11 @@ class DataImunisasiController extends Controller
             'sampai_umur' => 'required|integer|min:0|gte:dari_umur',
             'keterangan' => 'nullable|string',
         ]);
-
+        
+        if (!empty($validated['keterangan'])) {
+            $validated['keterangan'] = ucfirst(strtolower($validated['keterangan']));
+        }
+        
         DataImunisasi::create($validated);
 
         return redirect()->route('data-master.imunisasi.index')
@@ -69,8 +73,12 @@ class DataImunisasiController extends Controller
             'sampai_umur' => 'required|integer|min:0|gte:dari_umur',
             'keterangan' => 'nullable|string',
         ]);
-
-        $imunisasi->update($validated);
+     
+        if (!empty($validated['keterangan'])) {
+            $validated['keterangan'] = ucfirst(strtolower($validated['keterangan']));
+        }
+        
+        $imunisasi->update($validated);        
 
         return redirect()->route('data-master.imunisasi.index')
             ->with('success', 'Data imunisasi berhasil diperbarui.');

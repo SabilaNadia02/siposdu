@@ -22,6 +22,7 @@ use App\Http\Controllers\PendaftaranController;
 use App\Http\Controllers\RujukanController;
 use App\Http\Controllers\SkriningPPOKController;
 use App\Http\Controllers\SkriningTBCController;
+use App\Models\DataImunisasi;
 use Illuminate\Support\Facades\Route;
 
 
@@ -72,16 +73,16 @@ Route::resource('kelulusan-balita', KelulusanBalitaController::class);
 
 // Route Pemberian
 Route::group(['prefix' => 'pemberian', 'as' => 'pemberian.'], function () {
-    Route::resource('imunisasi', PemberianImunisasiController::class);
-    Route::get(
-        'imunisasi/get-imunisasi-by-usia',
-        [PemberianImunisasiController::class, 'getImunisasiByUsia']
-    )
+    // Custom route FIRST
+    Route::get('imunisasi/get-imunisasi-by-usia', [PemberianImunisasiController::class, 'getImunisasiByUsia'])
         ->name('imunisasi.get-imunisasi-by-usia');
+
+    // Then the resource route
+    Route::resource('imunisasi', PemberianImunisasiController::class);
+
+    // Other routes...
     Route::resource('vitamin', PemberianVitaminController::class);
-    // Route::resource('obat', PemberianObatController::class);
     Route::resource('obat', PemberianObatController::class);
-    Route::get('obat/get-obat-options', [PemberianObatController::class, 'getObatOptions'])->name('obat.get-obat-options');
     Route::resource('vaksin', PemberianVaksinController::class);
 });
 
@@ -103,4 +104,15 @@ Route::group(['prefix' => 'data-master', 'as' => 'data-master.'], function () {
 Route::group(['prefix' => 'skrining', 'as' => 'skrining.'], function () {
     Route::resource('tbc', SkriningTBCController::class);
     Route::resource('ppok', SkriningPPOKController::class);
+});
+
+
+
+
+// Testing
+Route::get('/test-imunisasi', function () {
+    $usia = 10; // Bulan
+    return DataImunisasi::where('dari_umur', '<=', $usia)
+        ->where('sampai_umur', '>=', $usia)
+        ->get();
 });

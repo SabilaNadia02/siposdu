@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('pencatatan_skrinings', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(DataSkrining::class, 'id_skrining')->nullable()->constrained('data_skrinings')->nullOnDelete()->cascadeOnUpdate();
-            $table->foreignIdFor(Pendaftaran::class, 'no_pendaftaran')->nullable()->constrained('pendaftarans')->nullOnDelete()->cascadeOnUpdate();
+            $table->foreignIdFor(DataSkrining::class, 'id_skrining')->nullable()->constrained('data_skrinings')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignIdFor(Pendaftaran::class, 'no_pendaftaran')->nullable()->constrained('pendaftarans')->onDelete('cascade')->onUpdate('cascade');
             $table->date('waktu_skrining');
         });
     }

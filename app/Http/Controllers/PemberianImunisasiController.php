@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\DataImunisasi;
 use App\Models\PemberianImunisasi;
 use App\Models\Pendaftaran;
-use App\Models\DataImunisasi;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PemberianImunisasiController extends Controller
 {
     public function index()
     {
+        $totalPemberian = PemberianImunisasi::count();
         $pemberianImunisasi = PemberianImunisasi::with(['pendaftaran', 'imunisasi'])
             ->whereHas('pendaftaran', function ($query) {
                 $query->where('jenis_sasaran', 2);
@@ -19,7 +21,7 @@ class PemberianImunisasiController extends Controller
             ->orderBy('waktu_pemberian', 'desc')
             ->paginate(10);
 
-        return view('pemberian.imunisasi.index', compact('pemberianImunisasi'));
+        return view('pemberian.imunisasi.index', compact('totalPemberian', 'pemberianImunisasi'));
     }
 
     public function create()
@@ -28,47 +30,105 @@ class PemberianImunisasiController extends Controller
             ->orderBy('nama', 'asc')
             ->get();
 
-        // Tidak perlu load default imunisasi lagi
         return view('pemberian.imunisasi.create', compact('pendaftaran'));
     }
 
+    // public function getImunisasiByUsia(Request $request)
+    // {
+    //     $request->validate([
+    //         'tanggal_lahir' => 'required|date',
+    //         'waktu_pemberian' => 'required|date',
+    //     ]);
+
+    //     $tanggalLahir = Carbon::parse($request->tanggal_lahir);
+    //     $waktuPemberian = Carbon::parse($request->waktu_pemberian);
+    //     $usia = $tanggalLahir->diffInMonths($waktuPemberian);
+
+    //     \Log::info("Perhitungan Usia - Tanggal Lahir: {$tanggalLahir}, Waktu Pemberian: {$waktuPemberian}, Usia Bulan: {$usia}");
+
+    //     $imunisasi = DataImunisasi::where('dari_umur', '<=', $usia)
+    //         ->where('sampai_umur', '>=', $usia)
+    //         ->orderBy('dari_umur')
+    //         ->get();
+
+    //     \Log::info("Jumlah Imunisasi Ditemukan: {$imunisasi->count()}");
+    //     \Log::info("Query SQL: ", [
+    //         DB::getQueryLog()
+    //     ]);
+
+    //     return response()->json($imunisasi);
+    // }
+
+
     public function getImunisasiByUsia(Request $request)
     {
-        $request->validate([
-            'usia_bulan' => 'required|integer|min:0'
-        ]);
+        try {
+            $request->validate([
+                'tanggal_lahir' => 'required|date',
+                'waktu_pemberian' => 'required|date',
+            ]);
 
-        $usiaBulan = $request->usia_bulan;
+            $tanggalLahir = Carbon::parse($request->tanggal_lahir);
+            $waktuPemberian = Carbon::parse($request->waktu_pemberian);
+            $usia = $tanggalLahir->diffInMonths($waktuPemberian);
 
-        // Query untuk mendapatkan imunisasi yang sesuai dengan rentang usia
-        $imunisasi = DataImunisasi::where('dari_umur', '<=', $usiaBulan)
-            ->where('sampai_umur', '>=', $usiaBulan)
-            ->orderBy('dari_umur')
-            ->get();
+            \Log::info("Fetching imunisasi for age", [
+                'tanggal_lahir' => $tanggalLahir->format('Y-m-d'),
+                'waktu_pemberian' => $waktuPemberian->format('Y-m-d'),
+                'usia_bulan' => $usia
+            ]);
 
-        return response()->json($imunisasi);
+            $imunisasi = DataImunisasi::where('dari_umur', '<=', $usia)
+                ->where('sampai_umur', '>=', $usia)
+                ->orderBy('dari_umur')
+                ->get();
+
+            if ($imunisasi->isEmpty()) {
+                \Log::warning("No imunisasi found for age: " . $usia . " months");
+            }
+
+            return response()->json($imunisasi);
+
+        } catch (\Exception $e) {
+            \Log::error("Error in getImunisasiByUsia: " . $e->getMessage());
+            return response()->json([
+                'error' => 'Server error',
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
 
     public function store(Request $request)
     {
+        \Log::info('Store Request Data:', $request->all());
+
         $validated = $request->validate([
-            'no_pendaftaran' => 'required|exists:pendaftaran,no_pendaftaran',
-            'id_imunisasi' => 'required|exists:data_imunisasi,id',
+            'no_pendaftaran' => 'required|exists:pendaftarans,id',
+            'id_imunisasi' => 'required|exists:data_imunisasis,id',
             'waktu_pemberian' => 'required|date',
             'keterangan' => 'nullable|string|max:255',
         ]);
 
+        \Log::info('Validated Data:', $validated);
+
         try {
-            PemberianImunisasi::create([
+            $created = PemberianImunisasi::create([
                 'no_pendaftaran' => $validated['no_pendaftaran'],
-                'data_imunisasi_id' => $validated['id_imunisasi'],
+                'id_imunisasi' => $validated['id_imunisasi'],
                 'waktu_pemberian' => $validated['waktu_pemberian'],
-                'keterangan' => $validated['keterangan'],
+                'keterangan' => $validated['keterangan'] ? ucfirst(strtolower($validated['keterangan'])) : null,
             ]);
+
+            \Log::info('Record Created:', $created->toArray());
 
             return redirect()->route('pemberian.imunisasi.index')
                 ->with('success', 'Data pemberian imunisasi berhasil disimpan');
         } catch (\Exception $e) {
+            \Log::error('Store Error:', [
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+
             return back()->withInput()
                 ->with('error', 'Gagal menyimpan data: ' . $e->getMessage());
         }
@@ -83,9 +143,11 @@ class PemberianImunisasiController extends Controller
     public function edit($id)
     {
         $pemberianImunisasi = PemberianImunisasi::findOrFail($id);
-        $pendaftaran = Pendaftaran::whereIn('jenis_sasaran', ['bayi', 'balita'])
+        $pendaftaran = Pendaftaran::where('jenis_sasaran', 2)
             ->orderBy('nama', 'asc')
             ->get();
+
+        // Get all imunisasi for initial display
         $dataImunisasi = DataImunisasi::all();
 
         return view('pemberian.imunisasi.edit', compact('pemberianImunisasi', 'pendaftaran', 'dataImunisasi'));
@@ -93,23 +155,31 @@ class PemberianImunisasiController extends Controller
 
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'no_pendaftaran' => 'required|exists:pendaftaran,no_pendaftaran',
-            'data_imunisasi_id' => 'required|exists:data_imunisasi,id',
-            'waktu_pemberian' => 'required|date',
+        $validated = $request->validate([
+            'id_imunisasi' => 'required|exists:data_imunisasis,id',
             'keterangan' => 'nullable|string|max:255',
         ]);
 
-        $pemberianImunisasi = PemberianImunisasi::findOrFail($id);
-        $pemberianImunisasi->update([
-            'no_pendaftaran' => $request->no_pendaftaran,
-            'data_imunisasi_id' => $request->data_imunisasi_id,
-            'waktu_pemberian' => $request->waktu_pemberian,
-            'keterangan' => $request->keterangan,
-        ]);
+        try {
+            $pemberianImunisasi = PemberianImunisasi::findOrFail($id);
 
-        return redirect()->route('pemberian.imunisasi.index')
-            ->with('success', 'Data pemberian imunisasi berhasil diperbarui');
+            $pemberianImunisasi->update([
+                'id_imunisasi' => $validated['id_imunisasi'],
+                'keterangan' => $validated['keterangan'] ? ucfirst(strtolower($validated['keterangan'])) : null,
+            ]);
+
+            return redirect()->route('pemberian.imunisasi.index')
+                ->with('success', 'Data pemberian imunisasi berhasil diperbarui');
+
+        } catch (\Exception $e) {
+            \Log::error('Update Error:', [
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+
+            return back()->withInput()
+                ->with('error', 'Gagal memperbarui data: ' . $e->getMessage());
+        }
     }
 
     public function destroy($id)

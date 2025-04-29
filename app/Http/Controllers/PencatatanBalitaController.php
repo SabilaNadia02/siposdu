@@ -63,6 +63,7 @@ class PencatatanBalitaController extends Controller
             'nama_ayah' => $request->nama_ayah,
             'berat_badan_lahir' => $request->berat_badan_lahir,
             'panjang_badan_lahir' => $request->panjang_badan_lahir,
+            'status_balita' => 1,
         ]);
 
         return redirect()->route('pencatatan.balita.index')->with('success', 'Data berhasil ditambahkan.');

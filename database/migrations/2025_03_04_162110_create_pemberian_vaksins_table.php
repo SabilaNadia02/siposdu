@@ -15,10 +15,10 @@ return new class extends Migration
     {
         Schema::create('pemberian_vaksins', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Pendaftaran::class, 'no_pendaftaran')->nullable()->constrained('pendaftarans')->nullOnDelete()->cascadeOnUpdate();
-            $table->foreignIdFor(DataVaksin::class, 'id_vaksin')->nullable()->constrained('data_vaksins')->nullOnDelete()->cascadeOnUpdate();
+            $table->foreignIdFor(Pendaftaran::class, 'no_pendaftaran')
+                  ->constrained('pendaftarans')->onDelete('cascade')->onUpdate('cascade');
             $table->date('waktu_pemberian');
-            $table->string('dosis');
+            $table->longText('data');
             $table->string('keterangan')->nullable();
         });
     }

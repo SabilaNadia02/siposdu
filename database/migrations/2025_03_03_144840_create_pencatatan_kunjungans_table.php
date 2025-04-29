@@ -14,7 +14,7 @@ return new class extends Migration
     {
         Schema::create('pencatatan_kunjungans', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(PencatatanAwal::class, 'id_pencatatan_awal')->nullable()->constrained()->nullOnDelete()->cascadeOnUpdate();
+            $table->foreignIdFor(PencatatanAwal::class, 'id_pencatatan_awal')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->date('waktu_pencatatan');
             $table->float('berat_badan')->nullable();
             $table->float('panjang_badan')->nullable();

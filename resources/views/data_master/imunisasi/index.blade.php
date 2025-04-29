@@ -43,9 +43,12 @@
                             @include('data_master.imunisasi.modal.tambah_imunisasi')
 
                             <div class="card-body">
+
                                 @if (session('success'))
-                                    <div class="alert alert-success">
+                                    <div class="alert alert-success alert-dismissible fade show" role="alert">
                                         {{ session('success') }}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                            aria-label="Close"></button>
                                     </div>
                                 @endif
 
@@ -63,7 +66,7 @@
                                     <tbody>
                                         @forelse ($dataImunisasi as $index => $imunisasi)
                                             <tr class="align-middle">
-                                                <td>{{ $imunisasi->id }}</td>
+                                                <td>{{ $loop->iteration + ($dataImunisasi->firstItem() - 1) }}</td>
                                                 <td>{{ $imunisasi->nama }}</td>
                                                 <td>{{ $imunisasi->dari_umur }}</td>
                                                 <td>{{ $imunisasi->sampai_umur }}</td>

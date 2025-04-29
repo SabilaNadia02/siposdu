@@ -14,7 +14,7 @@ return new class extends Migration
     {
         Schema::create('rujukans', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Pendaftaran::class, 'no_pendaftaran')->nullable()->constrained('pendaftarans')->nullOnDelete()->cascadeOnUpdate();
+            $table->foreignIdFor(Pendaftaran::class, 'no_pendaftaran')->nullable()->constrained('pendaftarans')->onDelete('cascade')->onUpdate('cascade');
             $table->enum('jenis_rujukan', [1, 2, 3]);
             $table->date('waktu_rujukan');
             $table->string('keterangan')->nullable();

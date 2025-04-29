@@ -29,12 +29,19 @@ class DataPertanyaanController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'nama_pertanyaan' => 'required|string|max:255',
+            'keterangan' => 'nullable|string',
         ]);
 
-        DataPertanyaan::create($request->all());
-        return redirect()->route('data-master.pertanyaan.index')->with('success', 'Data pertanyaan berhasil ditambahkan.');
+        if (!empty($validated['keterangan'])) {
+            $validated['keterangan'] = ucfirst(strtolower($validated['keterangan']));
+        }
+
+        DataPertanyaan::create($validated);
+
+        return redirect()->route('data-master.pertanyaan.index')
+            ->with('success', 'Data pertanyaan berhasil ditambahkan.');
     }
 
     /**
@@ -63,6 +70,10 @@ class DataPertanyaanController extends Controller
             'nama_pertanyaan' => 'required|string|max:255',
             'keterangan' => 'nullable|string',
         ]);
+
+        if (!empty($validated['keterangan'])) {
+            $validated['keterangan'] = ucfirst(strtolower($validated['keterangan']));
+        }
 
         $pertanyaan->update($validated);
 

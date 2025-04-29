@@ -34,7 +34,16 @@ class DataPosyanduController extends Controller
             'alamat' => 'required|string',
         ]);
 
-        DataPosyandu::create($request->all());
+        $nama = ucwords(strtolower($request->nama));
+        $alamat = preg_replace_callback('/\b(rt|rw)\b/i', function ($matches) {
+            return strtoupper($matches[0]);
+        }, ucwords(strtolower($request->alamat)));
+
+        DataPosyandu::create([
+            'nama' => $nama,
+            'alamat' => $alamat,
+        ]);
+
         return redirect()->route('data-master.posyandu.index')->with('success', 'Data posyandu berhasil ditambahkan.');
     }
 
@@ -60,12 +69,20 @@ class DataPosyanduController extends Controller
      */
     public function update(Request $request, DataPosyandu $posyandu)
     {
-        $validated = $request->validate([
+        $request->validate([
             'nama' => 'required|string|max:255',
             'alamat' => 'required|string',
         ]);
 
-        $posyandu->update($validated);
+        $nama = ucwords(strtolower($request->nama));
+        $alamat = preg_replace_callback('/\b(rt|rw)\b/i', function ($matches) {
+            return strtoupper($matches[0]);
+        }, ucwords(strtolower($request->alamat)));
+
+        $posyandu->update([
+            'nama' => $nama,
+            'alamat' => $alamat,
+        ]);
 
         return redirect()->route('data-master.posyandu.index')
             ->with('success', 'Data posyandu berhasil diperbarui.');

@@ -93,9 +93,20 @@
                                     Tambah Skrining PPOK
                                 </button>
                             </div>
+
+                            <!-- Modal Tambah Skrining -->
                             @include('skrining.ppok.modal.tambah_skrining_ppok')
-                            <!-- /.card-header -->
+
                             <div class="card-body">
+
+                                @if (session('success'))
+                                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                        {{ session('success') }}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                            aria-label="Close"></button>
+                                    </div>
+                                @endif
+
                                 <table class="table table-bordered" id="ppokTable">
                                     <thead>
                                         <tr>
@@ -110,7 +121,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($skriningPPOK as $skrining)
+                                        @forelse ($skriningPPOK as $skrining)
                                             @php
                                                 $totalSkor = 0;
                                                 $detailSkor = [];
@@ -185,21 +196,26 @@
                                                         </td>
 
                                                         <td rowspan="{{ $rowspan }}" style="text-align: center">
-                                                            <div class="btn-group">
+                                                            <div
+                                                                class="d-flex justify-content-center align-items-center gap-1">
+                                                                <!-- Tombol Edit -->
                                                                 <a href="{{ route('skrining.ppok.edit', $skrining->id) }}"
-                                                                    class="btn btn-warning btn-sm" title="Edit"
-                                                                    style="width: 20px; height: 20px; font-size: 10px; padding: 1px; display: flex; justify-content: center; align-items: center; margin-right: 5px;">
+                                                                    class="btn btn-warning btn-sm d-flex justify-content-center align-items-center"
+                                                                    title="Edit"
+                                                                    style="width: 20px; height: 20px; font-size: 10px; padding: 0px;">
                                                                     <i class="fas fa-edit"></i>
                                                                 </a>
+
+                                                                <!-- Tombol Hapus -->
                                                                 <form
                                                                     action="{{ route('skrining.ppok.destroy', $skrining->id) }}"
-                                                                    method="POST" class="d-inline">
+                                                                    method="POST" style="margin: 0;">
                                                                     @csrf
                                                                     @method('DELETE')
-                                                                    <button type="submit" class="btn btn-danger btn-sm"
+                                                                    <button type="submit"
+                                                                        class="btn btn-danger btn-sm btn-hapus d-flex justify-content-center align-items-center"
                                                                         title="Hapus"
-                                                                        onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')"
-                                                                        style="width: 20px; height: 20px; font-size: 10px; padding: 1px; display: flex; justify-content: center; align-items: center;">
+                                                                        style="width: 20px; height: 20px; font-size: 10px; padding: 0px;">
                                                                         <i class="fas fa-trash"></i>
                                                                     </button>
                                                                 </form>
@@ -208,7 +224,12 @@
                                                     @endif
                                                 </tr>
                                             @endforeach
-                                        @endforeach
+                                        @empty
+                                            <tr>
+                                                <td colspan="6" class="text-center text-muted">Tidak ada data skrining.
+                                                </td>
+                                            </tr>
+                                        @endforelse
                                     </tbody>
                                 </table>
                             </div>
@@ -247,38 +268,35 @@
         </div>
     </main>
     <!--end::App Main-->
+@endsection
 
+@section('scripts')
     <script>
         $(document).ready(function() {
-            $('#searchPeserta').on('input', function() {
-                const searchTerm = $(this).val().toLowerCase().trim();
+            $('.btn-hapus').on('click', function(e) {
+                e.preventDefault();
+                var form = $(this).closest('form');
 
-                if (searchTerm === '') {
-                    // Jika pencarian kosong, tampilkan semua baris
-                    $('tbody tr').show();
-                    return;
-                }
-
-                // Sembunyikan semua baris terlebih dahulu
-                $('tbody tr').hide();
-
-                // Cari baris yang sesuai dengan kriteria pencarian
-                $('tbody tr').each(function() {
-                    const row = $(this);
-                    const participantName = row.find('.participant-name').text().toLowerCase();
-
-                    // Jika baris ini adalah baris utama (memiliki class participant-name)
-                    if (participantName.includes(searchTerm)) {
-                        const participantId = row.data('participant-id');
-
-                        // Tampilkan semua baris dengan participant-id yang sama
-                        $(`tr[data-participant-id="${participantId}"]`).show();
+                Swal.fire({
+                    title: 'Apakah Anda yakin?',
+                    text: "Data ini akan dihapus secara permanen!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#FF69B4',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya, Hapus!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
                     }
                 });
             });
         });
     </script>
+@endsection
 
+@section('style')
     <style>
         .float-sm-end {
             float: right !important;

@@ -101,7 +101,7 @@ class SkriningTBCController extends Controller
             DB::commit();
 
             return redirect()->route('skrining.tbc.index')
-                ->with('success', 'Data berhasil disimpan!');
+                ->with('success', 'Data skrining TBC berhasil disimpan!');
 
         } catch (\Exception $e) {
             DB::rollBack();
@@ -173,7 +173,7 @@ class SkriningTBCController extends Controller
             DB::commit();
 
             return redirect()->route('skrining.tbc.index')
-                ->with('success', 'Data skrining TBC berhasil diperbarui.');
+                ->with('success', 'Data skrining TBC berhasil diperbarui!');
 
         } catch (\Exception $e) {
             DB::rollBack();
@@ -186,11 +186,16 @@ class SkriningTBCController extends Controller
     /**
      * Menghapus data skrining TBC.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        $pencatatanSkrining = PencatatanSkrining::findOrFail($id);
-        $pencatatanSkrining->delete();
+        try {
+            $skrining = PencatatanSkrining::findOrFail($id);
+            $skrining->delete();
 
-        return redirect()->route('skrining.tbc.index')->with('success', 'Data skrining TBC berhasil dihapus.');
+            return redirect()->route('skrining.tbc.index')
+                ->with('success', 'Data skrining TBC berhasil dihapus!');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Gagal menghapus data: ' . $e->getMessage());
+        }
     }
 }

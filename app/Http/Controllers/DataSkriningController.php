@@ -29,12 +29,17 @@ class DataSkriningController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'nama_skrining' => 'required|string|max:255',
             'keterangan' => 'nullable|string',
         ]);
 
-        DataSkrining::create($request->all());
+        if (!empty($validated['keterangan'])) {
+            $validated['keterangan'] = ucfirst(strtolower($validated['keterangan']));
+        }
+
+        DataSkrining::create($validated);
+
         return redirect()->route('data-master.skrining.index')->with('success', 'Data skrining berhasil ditambahkan.');
     }
 
@@ -64,6 +69,10 @@ class DataSkriningController extends Controller
             'nama_skrining' => 'required|string|max:255',
             'keterangan' => 'nullable|string',
         ]);
+
+        if (!empty($validated['keterangan'])) {
+            $validated['keterangan'] = ucfirst(strtolower($validated['keterangan']));
+        }
 
         $skrining->update($validated);
 

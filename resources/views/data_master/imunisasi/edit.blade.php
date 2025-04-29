@@ -34,35 +34,50 @@
                     <div class="col-md-8" style="border-radius: 0px">
                         <div class="card" style="border-top: 3px solid #FF69B4; border-radius: 0px">
                             <div class="card-body" style="border-radius: 0px">
+
+                                @if ($errors->any())
+                                    <div class="alert alert-danger">
+                                        <ul>
+                                            @foreach ($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
+
                                 <form action="{{ route('data-master.imunisasi.update', $imunisasi->id) }}" method="POST">
                                     @csrf
                                     @method('PUT')
 
                                     <div class="row g-3 mb-3" style="font-size: 14px;">
                                         <div class="col-md-12">
-                                            <label for="nama" class="form-label" style="font-size: 14px;">Nama Imunisasi <span
-                                                class="text-danger">*</span></label>
-                                            <input type="text" class="form-control form-control-sm" id="nama" name="nama"
-                                                value="{{ old('nama', $imunisasi->nama) }}" required style="font-size: 14px;">
+                                            <label for="nama" class="form-label" style="font-size: 14px;">Nama Imunisasi
+                                                <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control form-control-sm" id="nama"
+                                                name="nama" value="{{ old('nama', $imunisasi->nama) }}" required
+                                                style="font-size: 14px;">
                                         </div>
                                         <div class="col-md-12">
-                                            <label for="keterangan" class="form-label" style="font-size: 14px;">Keterangan</label>
+                                            <label for="keterangan" class="form-label"
+                                                style="font-size: 14px;">Keterangan</label>
                                             <textarea class="form-control form-control-sm" id="keterangan" name="keterangan" rows="3"
                                                 placeholder="Masukkan Keterangan" style="font-size: 14px;">{{ old('keterangan', $imunisasi->keterangan) }}</textarea>
                                         </div>
                                         <div class="col-md-6">
-                                            <label for="dari_umur" class="form-label" style="font-size: 14px;">Dari Umur (bulan) <span
-                                                class="text-danger">*</span></label>
-                                            <input type="number" class="form-control form-control-sm" id="dari_umur" name="dari_umur"
-                                                value="{{ old('dari_umur', $imunisasi->dari_umur) }}" min="0" required style="font-size: 14px;">
+                                            <label for="dari_umur" class="form-label" style="font-size: 14px;">Dari Umur
+                                                (bulan) <span class="text-danger">*</span></label>
+                                            <input type="number" class="form-control form-control-sm" id="dari_umur"
+                                                name="dari_umur" value="{{ old('dari_umur', $imunisasi->dari_umur) }}"
+                                                min="0" required style="font-size: 14px;">
                                         </div>
                                         <div class="col-md-6">
-                                            <label for="sampai_umur" class="form-label" style="font-size: 14px;">Sampai Umur (bulan) <span
-                                                class="text-danger">*</span></label>
-                                            <input type="number" class="form-control form-control-sm" id="sampai_umur" name="sampai_umur"
-                                                value="{{ old('sampai_umur', $imunisasi->sampai_umur) }}" min="0" required style="font-size: 14px;">
+                                            <label for="sampai_umur" class="form-label" style="font-size: 14px;">Sampai Umur
+                                                (bulan) <span class="text-danger">*</span></label>
+                                            <input type="number" class="form-control form-control-sm" id="sampai_umur"
+                                                name="sampai_umur" value="{{ old('sampai_umur', $imunisasi->sampai_umur) }}"
+                                                min="0" required style="font-size: 14px;">
                                         </div>
-                                    </div>                                    
+                                    </div>
 
                                     <div class="d-flex justify-content-end">
                                         <a href="{{ route('data-master.imunisasi.index') }}"

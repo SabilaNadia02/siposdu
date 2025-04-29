@@ -35,12 +35,14 @@
 
                             <div class="row mb-4">
                                 <div class="col-md-6">
-                                    <label class="form-label">Nama Peserta</label>
+                                    <label class="form-label">Nama Peserta <span
+                                        class="text-danger">*</span></label>
                                     <input type="text" class="form-control"
                                         value="{{ $pencatatanSkrining->pendaftaran->nama }}" disabled>
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="waktu_skrining" class="form-label">Waktu Skrining</label>
+                                    <label for="waktu_skrining" class="form-label">Waktu Skrining <span
+                                        class="text-danger">*</span></label>
                                     <input type="date" class="form-control" name="waktu_skrining"
                                         value="{{ old('waktu_skrining', $pencatatanSkrining->waktu_skrining) }}" required>
                                 </div>
@@ -55,7 +57,8 @@
                                 <div class="question-container">
                                     <!-- Pertanyaan 1: Batuk terus menerus -->
                                     <div class="question-item mb-4">
-                                        <label class="form-label fw-medium">Batuk terus menerus?</label>
+                                        <label class="form-label fw-medium">Batuk terus menerus? <span
+                                            class="text-danger">*</span></label>
                                         <div class="d-flex gap-4 mt-2">
                                             <div class="form-check">
                                                 <input class="form-check-input" type="radio" name="pertanyaan[1]"
@@ -75,7 +78,8 @@
 
                                     <!-- Pertanyaan 2: Demam lebih dari 2 minggu -->
                                     <div class="question-item mb-4">
-                                        <label class="form-label fw-medium">Demam lebih dari 2 minggu?</label>
+                                        <label class="form-label fw-medium">Demam lebih dari 2 minggu? <span
+                                            class="text-danger">*</span></label>
                                         <div class="d-flex gap-4 mt-2">
                                             <div class="form-check">
                                                 <input class="form-check-input" type="radio" name="pertanyaan[2]"
@@ -96,7 +100,8 @@
                                     <!-- Pertanyaan 3: Berat Badan naik/turun -->
                                     <div class="question-item mb-4">
                                         <label class="form-label fw-medium">Berat Badan (BB) naik atau turun dalam 2 bulan
-                                            berturut-turut?</label>
+                                            berturut-turut? <span
+                                            class="text-danger">*</span></label>
                                         <div class="d-flex gap-4 mt-2">
                                             <div class="form-check">
                                                 <input class="form-check-input" type="radio" name="pertanyaan[3]"
@@ -116,7 +121,8 @@
 
                                     <!-- Pertanyaan 4: Kontak erat dengan pasien TBC -->
                                     <div class="question-item mb-4">
-                                        <label class="form-label fw-medium">Kontak erat dengan pasien TBC?</label>
+                                        <label class="form-label fw-medium">Kontak erat dengan pasien TBC? <span
+                                            class="text-danger">*</span></label>
                                         <div class="d-flex gap-4 mt-2">
                                             <div class="form-check">
                                                 <input class="form-check-input" type="radio" name="pertanyaan[4]"

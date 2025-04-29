@@ -7,14 +7,21 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class PemberianVitamin extends Model
 {
+    protected $table = 'pemberian_vitamins';
+
     public $timestamps = false;
+    
     protected $fillable = [
         'no_pendaftaran',
-        'id_vitamin',
         'waktu_pemberian',
-        'dosis',
+        'data',
         'keterangan',
     ];
+
+    protected $casts = [
+        'waktu_pemberian' => 'date',
+        'data' => 'array', 
+    ]; 
 
     public function pendaftaran(): BelongsTo
     {
