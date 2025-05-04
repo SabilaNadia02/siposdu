@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Pendaftaran extends Model
 {
     use HasFactory;
-    
+
     const PEKERJAAN_TIDAK_BEKERJA = 1;
     const PEKERJAAN_PNS = 2;
     const PEKERJAAN_TNI_POLRI = 3;
@@ -53,7 +53,7 @@ class Pendaftaran extends Model
 
     public function PencatatanAwal(): HasMany
     {
-        return $this->hasMany(PencatatanAwal::class);
+        return $this->hasMany(PencatatanAwal::class, 'no_pendaftaran', 'id');
     }
     public function posyandus(): BelongsTo
     {

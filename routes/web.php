@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DataImunisasiController;
 use App\Http\Controllers\DataObatController;
 use App\Http\Controllers\DataPenggunaController;
@@ -10,6 +11,7 @@ use App\Http\Controllers\DataSkriningController;
 use App\Http\Controllers\DataVaksinController;
 use App\Http\Controllers\DataVitaminController;
 use App\Http\Controllers\KelulusanBalitaController;
+use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\PemberianImunisasiController;
 use App\Http\Controllers\PemberianObatController;
 use App\Http\Controllers\PemberianVaksinController;
@@ -25,6 +27,9 @@ use App\Http\Controllers\SkriningTBCController;
 use App\Models\DataImunisasi;
 use Illuminate\Support\Facades\Route;
 
+
+// Route Dashboard
+Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
 // Route Pendaftaran
 Route::resource('pendaftaran', PendaftaranController::class);
@@ -106,6 +111,17 @@ Route::group(['prefix' => 'skrining', 'as' => 'skrining.'], function () {
     Route::resource('ppok', SkriningPPOKController::class);
 });
 
+// Route Laporan
+Route::prefix('laporan')->name('laporan.')->group(function () {
+    // Halaman pemilihan laporan
+    Route::get('/', [LaporanController::class, 'index'])->name('index');
+
+    // Generate PDF
+    Route::get('/generate', [LaporanController::class, 'generatePDF'])->name('generate');
+
+    // Jika Anda ingin mempertahankan resource route untuk CRUD laporan (opsional)
+    Route::resource('data', LaporanController::class)->except(['index', 'create', 'show']);
+});
 
 
 

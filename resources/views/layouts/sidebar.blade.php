@@ -1,3 +1,5 @@
+@use('Illuminate\Support\Facades\Request')
+
 <!--begin::Sidebar-->
 <aside class="app-sidebar bg-white shadow" data-bs-theme="light">
     <!--begin::Sidebar Brand-->
@@ -5,7 +7,7 @@
         <a href="./index.html" class="brand-link d-flex align-items-center text-dark text-decoration-none">
             {{-- <img src="{{ asset('adminlte') }}/dist/assets/img/AdminLTELogo.png" alt="AdminLTE Logo"
                 class="brand-image opacity-75 shadow me-2" /> --}}
-            <span class="brand-text fw-bold">POSYANDU ILP</span>
+                <span class="brand-text fw-bold">POSYANDU ILP</span>
         </a>
     </div>
     <!--end::Sidebar Brand-->
@@ -16,7 +18,7 @@
             <ul class="nav flex-column sidebar-menu" data-lte-toggle="treeview" role="menu" data-accordion="false">
                 <li class="nav-header fw-bold" style="color: #FF69B4;">UTAMA</li>
                 <li class="nav-item">
-                    <a href="/dashboard" class="nav-link {{ Request::is('dashboard') ? 'active' : '' }}">
+                    <a href="{{ route('dashboard') }}" class="nav-link {{ Request::is('/') ? 'active' : '' }}">
                         <i class="nav-icon bi bi-house-door"></i>
                         <p>Dashboard</p>
                     </a>
@@ -243,7 +245,7 @@
 
     /* Efek hover: hanya mengubah warna teks menjadi pink */
     .nav-link:hover {
-        color: #FF69B4 !important;
+        color: #d63384 !important;
         background: none !important;
         margin-left: 0 !important;
         margin-right: 0 !important;
@@ -251,7 +253,7 @@
 
     /* Efek aktif untuk main level: background pink dan teks putih */
     .nav-link.active {
-        background-color: #FF69B4 !important;
+        background-color: #d63384 !important;
         color: white !important;
         border-radius: 0;
         margin-left: 0 !important;

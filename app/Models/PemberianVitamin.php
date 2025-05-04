@@ -10,25 +10,32 @@ class PemberianVitamin extends Model
     protected $table = 'pemberian_vitamins';
 
     public $timestamps = false;
-    
+
     protected $fillable = [
         'no_pendaftaran',
         'waktu_pemberian',
-        'data',
+        'data', // Menyimpan array JSON berisi multiple vitamin
         'keterangan',
     ];
 
     protected $casts = [
-        'waktu_pemberian' => 'date',
-        'data' => 'array', 
-    ]; 
+        'data' => 'array',
+        'waktu_pemberian' => 'datetime'
+    ];
 
-    public function pendaftaran(): BelongsTo
+    public function pendaftaran()
     {
         return $this->belongsTo(Pendaftaran::class, 'no_pendaftaran');
     }
-    public function vitamin(): BelongsTo
+
+    // Accessor untuk memudahkan akses
+    public function getVitaminListAttribute()
     {
-        return $this->belongsTo(DataVitamin::class, 'id_vitamin');
+        return collect($this->data)->map(function ($item) {
+            return [
+                'id_vitamin' => $item['id_vitamin'],
+                'dosis' => $item['dosis'] ?? null
+            ];
+        });
     }
 }
