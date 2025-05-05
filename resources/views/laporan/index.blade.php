@@ -18,7 +18,7 @@
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-end">
                             <li class="breadcrumb-item">
-                                <a href="#" style="color: #FF69B4; font-size: 16px;">Dashboard</a>
+                                <a href="#" style="color: #d63384; font-size: 16px;">Dashboard</a>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">Laporan</li>
                         </ol>
@@ -37,7 +37,7 @@
                 <!--begin::Row-->
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="card mb-4" style="border-top: 3px solid #FF69B4; border-radius: 0px;">
+                        <div class="card mb-4" style="border-top: 3px solid #d63384; border-radius: 0px;">
                             <div class="card-body">
                                 <form action="{{ route('laporan.generate') }}" method="GET">
                                     @csrf
@@ -102,7 +102,7 @@
 
                                     <div class="mt-4">
                                         <button type="submit" class="btn text-light px-4 py-2"
-                                            style="background-color: #FF69B4; min-width: 180px;">
+                                            style="background-color: #d63384; min-width: 180px;">
                                             <i class="fas fa-file-pdf"></i> Cetak PDF
                                         </button>
                                     </div>

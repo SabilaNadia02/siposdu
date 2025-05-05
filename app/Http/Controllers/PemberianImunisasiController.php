@@ -13,7 +13,21 @@ class PemberianImunisasiController extends Controller
 {
     public function index()
     {
-        $totalPemberian = PemberianImunisasi::count();
+        $totalPemberian = PemberianImunisasi::whereHas('pendaftaran', function ($query) {
+            $query->where('jenis_sasaran', 2);
+        })->count();
+
+        $totalLaki = PemberianImunisasi::whereHas('pendaftaran', function ($query) {
+            $query->where('jenis_sasaran', 2)
+                ->where('jenis_kelamin', 1);
+        })->count();
+
+        $totalPerempuan = PemberianImunisasi::whereHas('pendaftaran', function ($query) {
+            $query->where('jenis_sasaran', 2)
+                ->where('jenis_kelamin', 2);
+        })->count();
+
+        // Data imunisasi untuk tabel
         $pemberianImunisasi = PemberianImunisasi::with(['pendaftaran', 'imunisasi'])
             ->whereHas('pendaftaran', function ($query) {
                 $query->where('jenis_sasaran', 2);
@@ -21,7 +35,12 @@ class PemberianImunisasiController extends Controller
             ->orderBy('waktu_pemberian', 'desc')
             ->paginate(10);
 
-        return view('pemberian.imunisasi.index', compact('totalPemberian', 'pemberianImunisasi'));
+        return view('pemberian.imunisasi.index', compact(
+            'totalPemberian',
+            'totalLaki',
+            'totalPerempuan',
+            'pemberianImunisasi'
+        ));
     }
 
     public function create()

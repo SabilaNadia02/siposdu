@@ -9,6 +9,7 @@ use App\Models\Pendaftaran;
 use App\Models\PertanyaanSkrining;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class SkriningTBCController extends Controller
 {
@@ -80,7 +81,7 @@ class SkriningTBCController extends Controller
             ]);
 
             // Debug: Tampilkan data sebelum menyimpan
-            \Log::info('Data pertanyaan:', $validated['pertanyaan']);
+            Log::info('Data pertanyaan:', $validated['pertanyaan']);
 
             // Simpan detail pertanyaan
             foreach ($validated['pertanyaan'] as $idPertanyaan => $jawaban) {

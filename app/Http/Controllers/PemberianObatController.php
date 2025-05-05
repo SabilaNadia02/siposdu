@@ -20,9 +20,20 @@ class PemberianObatController extends Controller
         $pemberianObat = $query->paginate(10);
         $totalPemberian = PemberianObat::count();
 
+        // Hitung total berdasarkan jenis kelamin
+        $totalLaki = PemberianObat::whereHas('pendaftaran', function ($query) {
+            $query->where('jenis_kelamin', 1);
+        })->count();
+
+        $totalPerempuan = PemberianObat::whereHas('pendaftaran', function ($query) {
+            $query->where('jenis_kelamin', 2);
+        })->count();
+
         return view('pemberian.obat.index', compact(
             'pemberianObat',
             'totalPemberian',
+            'totalLaki',
+            'totalPerempuan',
             'pendaftarans',
             'dataObat'
         ));

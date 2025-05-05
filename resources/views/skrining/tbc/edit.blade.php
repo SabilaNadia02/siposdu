@@ -13,7 +13,7 @@
                     </div>
                     <div class="col-sm-6 d-flex justify-content-end align-items-center">
                         <button type="submit" form="editSkriningForm" class="btn text-light me-2"
-                            style="background-color: #FF69B4;">
+                            style="background-color: #d63384;">
                             <i class="fas fa-save"></i> Simpan Perubahan
                         </button>
                         <a href="{{ route('skrining.tbc.index') }}" class="btn btn-secondary">
@@ -26,7 +26,7 @@
 
         <div class="app-content">
             <div class="container-fluid">
-                <div class="card shadow-sm" style="border-radius: 0px; border-top: 3px solid #FF69B4;">
+                <div class="card shadow-sm" style="border-radius: 0px; border-top: 3px solid #d63384;">
                     <div class="card-body">
                         <form id="editSkriningForm" action="{{ route('skrining.tbc.update', $pencatatanSkrining->id) }}"
                             method="POST">
@@ -169,7 +169,7 @@
         }
 
         .form-control:focus {
-            border-color: #FF69B4;
+            border-color: #d63384;
             box-shadow: 0 0 0 0.2rem rgba(255, 105, 180, 0.25);
         }
 
@@ -184,8 +184,8 @@
         }
 
         .form-check-input:checked {
-            background-color: #FF69B4;
-            border-color: #FF69B4;
+            background-color: #d63384;
+            border-color: #d63384;
         }
     </style>
 @endpush

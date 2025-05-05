@@ -14,7 +14,7 @@
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-end">
                             <li class="breadcrumb-item">
-                                <a href="#" style="color: #FF69B4; font-size: 16px;">Dashboard</a>
+                                <a href="#" style="color: #d63384; font-size: 16px;">Dashboard</a>
                             </li>
                             <li class="breadcrumb-item active">Pendaftaran</li>
                         </ol>
@@ -26,38 +26,46 @@
         <div class="app-content">
             <div class="container-fluid">
                 <div class="row">
+                    <!-- Total Pendaftaran (pink) -->
                     <div class="col-lg-3 col-md-6 col-12">
-                        <div class="small-box text-dark" style="background-color: #ffdeed; border-radius: 2px;">
+                        <div class="small-box text-light"
+                            style="background-color: #d63384; border: 1px solid #d63384; border-radius: 2px;">
                             <div class="inner">
                                 <h3>{{ $totalPendaftaran }}</h3>
                                 <p>Total Pendaftaran</p>
                             </div>
                         </div>
                     </div>
+
+                    <!-- Total Ibu Hamil (primary / biru) -->
                     <div class="col-lg-3 col-md-6 col-12">
-                        <div class="small-box text-dark"
-                            style="background-color: white; border: 1px solid #FF69B4; border-radius: 2px;">
+                        <div class="small-box text-light"
+                            style="background-color: #0d6efd; border: 1px solid #0d6efd; border-radius: 2px;">
                             <div class="inner">
                                 <h3>{{ $totalIbuHamil }}</h3>
                                 <p>Total Ibu Hamil</p>
                             </div>
                         </div>
                     </div>
+
+                    <!-- Total Balita (success / hijau) -->
                     <div class="col-lg-3 col-md-6 col-12">
-                        <div class="small-box text-dark"
-                            style="background-color: white; border: 1px solid #FF69B4; border-radius: 2px;">
+                        <div class="small-box text-light"
+                            style="background-color: #198754; border: 1px solid #198754; border-radius: 2px;">
                             <div class="inner">
                                 <h3>{{ $totalBayiBalita }}</h3>
-                                <p>Total Bayi, Balita, dan APRAS</p>
+                                <p>Total Balita</p>
                             </div>
                         </div>
                     </div>
+
+                    <!-- Total Lansia (warning / kuning) -->
                     <div class="col-lg-3 col-md-6 col-12">
                         <div class="small-box text-dark"
-                            style="background-color: white; border: 1px solid #FF69B4; border-radius: 2px;">
+                            style="background-color: #ffc107; border: 1px solid #ffc107; border-radius: 2px;">
                             <div class="inner">
                                 <h3>{{ $totalUsiaSuburLansia }}</h3>
-                                <p>Total Usia Subur atau Lansia</p>
+                                <p>Total Lansia</p>
                             </div>
                         </div>
                     </div>
@@ -67,10 +75,10 @@
                     <div class="col-md-12">
                         <div class="card mb-4" style="border-radius: 0px;">
                             <div class="card-header d-flex justify-content-between align-items-center"
-                                style="border-top: 3px solid #FF69B4; border-radius: 0px;">
+                                style="border-top: 3px solid #d63384; border-radius: 0px;">
                                 <h5 class="card-title">Tabel Data Pendaftaran</h5>
                                 <button type="button" class="btn btn-sm ms-auto text-light"
-                                    style="background-color: #FF69B4;" data-bs-toggle="modal"
+                                    style="background-color: #d63384;" data-bs-toggle="modal"
                                     data-bs-target="#addDataModal">
                                     <i class="bi bi-plus"></i> Tambah Pendaftaran
                                 </button>
@@ -153,9 +161,6 @@
                                     @endforelse
                                 </tbody>
                             </table>
-                            {{-- <div class="card-footer clearfix" style="background-color: white">
-                                {{ $pendaftaran->links('pagination::bootstrap-4') }}
-                            </div> --}}
                         </div>
 
                         <!-- /.card-body -->
@@ -165,19 +170,19 @@
                                     <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
                                 @else
                                     <li class="page-item"><a class="page-link"
-                                            style="background-color: #FF69B4; color: white; border: none;"
+                                            style="background-color: #d63384; color: white; border: none;"
                                             href="{{ $pendaftaran->previousPageUrl() }}">&laquo;</a></li>
                                 @endif
                                 @for ($i = 1; $i <= $pendaftaran->lastPage(); $i++)
                                     <li class="page-item {{ $pendaftaran->currentPage() == $i ? 'active' : '' }}">
                                         <a class="page-link"
-                                            style="background-color: {{ $pendaftaran->currentPage() == $i ? '#FF69B4' : 'white' }}; color: {{ $pendaftaran->currentPage() == $i ? 'white' : '#FF69B4' }}; border: none;"
+                                            style="background-color: {{ $pendaftaran->currentPage() == $i ? '#d63384' : 'white' }}; color: {{ $pendaftaran->currentPage() == $i ? 'white' : '#d63384' }}; border: none;"
                                             href="{{ $pendaftaran->url($i) }}">{{ $i }}</a>
                                     </li>
                                 @endfor
                                 @if ($pendaftaran->hasMorePages())
                                     <li class="page-item"><a class="page-link"
-                                            style="background-color: #FF69B4; color: white; border: none;"
+                                            style="background-color: #d63384; color: white; border: none;"
                                             href="{{ $pendaftaran->nextPageUrl() }}">&raquo;</a></li>
                                 @else
                                     <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
@@ -204,7 +209,7 @@
                     text: "Data ini akan dihapus secara permanen!",
                     icon: 'warning',
                     showCancelButton: true,
-                    confirmButtonColor: '#FF69B4',
+                    confirmButtonColor: '#d63384',
                     cancelButtonColor: '#d33',
                     confirmButtonText: 'Ya, Hapus!',
                     cancelButtonText: 'Batal'

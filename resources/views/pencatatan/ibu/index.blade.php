@@ -16,7 +16,7 @@
                     <div class="col-sm-4">
                         <ol class="breadcrumb float-sm-end">
                             <li class="breadcrumb-item">
-                                <a href="#" style="color: #007BFF; font-size: 16px;">Pencatatan</a>
+                                <a href="#" style="color: #0d6efd; font-size: 16px;">Pencatatan</a>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">Pencatatan Ibu Hamil</li>
                         </ol>
@@ -29,7 +29,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-4 col-md-6 col-12">
-                        <div class="small-box bg-white text-dark" style="border: 1px solid #007BFF; border-radius: 2px;">
+                        <div class="small-box bg-white text-dark" style="border: 1px solid #0d6efd; border-radius: 2px;">
                             <div class="inner">
                                 <h3>{{ $jumlahPencatatan }}</h3>
                                 <p>Total Pencatatan</p>
@@ -41,7 +41,7 @@
                 <div class="row mb-3">
                     <div class="col-md-3">
                         <div class="input-group">
-                            <span class="input-group-text" style="border-radius: 2px; color: #007BFF;">
+                            <span class="input-group-text" style="border-radius: 2px; color: #0d6efd;">
                                 <i class="fas fa-search"></i>
                             </span>
                             <input type="text" class="form-control" id="searchNamaIbu" placeholder="Cari Nama Ibu.."
@@ -54,16 +54,29 @@
                     <div class="col-md-12">
                         <div class="card mb-4" style="border-radius: 0px;">
                             <div class="card-header d-flex justify-content-between align-items-center"
-                                style="border-top: 3px solid #007BFF; border-radius: 0px;">
+                                style="border-top: 3px solid #0d6efd; border-radius: 0px;">
                                 <h5 class="card-title">Tabel Data Ibu Hamil</h5>
                                 <button type="button" class="btn btn-sm ms-auto text-light"
-                                    style="background-color: #007BFF;" data-bs-toggle="modal"
+                                    style="background-color: #0d6efd;" data-bs-toggle="modal"
                                     data-bs-target="#tambahPencatatanBaruModal">
                                     <i class="bi bi-plus"></i> Tambah Data
                                 </button>
                             </div>
                             @include('pencatatan.ibu.modal.tambah_pencatatan_baru')
+
                             <div class="card-body">
+
+                                @foreach (['success' => 'success', 'error' => 'danger'] as $msg => $type)
+                                    @if (session($msg))
+                                        <div class="alert alert-{{ $type }} alert-dismissible fade show"
+                                            role="alert">
+                                            {{ session($msg) }}
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                                aria-label="Close"></button>
+                                        </div>
+                                    @endif
+                                @endforeach
+
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
@@ -84,14 +97,21 @@
                                                 <td class="text-center">
                                                     <a href="{{ route('pencatatan.ibu.show', $data->id) }}" class="btn"
                                                         title="Tambah Pencatatan"
-                                                        style="background-color: #007BFF; color: white; width: 20px; height: 20px; font-size: 10px; padding: 1px; border-radius: 2px;">
+                                                        style="background-color: #0d6efd; color: white; width: 20px; height: 20px; font-size: 10px; padding: 1px; border-radius: 2px;">
                                                         <i class="fas fa-plus"></i>
                                                     </a>
-                                                    <a href="#" class="btn btn-danger" title="Hapus"
-                                                        onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')"
-                                                        style="width: 20px; height: 20px; font-size: 10px; padding: 1px;">
-                                                        <i class="fas fa-trash"></i>
-                                                    </a>
+
+                                                    <!-- Tombol Hapus -->
+                                                    <form action="{{ route('pencatatan.ibu.destroy', $data->id) }}"
+                                                        method="POST" class="d-inline">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-danger btn-sm btn-hapus"
+                                                            style="width: 20px; height: 20px; font-size: 10px; padding: 1px;"
+                                                            title="Hapus">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
+                                                    </form>
                                                 </td>
                                             </tr>
                                         @empty
@@ -114,7 +134,9 @@
             </div>
         </div>
     </main>
+@endsection
 
+@section('scripts')
     <script>
         document.getElementById("searchNamaIbu").addEventListener("keyup", function() {
             var input = this.value.toLowerCase();
@@ -129,6 +151,27 @@
                 }
             });
         });
-    </script>
 
+        $(document).ready(function() {
+            $('.btn-hapus').on('click', function(e) {
+                e.preventDefault();
+                var form = $(this).closest('form');
+
+                Swal.fire({
+                    title: 'Apakah Anda yakin?',
+                    text: "Data ini akan dihapus secara permanen!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#0d6efd',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya, Hapus!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+        });
+    </script>
 @endsection

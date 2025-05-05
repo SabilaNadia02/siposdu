@@ -13,7 +13,7 @@
                     @csrf
                     <div class="row g-3">
                         <div class="col-md-12">
-                            <label for="no_pendaftaran" class="form-label">Nama Ibu Hamil</label>
+                            <label for="no_pendaftaran" class="form-label">Nama Ibu Hamil <span class="text-danger">*</span></label>
                             <select class="form-select form-select-sm" id="no_pendaftaran" name="no_pendaftaran"
                                 required>
                                 <option value="" hidden>Pilih nama ibu</option>
@@ -23,22 +23,22 @@
                             </select>
                         </div>
                         <div class="col-md-12">
-                            <label for="nama_suami" class="form-label">Nama Suami</label>
+                            <label for="nama_suami" class="form-label">Nama Suami <span class="text-danger">*</span></label>
                             <input type="text" class="form-control form-control-sm" id="nama_suami" name="nama_suami"
                                 placeholder="Masukkan nama suami" required>
                         </div>
                         <div class="col-md-6">
-                            <label for="hpht" class="form-label">Hari Pertama Haid Terakhir (HPHT)</label>
+                            <label for="hpht" class="form-label">Hari Pertama Haid Terakhir (HPHT) <span class="text-danger">*</span></label>
                             <input type="date" class="form-control form-control-sm" id="hpht" name="hpht"
                                 required>
                         </div>
                         <div class="col-md-6">
-                            <label for="tinggi_badan" class="form-label">Tinggi Badan (cm)</label>
+                            <label for="tinggi_badan" class="form-label">Tinggi Badan (cm) <span class="text-danger">*</span></label>
                             <input type="number" class="form-control form-control-sm" id="tinggi_badan"
                                 name="tinggi_badan" placeholder="Masukkan tinggi badan" min="0" required>
                         </div>
                         <div class="col-md-6">
-                            <label for="hamil_ke" class="form-label">Hamil Anak ke-</label>
+                            <label for="hamil_ke" class="form-label">Hamil Anak ke- <span class="text-danger">*</span></label>
                             <input type="number" class="form-control form-control-sm" id="hamil_ke" name="hamil_ke"
                                 placeholder="0" min="1" required>
                         </div>

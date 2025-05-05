@@ -18,7 +18,7 @@
                     <div class="col-sm-3">
                         <ol class="breadcrumb float-sm-end">
                             <li class="breadcrumb-item">
-                                <a href="#" style="color: #FF69B4; font-size: 16px;">Dashboard</a>
+                                <a href="#" style="color: #d63384; font-size: 16px;">Dashboard</a>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">Pencatatan</li>
                         </ol>

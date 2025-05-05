@@ -73,7 +73,7 @@
 
                     <div class="mt-3 d-grid">
                         <button type="submit" class="btn btn-sm text-light"
-                            style="background-color: #FF69B4;">SIMPAN</button>
+                            style="background-color: #d63384;">SIMPAN</button>
                     </div>
                 </form>
             </div>

@@ -8,6 +8,8 @@ use App\Models\PencatatanKunjungan;
 use App\Models\Pendaftaran;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class PencatatanIbuController extends Controller
@@ -61,21 +63,33 @@ class PencatatanIbuController extends Controller
             'usia_kehamilan' => $usia_kehamilan,
         ]);
 
-        return redirect()->route('pencatatan.ibu.index')->with('success', 'Data berhasil ditambahkan.');
+        return redirect()->route('pencatatan.ibu.index')->with('success', 'Data berhasil ditambahkan!');
     }
 
     public function show($id)
     {
-        // dd(request()->all());
-
-        $pencatatan_awal = PencatatanAwal::findOrFail($id);
         $data = PencatatanAwal::with(['pendaftaran', 'pencatatanKunjungan'])
             ->findOrFail($id);
 
+        // Hitung usia kehamilan saat ini 
+        $hpht = Carbon::parse($data->hpht);
+        $currentGestationalAge = (int) $hpht->diffInWeeks(Carbon::now());
+
+        // Simpan ke data, tapi tidak ke database
+        $data->usia_kehamilan = $currentGestationalAge;
+
+        // Hitung usia kehamilan pada setiap kunjungan 
+        $kunjungans = $data->pencatatanKunjungan->map(function ($kunjungan) use ($hpht) {
+            $visitDate = Carbon::parse($kunjungan->waktu_pencatatan);
+            $kunjungan->gestational_age = (int) $hpht->diffInWeeks($visitDate);
+            return $kunjungan;
+        });
+
         $riwayatPemeriksaan = $data->pencatatanKunjungan;
 
-        return view('pencatatan.ibu.show', compact('data', 'riwayatPemeriksaan', 'pencatatan_awal'));
+        return view('pencatatan.ibu.show', compact('data', 'kunjungans', 'riwayatPemeriksaan'));
     }
+
 
     public function edit($id)
     {
@@ -98,7 +112,7 @@ class PencatatanIbuController extends Controller
             'hamil_ke' => 'nullable|integer|min:1',
             'jarak_anak' => 'nullable|string|max:255',
             'tinggi_badan' => 'required|numeric|max:250',
-            'usia_kehamilan' => 'nullable|integer|min:1|max:42',
+            'usia_kehamilan' => 'nullable|integer',
         ]);
 
         if ($validator->fails()) {
@@ -128,15 +142,31 @@ class PencatatanIbuController extends Controller
             'usia_kehamilan' => $usia_kehamilan,
         ]);
 
-        return redirect()->route('pencatatan.ibu.show', $data->id)->with('success', 'Data berhasil diperbarui.');
+        return redirect()->route('pencatatan.ibu.show', $data->id)->with('success', 'Data berhasil diperbarui!');
     }
 
     public function destroy($id)
     {
-        $data = PencatatanAwal::findOrFail($id);
-        $data->delete();
+        try {
+            DB::beginTransaction();
 
-        return redirect()->route('pencatatan.ibu.index')->with('success', 'Data berhasil dihapus.');
+            $data = PencatatanAwal::findOrFail($id);
+
+            // Hapus semua kunjungan terkait terlebih dahulu
+            $data->pencatatanKunjungan()->delete();
+
+            // Baru hapus data utama
+            $data->delete();
+
+            DB::commit();
+
+            return redirect()->route('pencatatan.ibu.index')
+                ->with('success', 'Data berhasil dihapus!');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Delete error: ' . $e->getMessage());
+            return back()->with('error', 'Gagal menghapus data: ' . $e->getMessage());
+        }
     }
 
     // ✅ Kunjungan untuk Ibu 
@@ -153,8 +183,8 @@ class PencatatanIbuController extends Controller
             'lingkar_lengan' => 'required|numeric',
             'tekanan_darah_sistolik' => 'required|numeric',
             'tekanan_darah_diastolik' => 'required|numeric',
-            'kelas_ibu_hamil' => 'required',
-            'mt_bumil_kek' => 'required',
+            'kelas_ibu_hamil' => 'nullable',
+            'mt_bumil_kek' => 'nullable',
             'keluhan' => 'nullable|string|max:255',
             'edukasi' => 'nullable|string|max:255',
         ]);
@@ -165,11 +195,9 @@ class PencatatanIbuController extends Controller
         // Simpan data ke database
         $kunjungan = PencatatanKunjungan::create($validatedData);
 
-        // Redirect ke halaman detail kunjungan dengan pesan sukses
-        return redirect()->route('pencatatan.ibu.kunjungan.show', [
-            'id_pencatatan_awal' => $id_pencatatan_awal,
-            'id' => $kunjungan->id,
-        ])->with('success', 'Kunjungan berhasil ditambahkan.');
+        // Redirect ke halaman show pencatatan awal dengan pesan sukses
+        return redirect()->route('pencatatan.ibu.show', $id_pencatatan_awal)
+            ->with('success', 'Kunjungan berhasil ditambahkan.');
     }
 
     public function showKunjungan(Request $request, $id_pencatatan_awal, $id)
@@ -184,9 +212,13 @@ class PencatatanIbuController extends Controller
     public function editKunjungan(Request $request, $id_pencatatan_awal, $id)
     {
         $data = PencatatanKunjungan::findOrFail($id);
-        $kunjungan = PencatatanAwal::findOrFail($id_pencatatan_awal);
+        $pencatatanAwal = PencatatanAwal::findOrFail($id_pencatatan_awal);
 
-        return view('pencatatan.ibu.kunjungan.edit', compact('data', 'kunjungan', 'id', 'id_pencatatan_awal'));
+        return view('pencatatan.ibu.kunjungan.edit', [
+            'data' => $data,
+            'pencatatanAwal' => $pencatatanAwal,
+            'kunjungan' => $data
+        ]);
     }
 
     public function updateKunjungan(Request $request, $id_pencatatan_awal, $id)
@@ -227,16 +259,28 @@ class PencatatanIbuController extends Controller
         ]);
 
         // Redirect kembali ke halaman detail dengan pesan sukses
-        return redirect()->route('pencatatan.ibu.kunjungan.show', [$kunjungan->id, $data->id])
+        return redirect()->route('pencatatan.ibu.show', [$kunjungan->id, $data->id])
             ->with('success', 'Kunjungan berhasil diperbarui.');
     }
 
-    public function destroyKunjungan($id, $id_pencatatan_kunjungan)
+    public function destroyKunjungan($id_pencatatan_awal, $id)
     {
-        $kunjungan = PencatatanKunjungan::findOrFail($id_pencatatan_kunjungan);
-        $kunjungan->delete();
+        try {
+            DB::beginTransaction();
 
-        return redirect()->route('pencatatan.ibu.show', $id)
-            ->with('success', 'Kunjungan berhasil dihapus.');
+            $kunjungan = PencatatanKunjungan::findOrFail($id);
+            $pencatatanAwalId = $kunjungan->id_pencatatan_awal;
+
+            $kunjungan->delete();
+
+            DB::commit();
+
+            return redirect()->route('pencatatan.ibu.show', $pencatatanAwalId)
+                ->with('success', 'Data Kunjungan berhasil dihapus!');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Delete error: ' . $e->getMessage());
+            return back()->with('error', 'Gagal menghapus data: ' . $e->getMessage());
+        }
     }
 }

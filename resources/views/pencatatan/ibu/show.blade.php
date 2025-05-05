@@ -47,6 +47,17 @@
                     </div>
 
                     <div class="card-body">
+
+                        @foreach (['success' => 'success', 'error' => 'danger'] as $msg => $type)
+                            @if (session($msg))
+                                <div class="alert alert-{{ $type }} alert-dismissible fade show" role="alert">
+                                    {{ session($msg) }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                        aria-label="Close"></button>
+                                </div>
+                            @endif
+                        @endforeach
+
                         <div class="tab-content" id="myTabContent">
 
                             <!-- Tab 1: Data Pencatatan Awal -->
@@ -108,7 +119,8 @@
                                         <i class="bi bi-plus"></i> Tambah Data
                                     </button>
                                 </div>
-                                @include('pencatatan.ibu.modal.tambah_kunjungan_baru')
+                                {{-- @include('pencatatan.ibu.modal.tambah_kunjungan_baru') --}}
+                                @include('pencatatan.ibu.modal.tambah_kunjungan_baru', ['data' => $data])
 
                                 @if ($data->pencatatanKunjungan->isEmpty())
                                     <p class="text-muted">Belum ada riwayat kunjungan.</p>
@@ -116,10 +128,10 @@
                                     <table class="table table-bordered">
                                         <thead class="table-primary">
                                             <tr>
-                                                <th style="width: 150px;">Usia Kehamilan (minggu)</th>
+                                                <th style="width: 150px;">Usia Kehamilan</th>
                                                 <th style="width: 150px;">Tanggal Kunjungan</th>
                                                 <th style="width: 100px;">Berat Badan</th>
-                                                <th style="width: 100px;">Lingkar Lengan</th>
+                                                <th style="width: 120px;">Lingkar Lengan</th>
                                                 <th style="width: 120px;">Tekanan Darah</th>
                                                 <th style="width: 200px;">Keluhan</th>
                                                 <th class="text-center" style="width: 100px;">Aksi</th>
@@ -128,7 +140,7 @@
                                         <tbody>
                                             @foreach ($data->pencatatanKunjungan as $kunjungan)
                                                 <tr>
-                                                    <td>{{ $kunjungan->pencatatanAwal->usia_kehamilan ?? '-' }}</td>
+                                                    <td>{{ $kunjungan->gestational_age ?? '-' }} minggu</td>
                                                     <td>{{ \Carbon\Carbon::parse($kunjungan->waktu_pencatatan)->translatedFormat('j F Y') }}
                                                     </td>
                                                     <td>{{ $kunjungan->berat_badan ?? '-' }}
@@ -156,9 +168,8 @@
                                                             @csrf
                                                             @method('DELETE')
                                                             <button type="submit" class="btn btn-danger btn-sm btn-hapus"
-                                                                title="Hapus"
                                                                 style="width: 20px; height: 20px; font-size: 10px; padding: 1px;"
-                                                                onclick="return confirm('Yakin ingin menghapus?')">
+                                                                title="Hapus">
                                                                 <i class="fas fa-trash"></i>
                                                             </button>
                                                         </form>
@@ -190,13 +201,13 @@
                                                 $ibuBermasalah[] =
                                                     "Tekanan darah rendah ( {$sistolik}/{$diastolik} mmHg ) pada kunjungan tanggal " .
                                                     \Carbon\Carbon::parse(
-                                                        $kunjungan->waktu_kunjungan,
+                                                        $kunjungan->waktu_pencatatan, 
                                                     )->translatedFormat('j F Y');
                                             } elseif ($sistolik > 140 || $diastolik > 90) {
                                                 $ibuBermasalah[] =
                                                     "Tekanan darah tinggi ( {$sistolik}/{$diastolik} mmHg ) pada kunjungan tanggal " .
                                                     \Carbon\Carbon::parse(
-                                                        $kunjungan->waktu_kunjungan,
+                                                        $kunjungan->waktu_pencatatan, 
                                                     )->translatedFormat('j F Y');
                                             }
                                         }
@@ -205,7 +216,7 @@
 
                                 @if (!empty($ibuBermasalah))
                                     <div class="alert alert-danger">
-                                        <strong>⚠ Peringatan!</strong> Ditemukan ibu hamil dengan kondisi tekanan darah
+                                        <strong>⚠ Peringatan!</strong> Ditemukan kondisi tekanan darah
                                         bermasalah:
                                         <ul>
                                             @foreach ($ibuBermasalah as $catatan)
@@ -264,4 +275,31 @@
             border-bottom: none;
         }
     </style>
+
+@endsection
+
+@section('scripts')
+    <script>
+        $(document).ready(function() {
+            $('.btn-hapus').on('click', function(e) {
+                e.preventDefault();
+                var form = $(this).closest('form');
+
+                Swal.fire({
+                    title: 'Apakah Anda yakin?',
+                    text: "Data ini akan dihapus secara permanen!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#0d6efd',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya, Hapus!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+        });
+    </script>
 @endsection

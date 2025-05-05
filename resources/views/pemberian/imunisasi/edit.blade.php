@@ -17,7 +17,7 @@
                     </div>
                     <div class="col-sm-4 d-flex justify-content-end align-items-center">
                         <button type="submit" form="editForm" class="btn btn-success me-2"
-                            style="background-color: #28A745; border-color: #28A745;">
+                            style="background-color: #198754; border-color: #198754;">
                             <i class="fas fa-save"></i> Simpan Perubahan
                         </button>
                         <a href="{{ route('pemberian.imunisasi.index') }}" class="btn btn-secondary">
@@ -33,7 +33,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card" style="border-radius: 0px;">
-                            <div class="card-header text-white" style="background-color: #28A745; border-radius: 0px;">
+                            <div class="card-header text-white" style="background-color: #198754; border-radius: 0px;">
                                 <h3 class="card-title">Edit Pemberian Imunisasi</h3>
                             </div>
 

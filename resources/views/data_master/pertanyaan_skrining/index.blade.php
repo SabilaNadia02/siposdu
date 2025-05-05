@@ -20,7 +20,7 @@
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-end">
                             <li class="breadcrumb-item">
-                                <a href="#" style="color: #FF69B4; font-size: 16px;">Dashboard</a>
+                                <a href="#" style="color: #d63384; font-size: 16px;">Dashboard</a>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">Data Pertanyaan Skrining</li>
                         </ol>
@@ -42,10 +42,10 @@
                     <div class="col-md-12">
                         <div class="card mb-4" style="border-radius: 0px;">
                             <div class="card-header d-flex justify-content-between align-items-center"
-                                style="border-top: 3px solid #FF69B4; border-radius: 0px;">
+                                style="border-top: 3px solid #d63384; border-radius: 0px;">
                                 <h3 class="card-title">Tabel Data Pertanyaan Skrining</h3>
                                 <button type="button" class="btn btn-sm ms-auto text-light"
-                                    style="background-color: #FF69B4;" data-bs-toggle="modal"
+                                    style="background-color: #d63384;" data-bs-toggle="modal"
                                     data-bs-target="#tambahPertanyaanSkriningModal">
                                     Tambah Pertanyaan Skrining
                                 </button>
@@ -118,20 +118,20 @@
                                         <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
                                     @else
                                         <li class="page-item"><a class="page-link"
-                                                style="background-color: #FF69B4; color: white; border: none;"
+                                                style="background-color: #d63384; color: white; border: none;"
                                                 href="{{ $pertanyaanskrining->previousPageUrl() }}">&laquo;</a></li>
                                     @endif
                                     @for ($i = 1; $i <= $pertanyaanskrining->lastPage(); $i++)
                                         <li
                                             class="page-item {{ $pertanyaanskrining->currentPage() == $i ? 'active' : '' }}">
                                             <a class="page-link"
-                                                style="background-color: {{ $pertanyaanskrining->currentPage() == $i ? '#FF69B4' : 'white' }}; color: {{ $pertanyaanskrining->currentPage() == $i ? 'white' : '#FF69B4' }}; border: none;"
+                                                style="background-color: {{ $pertanyaanskrining->currentPage() == $i ? '#d63384' : 'white' }}; color: {{ $pertanyaanskrining->currentPage() == $i ? 'white' : '#d63384' }}; border: none;"
                                                 href="{{ $pertanyaanskrining->url($i) }}">{{ $i }}</a>
                                         </li>
                                     @endfor
                                     @if ($pertanyaanskrining->hasMorePages())
                                         <li class="page-item"><a class="page-link"
-                                                style="background-color: #FF69B4; color: white; border: none;"
+                                                style="background-color: #d63384; color: white; border: none;"
                                                 href="{{ $pertanyaanskrining->nextPageUrl() }}">&raquo;</a></li>
                                     @else
                                         <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
@@ -163,7 +163,7 @@
                     text: "Data ini akan dihapus secara permanen!",
                     icon: 'warning',
                     showCancelButton: true,
-                    confirmButtonColor: '#FF69B4',
+                    confirmButtonColor: '#d63384',
                     cancelButtonColor: '#d33',
                     confirmButtonText: 'Ya, Hapus!',
                     cancelButtonText: 'Batal'

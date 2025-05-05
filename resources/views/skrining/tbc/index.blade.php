@@ -20,7 +20,7 @@
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-end">
                             <li class="breadcrumb-item">
-                                <a href="#" style="color: #FF69B4; font-size: 16px;">Dashboard</a>
+                                <a href="#" style="color: #d63384; font-size: 16px;">Dashboard</a>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">Skrining TBC</li>
                         </ol>
@@ -42,7 +42,7 @@
                     <!--begin::Col-->
                     <div class="col-lg-4 col-md-6 col-12">
                         <!--begin::Small Box Widget 1-->
-                        <div class="small-box text-dark text-center" style="background-color: #ffdeed; border-radius: 2px;">
+                        <div class="small-box text-light text-center" style="background-color: #d63384; border-radius: 2px;">
                             <div class="inner">
                                 <h3>{{ $totalDenganGejala }}</h3>
                                 <p>Total Dengan Gejala</p>
@@ -71,7 +71,7 @@
                 <div class="row mb-3">
                     <div class="col-md-3">
                         <div class="input-group">
-                            <span class="input-group-text" style="color: #FF69B4; border-radius: 2px;"><i
+                            <span class="input-group-text" style="color: #d63384; border-radius: 2px;"><i
                                     class="fas fa-calendar"></i></span>
                             <select class="form-control" id="tahunFilter">
                                 <option value="">Semua Tahun</option>
@@ -83,7 +83,7 @@
                     </div>
                     <div class="col-md-3">
                         <div class="input-group">
-                            <span class="input-group-text" style="color: #FF69B4; border-radius: 2px;"><i
+                            <span class="input-group-text" style="color: #d63384; border-radius: 2px;"><i
                                     class="fas fa-calendar-alt"></i></span>
                             <select class="form-control" id="bulanFilter">
                                 <option value="">Semua Bulan</option>
@@ -104,7 +104,7 @@
                     </div>
                     <div class="col-md-3">
                         <div class="input-group">
-                            <span class="input-group-text" style="color: #FF69B4; border-radius: 2px;"><i
+                            <span class="input-group-text" style="color: #d63384; border-radius: 2px;"><i
                                     class="fas fa-map-marker-alt"></i></span>
                             <select class="form-control" id="posyanduFilter">
                                 <option value="">Semua Posyandu</option>
@@ -118,7 +118,7 @@
                     </div>
                     <div class="col-md-3">
                         <div class="input-group">
-                            <span class="input-group-text" style="color: #FF69B4; border-radius: 2px;"><i
+                            <span class="input-group-text" style="color: #d63384; border-radius: 2px;"><i
                                     class="fas fa-bullseye"></i></span>
                             <select class="form-control" id="sasaranFilter" style="border-radius: 2px;">
                                 <option value="">Semua Sasaran</option>
@@ -136,10 +136,10 @@
                     <div class="col-md-12">
                         <div class="card mb-4" style="border-radius: 0px;">
                             <div class="card-header d-flex justify-content-between align-items-center"
-                                style="border-top: 3px solid #FF69B4; border-radius: 0px;">
+                                style="border-top: 3px solid #d63384; border-radius: 0px;">
                                 <h3 class="card-title">Tabel Data Skrining TBC</h3>
                                 <button type="button" class="btn btn-sm ms-auto text-light"
-                                    style="background-color: #FF69B4;" data-bs-toggle="modal"
+                                    style="background-color: #d63384;" data-bs-toggle="modal"
                                     data-bs-target="#tambahSkringTBCModal">
                                     Tambah Skrining TBC
                                 </button>
@@ -249,19 +249,19 @@
                                         <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
                                     @else
                                         <li class="page-item"><a class="page-link"
-                                                style="background-color: #FF69B4; color: white; border: none;"
+                                                style="background-color: #d63384; color: white; border: none;"
                                                 href="{{ $skriningTBC->previousPageUrl() }}">&laquo;</a></li>
                                     @endif
                                     @for ($i = 1; $i <= $skriningTBC->lastPage(); $i++)
                                         <li class="page-item {{ $skriningTBC->currentPage() == $i ? 'active' : '' }}">
                                             <a class="page-link"
-                                                style="background-color: {{ $skriningTBC->currentPage() == $i ? '#FF69B4' : 'white' }}; color: {{ $skriningTBC->currentPage() == $i ? 'white' : '#FF69B4' }}; border: none;"
+                                                style="background-color: {{ $skriningTBC->currentPage() == $i ? '#d63384' : 'white' }}; color: {{ $skriningTBC->currentPage() == $i ? 'white' : '#d63384' }}; border: none;"
                                                 href="{{ $skriningTBC->url($i) }}">{{ $i }}</a>
                                         </li>
                                     @endfor
                                     @if ($skriningTBC->hasMorePages())
                                         <li class="page-item"><a class="page-link"
-                                                style="background-color: #FF69B4; color: white; border: none;"
+                                                style="background-color: #d63384; color: white; border: none;"
                                                 href="{{ $skriningTBC->nextPageUrl() }}">&raquo;</a></li>
                                     @else
                                         <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
@@ -291,7 +291,7 @@
                     text: "Data ini akan dihapus secara permanen!",
                     icon: 'warning',
                     showCancelButton: true,
-                    confirmButtonColor: '#FF69B4',
+                    confirmButtonColor: '#d63384',
                     cancelButtonColor: '#d33',
                     confirmButtonText: 'Ya, Hapus!',
                     cancelButtonText: 'Batal'

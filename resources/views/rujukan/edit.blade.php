@@ -14,10 +14,10 @@
                 <div class="col-sm-4">
                     <ol class="breadcrumb float-sm-end">
                         <li class="breadcrumb-item">
-                            <a href="#" style="color: #FF69B4; font-size: 16px;">Dashboard</a>
+                            <a href="#" style="color: #d63384; font-size: 16px;">Dashboard</a>
                         </li>
                         <li class="breadcrumb-item">
-                            <a href="{{ route('rujukan.index') }}" style="color: #FF69B4; font-size: 16px;">Rujukan</a>
+                            <a href="{{ route('rujukan.index') }}" style="color: #d63384; font-size: 16px;">Rujukan</a>
                         </li>
                         <li class="breadcrumb-item active" aria-current="page">Edit</li>
                     </ol>
@@ -30,7 +30,7 @@
         <div class="container-fluid">
             <div class="row justify-content-center">
                 <div class="col-md-8" style="border-radius: 0px">
-                    <div class="card" style="border-top: 3px solid #FF69B4; border-radius: 0px">
+                    <div class="card" style="border-top: 3px solid #d63384; border-radius: 0px">
                         <div class="card-header bg-white" style="border-radius: 0px">
                             <h3 class="card-title">Form Edit Data Rujukan</h3>
                         </div>
@@ -81,7 +81,7 @@
 
                                 <div class="d-flex justify-content-end">
                                     <a href="{{ route('rujukan.index') }}" class="btn btn-secondary me-2">Batal</a>
-                                    <button type="submit" class="btn text-light" style="background-color: #FF69B4;">Simpan Perubahan</button>
+                                    <button type="submit" class="btn text-light" style="background-color: #d63384;">Simpan Perubahan</button>
                                 </div>
                             </form>
                         </div>

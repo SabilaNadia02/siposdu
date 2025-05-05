@@ -19,7 +19,7 @@
                     <div class="col-sm-4">
                         <ol class="breadcrumb float-sm-end">
                             <li class="breadcrumb-item">
-                                <a href="#" style="color: #FF69B4; font-size: 16px;">Dashboard</a>
+                                <a href="#" style="color: #d63384; font-size: 16px;">Dashboard</a>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">Pemberian Obat</li>
                         </ol>
@@ -32,10 +32,28 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-4 col-md-6 col-12">
-                        <div class="small-box text-dark" style="background-color: #ffdeed; border-radius: 2px;">
+                        <div class="small-box text-light" style="background-color: #d63384; border-radius: 2px;">
                             <div class="inner">
                                 <h3>{{ $totalPemberian }}</h3>
                                 <p>Total Pemberian Obat</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6 col-12">
+                        <div class="small-box text-dark" style="background-color: #ffdeed; border-radius: 2px;">
+                            <div class="inner">
+                                <h3>{{ $totalLaki }}</h3>
+                                <p>Jumlah Pemberian Obat pada Laki-Laki</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6 col-12">
+                        <div class="small-box text-dark" style="background-color: #ffdeed; border-radius: 2px;">
+                            <div class="inner">
+                                <h3>{{ $totalPerempuan }}</h3>
+                                <p>Jumlah Pemberian Obat pada Perempuan</p>
                             </div>
                         </div>
                     </div>
@@ -45,10 +63,10 @@
                     <div class="col-md-12">
                         <div class="card mb-4" style="border-radius: 0px;">
                             <div class="card-header d-flex justify-content-between align-items-center"
-                                style="border-top: 3px solid #FF69B4; border-radius: 0px;">
+                                style="border-top: 3px solid #d63384; border-radius: 0px;">
                                 <h3 class="card-title">Data Pemberian Obat</h3>
                                 <button type="button" class="btn btn-sm ms-auto text-light"
-                                    style="background-color: #FF69B4;" data-bs-toggle="modal"
+                                    style="background-color: #d63384;" data-bs-toggle="modal"
                                     data-bs-target="#tambahPemberianObatModal">
                                     Tambah Pemberian Obat
                                 </button>
@@ -135,20 +153,20 @@
                                             <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
                                         @else
                                             <li class="page-item"><a class="page-link"
-                                                    style="background-color: #FF69B4; color: white; border: none;"
+                                                    style="background-color: #d63384; color: white; border: none;"
                                                     href="{{ $pemberianObat->previousPageUrl() }}">&laquo;</a></li>
                                         @endif
                                         @for ($i = 1; $i <= $pemberianObat->lastPage(); $i++)
                                             <li
                                                 class="page-item {{ $pemberianObat->currentPage() == $i ? 'active' : '' }}">
                                                 <a class="page-link"
-                                                    style="background-color: {{ $pemberianObat->currentPage() == $i ? '#FF69B4' : 'white' }}; color: {{ $pemberianObat->currentPage() == $i ? 'white' : '#FF69B4' }}; border: none;"
+                                                    style="background-color: {{ $pemberianObat->currentPage() == $i ? '#d63384' : 'white' }}; color: {{ $pemberianObat->currentPage() == $i ? 'white' : '#d63384' }}; border: none;"
                                                     href="{{ $pemberianObat->url($i) }}">{{ $i }}</a>
                                             </li>
                                         @endfor
                                         @if ($pemberianObat->hasMorePages())
                                             <li class="page-item"><a class="page-link"
-                                                    style="background-color: #FF69B4; color: white; border: none;"
+                                                    style="background-color: #d63384; color: white; border: none;"
                                                     href="{{ $pemberianObat->nextPageUrl() }}">&raquo;</a></li>
                                         @else
                                             <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
@@ -176,7 +194,7 @@
                     text: "Data ini akan dihapus secara permanen!",
                     icon: 'warning',
                     showCancelButton: true,
-                    confirmButtonColor: '#FF69B4',
+                    confirmButtonColor: '#d63384',
                     cancelButtonColor: '#d33',
                     confirmButtonText: 'Ya, Hapus!',
                     cancelButtonText: 'Batal'

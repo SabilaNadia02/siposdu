@@ -39,7 +39,7 @@
                     <!--begin::Col-->
                     <div class="col-lg-4 col-md-6 col-12">
                         <!--begin::Small Box Widget 1-->
-                        <div class="small-box text-dark text-center" style="background-color: #FFF3E0; border-radius: 2px;">
+                        <div class="small-box text-dark text-center" style="background-color: #ffc107; border-radius: 2px;">
                             <div class="inner">
                                 <h3>{{ $totalDenganGejala }}</h3>
                                 <p>Total Dengan Gejala (Skor > 6)</p>

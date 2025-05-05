@@ -104,8 +104,8 @@
         <thead>
             <tr>
                 <th rowspan="2">No</th>
-                <th rowspan="2">NIK</th>
                 <th rowspan="2">Nama</th>
+                <th rowspan="2">NIK</th>
                 @if ($jenisSasaranFilter == 'Ibu Hamil' || $jenisSasaranFilter == 'Semua Jenis Sasaran')
                     <th rowspan="2">Usia Kehamilan</th>
                 @endif
@@ -220,8 +220,8 @@ $colspan = 6; // No, NIK, Nama, Berat Badan, Keluhan, Edukasi
                     @endphp
                     <tr>
                         <td class="text-center">{{ $key + 1 }}</td>
-                        <td>{{ $pendaftaran->nik ?? '-' }}</td>
                         <td>{{ $pendaftaran->nama ?? '-' }}</td>
+                        <td>{{ $pendaftaran->nik ?? '-' }}</td>
 
                         {{-- Usia berdasarkan jenis sasaran --}}
                         @if ($jenisSasaranFilter == 'Ibu Hamil' || $jenisSasaranFilter == 'Semua Jenis Sasaran')

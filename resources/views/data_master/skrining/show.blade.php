@@ -22,7 +22,7 @@
 
         <div class="app-content">
             <div class="container-fluid">
-                <div class="card shadow-sm" style="border-radius: 0px; border-top: 3px solid #FF69B4;">
+                <div class="card shadow-sm" style="border-radius: 0px; border-top: 3px solid #d63384;">
                     <div class="card-body">
                         <div class="row g-2">
                             <div class="col-md-12">

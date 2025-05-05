@@ -15,11 +15,11 @@
                     <div class="col-sm-4">
                         <ol class="breadcrumb float-sm-end">
                             <li class="breadcrumb-item">
-                                <a href="#" style="color: #FF69B4; font-size: 16px;">Dashboard</a>
+                                <a href="#" style="color: #d63384; font-size: 16px;">Dashboard</a>
                             </li>
                             <li class="breadcrumb-item">
                                 <a href="{{ route('pendaftaran.index') }}"
-                                    style="color: #FF69B4; font-size: 16px;">Pendaftaran</a>
+                                    style="color: #d63384; font-size: 16px;">Pendaftaran</a>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">Edit</li>
                         </ol>
@@ -32,7 +32,7 @@
             <div class="container-fluid">
                 <div class="row justify-content-center">
                     <div class="col-md-8" style="border-radius: 0px">
-                        <div class="card" style="border-top: 3px solid #FF69B4; border-radius: 0px">
+                        <div class="card" style="border-top: 3px solid #d63384; border-radius: 0px">
                             <div class="card-body" style="border-radius: 0px">
 
                                 @if ($errors->any())
@@ -190,7 +190,7 @@
                                         <a href="{{ route('pendaftaran.index') }}"
                                             class="btn btn-secondary me-2">Batal</a>
                                         <button type="submit" class="btn text-light"
-                                            style="background-color: #FF69B4;">Simpan Perubahan</button>
+                                            style="background-color: #d63384;">Simpan Perubahan</button>
                                     </div>
                                 </form>
                             </div>

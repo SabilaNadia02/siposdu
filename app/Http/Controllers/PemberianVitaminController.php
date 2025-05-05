@@ -23,9 +23,19 @@ class PemberianVitaminController extends Controller
         $pemberianVitamin = $query->paginate(10);
         $totalPemberian = PemberianVitamin::count();
 
+        $totalLaki = PemberianVitamin::whereHas('pendaftaran', function ($query) {
+            $query->where('jenis_kelamin', 1);
+        })->count();
+
+        $totalPerempuan = PemberianVitamin::whereHas('pendaftaran', function ($query) {
+            $query->where('jenis_kelamin', 2);
+        })->count();
+
         return view('pemberian.vitamin.index', compact(
             'pemberianVitamin',
             'totalPemberian',
+            'totalLaki',
+            'totalPerempuan',
             'pendaftarans',
             'dataVitamin'
         ));

@@ -23,9 +23,19 @@ class PemberianVaksinController extends Controller
         $pemberianVaksin = $query->paginate(10);
         $totalPemberian = PemberianVaksin::count();
 
+        $totalLaki = PemberianVaksin::whereHas('pendaftaran', function ($query) {
+            $query->where('jenis_kelamin', 1);
+        })->count();
+
+        $totalPerempuan = PemberianVaksin::whereHas('pendaftaran', function ($query) {
+            $query->where('jenis_kelamin', 2);
+        })->count();
+
         return view('pemberian.vaksin.index', compact(
             'pemberianVaksin',
             'totalPemberian',
+            'totalLaki',
+            'totalPerempuan',
             'pendaftarans',
             'dataVaksin'
         ));

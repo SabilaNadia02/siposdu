@@ -24,7 +24,7 @@
                     <div class="col-sm-4">
                         <ol class="breadcrumb float-sm-end">
                             <li class="breadcrumb-item">
-                                <a href="#" style="color: #28A745; font-size: 16px;">Dashboard</a>
+                                <a href="#" style="color: #198754; font-size: 16px;">Dashboard</a>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">Pemberian Imunisasi</li>
                         </ol>
@@ -43,18 +43,32 @@
 
                 <!--begin::Row-->
                 <div class="row">
-                    <!--begin::Col-->
                     <div class="col-lg-4 col-md-6 col-12">
-                        <!--begin::Small Box Widget 1-->
-                        <div class="small-box text-dark" style="background-color: #e9ffe9; border-radius: 2px;">
+                        <div class="small-box text-light" style="background-color: #198754; border-radius: 2px;">
                             <div class="inner">
                                 <h3>{{ $totalPemberian }}</h3>
                                 <p>Total Pemberian Imunisasi</p>
                             </div>
                         </div>
-                        <!--end::Small Box Widget 1-->
                     </div>
-                    <!--end::Col-->
+
+                    <div class="col-lg-4 col-md-6 col-12">
+                        <div class="small-box text-dark" style="background-color: #e9ffe9; border-radius: 2px;">
+                            <div class="inner">
+                                <h3>{{ $totalLaki }}</h3>
+                                <p>Jumlah Imunisasi Laki-Laki</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6 col-12">
+                        <div class="small-box text-dark" style="background-color: #e9ffe9; border-radius: 2px;">
+                            <div class="inner">
+                                <h3>{{ $totalPerempuan }}</h3>
+                                <p>Jumlah Imunisasi Perempuan</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <!--end::Row-->
 
@@ -63,7 +77,7 @@
                     <div class="col-md-12">
                         <div class="card mb-4" style="border-radius: 0px;">
                             <div class="card-header d-flex justify-content-between align-items-center"
-                                style="border-top: 3px solid #28A745; border-radius: 0px;">
+                                style="border-top: 3px solid #198754; border-radius: 0px;">
                                 <h5 class="card-title">Data Pemberian Imunisasi</h5>
                                 <button type="button" class="btn btn-success btn-sm ms-auto text-light"
                                     onclick="window.location='{{ route('pemberian.imunisasi.create') }}'">
@@ -144,20 +158,20 @@
                                             <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
                                         @else
                                             <li class="page-item"><a class="page-link"
-                                                    style="background-color: #28A745; color: white; border: none;"
+                                                    style="background-color: #198754; color: white; border: none;"
                                                     href="{{ $pemberianImunisasi->previousPageUrl() }}">&laquo;</a></li>
                                         @endif
                                         @for ($i = 1; $i <= $pemberianImunisasi->lastPage(); $i++)
                                             <li
                                                 class="page-item {{ $pemberianImunisasi->currentPage() == $i ? 'active' : '' }}">
                                                 <a class="page-link"
-                                                    style="background-color: {{ $pemberianImunisasi->currentPage() == $i ? '#28A745' : 'white' }}; color: {{ $pemberianImunisasi->currentPage() == $i ? 'white' : '#FF69B4' }}; border: none;"
+                                                    style="background-color: {{ $pemberianImunisasi->currentPage() == $i ? '#198754' : 'white' }}; color: {{ $pemberianImunisasi->currentPage() == $i ? 'white' : '#FF69B4' }}; border: none;"
                                                     href="{{ $pemberianImunisasi->url($i) }}">{{ $i }}</a>
                                             </li>
                                         @endfor
                                         @if ($pemberianImunisasi->hasMorePages())
                                             <li class="page-item"><a class="page-link"
-                                                    style="background-color: #28A745; color: white; border: none;"
+                                                    style="background-color: #198754; color: white; border: none;"
                                                     href="{{ $pemberianImunisasi->nextPageUrl() }}">&raquo;</a></li>
                                         @else
                                             <li class="page-item disabled"><span class="page-link">&raquo;</span></li>

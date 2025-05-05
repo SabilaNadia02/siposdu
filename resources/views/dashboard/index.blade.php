@@ -30,7 +30,7 @@
                             style="background-color: #d63384; border: 1px solid #d63384; border-radius: 2px;">
                             <div class="inner">
                                 <h3>{{ number_format($stats['total_pendaftaran']) }}</h3>
-                                <p>Total Pendaftaran</p>
+                                <p>Total Peserta</p>
                             </div>
                         </div>
                     </div>

@@ -25,7 +25,7 @@ class DatabaseSeeder extends Seeder
             DataObatSeeder::class,
             DataVaksinSeeder::class,
             DataPosyanduSeeder::class,
-            // PendaftaranSeeder::class,
+            PendaftaranSeeder::class,
             // PencatatanAwalSeeder::class,
             // PencatatanKunjunganSeeder::class,
             DataSkriningSeeder::class,
