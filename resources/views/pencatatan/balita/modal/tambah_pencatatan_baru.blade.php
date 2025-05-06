@@ -13,7 +13,7 @@
                     @csrf
                     <div class="row g-3">
                         <div class="col-md-12">
-                            <label for="no_pendaftaran" class="form-label">Nama Balita</label>
+                            <label for="no_pendaftaran" class="form-label">Nama Balita <span class="text-danger">*</span></label>
                             <select class="form-select form-select-sm" id="no_pendaftaran" name="no_pendaftaran"
                                 required>
                                 <option value="" hidden>Pilih nama balita</option>
@@ -23,22 +23,22 @@
                             </select>
                         </div>
                         <div class="col-md-12">
-                            <label for="nama_ibu" class="form-label">Nama Ibu</label>
+                            <label for="nama_ibu" class="form-label">Nama Ibu <span class="text-danger">*</span></label>
                             <input type="text" class="form-control form-control-sm" id="nama_ibu" name="nama_ibu"
                                 placeholder="Masukkan Nama Ibu">
                         </div>
                         <div class="col-md-12">
-                            <label for="nama_ayah" class="form-label">Nama Ayah</label>
+                            <label for="nama_ayah" class="form-label">Nama Ayah <span class="text-danger">*</span></label>
                             <input type="text" class="form-control form-control-sm" id="nama_ayah" name="nama_ayah"
                                 placeholder="Masukkan Nama Ayah">
                         </div>
                         <div class="col-md-6">
-                            <label for="berat_badan_lahir" class="form-label">Berat Badan Lahir (Kg)</label>
+                            <label for="berat_badan_lahir" class="form-label">Berat Badan Lahir (Kg) <span class="text-danger">*</span></label>
                             <input type="number" class="form-control form-control-sm" id="berat_badan_lahir"
                                 name="berat_badan_lahir" placeholder="0" min="0" step=any>
                         </div>
                         <div class="col-md-6">
-                            <label for="panjang_badan_lahir" class="form-label">Panjang Badan Lahir (cm)</label>
+                            <label for="panjang_badan_lahir" class="form-label">Panjang Badan Lahir (cm) <span class="text-danger">*</span></label>
                             <input type="number" class="form-control form-control-sm" id="panjang_badan_lahir"
                                 name="panjang_badan_lahir" placeholder="0" min="0" step=any>
                         </div>

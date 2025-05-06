@@ -63,7 +63,20 @@
                                 </button>
                             </div>
                             @include('pencatatan.lansia.modal.tambah_pencatatan_baru')
+
                             <div class="card-body">
+
+                                @foreach (['success' => 'success', 'error' => 'danger'] as $msg => $type)
+                                    @if (session($msg))
+                                        <div class="alert alert-{{ $type }} alert-dismissible fade show"
+                                            role="alert">
+                                            {{ session($msg) }}
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                                aria-label="Close"></button>
+                                        </div>
+                                    @endif
+                                @endforeach
+
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
@@ -89,11 +102,17 @@
                                                         style="background-color: #FF8F00; color: white; width: 20px; height: 20px; font-size: 10px; padding: 1px; border-radius: 2px;">
                                                         <i class="fas fa-plus"></i>
                                                     </a>
-                                                    <a href="#" class="btn btn-danger" title="Hapus"
-                                                        onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')"
-                                                        style="width: 20px; height: 20px; font-size: 10px; padding: 1px;">
-                                                        <i class="fas fa-trash"></i>
-                                                    </a>
+                                                    <!-- Tombol Hapus -->
+                                                    <form action="{{ route('pencatatan.lansia.destroy', $data->id) }}"
+                                                        method="POST" class="d-inline">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-danger btn-sm btn-hapus"
+                                                            style="width: 20px; height: 20px; font-size: 10px; padding: 1px;"
+                                                            title="Hapus">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
+                                                    </form>
                                                 </td>
                                             </tr>
                                         @empty
@@ -115,7 +134,9 @@
             </div>
         </div>
     </main>
+@endsection
 
+@section('scripts')
     <script>
         document.getElementById("searchNamaLansia").addEventListener("keyup", function() {
             var input = this.value.toLowerCase();
@@ -130,6 +151,27 @@
                 }
             });
         });
-    </script>
 
+        $(document).ready(function() {
+            $('.btn-hapus').on('click', function(e) {
+                e.preventDefault();
+                var form = $(this).closest('form');
+
+                Swal.fire({
+                    title: 'Apakah Anda yakin?',
+                    text: "Data ini akan dihapus secara permanen!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#FF8F00',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya, Hapus!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+        });
+    </script>
 @endsection

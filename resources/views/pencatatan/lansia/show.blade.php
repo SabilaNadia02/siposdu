@@ -47,6 +47,17 @@
                     </div>
 
                     <div class="card-body">
+
+                        @foreach (['success' => 'success', 'error' => 'danger'] as $msg => $type)
+                            @if (session($msg))
+                                <div class="alert alert-{{ $type }} alert-dismissible fade show" role="alert">
+                                    {{ session($msg) }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                        aria-label="Close"></button>
+                                </div>
+                            @endif
+                        @endforeach
+
                         <div class="tab-content" id="myTabContent">
 
                             <!-- Tab 1: Data Pencatatan Awal -->
@@ -140,13 +151,10 @@
                                             <tr>
                                                 <th style="width: 150px;">Tanggal Kunjungan</th>
                                                 <th style="width: 100px;">Berat Badan</th>
-                                                <th style="width: 100px;">Tinggi Badan</th>
                                                 <th style="width: 120px;">Tekanan Darah</th>
                                                 <th style="width: 100px;">Lingkar Perut</th>
                                                 <th style="width: 100px;">Gula Darah</th>
                                                 <th style="width: 100px;">Kolestrol</th>
-                                                <th style="width: 100px;">Tes Mata (Kanan/Kiri)</th>
-                                                <th style="width: 100px;">Tes Telinga (Kanan/Kiri)</th>
                                                 <th style="width: 200px;">Keluhan</th>
                                                 <th style="width: 200px;">Edukasi</th>
                                                 <th class="text-center" style="width: 100px;">Aksi</th>
@@ -159,8 +167,6 @@
                                                     </td>
                                                     <td>{{ $kunjungan->berat_badan ?? '-' }}
                                                         kg</td>
-                                                    <td>{{ $kunjungan->tinggi_badan ?? '-' }}
-                                                        cm</td>
                                                     <td>{{ $kunjungan->tekanan_darah_sistolik ?? '-' }}/{{ $kunjungan->tekanan_darah_diastolik ?? '-' }}
                                                         mmHg</td>
                                                     <td>{{ $kunjungan->lingkar_perut ?? '-' }}
@@ -169,12 +175,6 @@
                                                         mg/dL</td>
                                                     <td>{{ $kunjungan->kolestrol ?? '-' }}
                                                         mg/dL</td>
-                                                    <td>{{ $kunjungan->tes_mata_kanan == 1 ? 'N' : ($kunjungan->tes_mata_kanan == 2 ? 'TN' : '-') }}/
-                                                        {{ $kunjungan->tes_mata_kiri == 1 ? 'N' : ($kunjungan->tes_mata_kiri == 2 ? 'TN' : '-') }}
-                                                    </td>
-                                                    <td>{{ $kunjungan->tes_telinga_kanan == 1 ? 'N' : ($kunjungan->tes_telinga_kanan == 2 ? 'TN' : '-') }}/
-                                                        {{ $kunjungan->tes_telinga_kanan == 1 ? 'N' : ($kunjungan->tes_telinga_kiri == 2 ? 'TN' : '-') }}
-                                                    </td>
                                                     <td>{{ $kunjungan->keluhan ?? '-' }}
                                                     </td>
                                                     <td>{{ $kunjungan->edukasi ?? '-' }}
@@ -196,9 +196,8 @@
                                                             @csrf
                                                             @method('DELETE')
                                                             <button type="submit" class="btn btn-danger btn-sm btn-hapus"
-                                                                title="Hapus"
                                                                 style="width: 20px; height: 20px; font-size: 10px; padding: 1px;"
-                                                                onclick="return confirm('Yakin ingin menghapus?')">
+                                                                title="Hapus">
                                                                 <i class="fas fa-trash"></i>
                                                             </button>
                                                         </form>
@@ -275,7 +274,7 @@
 
                                 @if (!empty($lansiaBermasalah))
                                     <div class="alert alert-danger">
-                                        <strong>⚠ Peringatan!</strong> Ditemukan lansia dengan kondisi tekanan darah
+                                        <strong>⚠ Peringatan!</strong> Ditemukan kondisi tekanan darah
                                         bermasalah:
                                         <ul>
                                             @foreach ($lansiaBermasalah as $catatan)
@@ -287,7 +286,7 @@
 
                                 @if (!empty($masalahGulaDarah))
                                     <div class="alert alert-danger">
-                                        <strong>⚠ Peringatan!</strong> Ditemukan peserta dengan gula darah bermasalah:
+                                        <strong>⚠ Peringatan!</strong> Ditemukan kondisi gula darah bermasalah:
                                         <ul>
                                             @foreach ($masalahGulaDarah as $catatan)
                                                 <li>{{ $catatan }}</li>
@@ -298,7 +297,7 @@
 
                                 @if (!empty($masalahKolesterol))
                                     <div class="alert alert-danger">
-                                        <strong>⚠ Peringatan!</strong> Ditemukan peserta dengan kadar kolesterol tinggi:
+                                        <strong>⚠ Peringatan!</strong> Ditemukan kondisi kadar kolesterol tinggi:
                                         <ul>
                                             @foreach ($masalahKolesterol as $catatan)
                                                 <li>{{ $catatan }}</li>
@@ -359,4 +358,30 @@
             border-bottom: none;
         }
     </style>
+@endsection
+
+@section('scripts')
+    <script>
+        $(document).ready(function() {
+            $('.btn-hapus').on('click', function(e) {
+                e.preventDefault();
+                var form = $(this).closest('form');
+
+                Swal.fire({
+                    title: 'Apakah Anda yakin?',
+                    text: "Data ini akan dihapus secara permanen!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#FF8F00',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya, Hapus!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+        });
+    </script>
 @endsection

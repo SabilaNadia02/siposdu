@@ -7,6 +7,8 @@ use App\Models\PencatatanAwal;
 use App\Models\PencatatanKunjungan;
 use App\Models\Pendaftaran;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class PencatatanLansiaController extends Controller
@@ -138,10 +140,26 @@ class PencatatanLansiaController extends Controller
      */
     public function destroy($id)
     {
-        $data = PencatatanAwal::findOrFail($id);
-        $data->delete();
+        try {
+            DB::beginTransaction();
 
-        return redirect()->route('pencatatan.lansia.index')->with('success', 'Data berhasil dihapus.');
+            $data = PencatatanAwal::findOrFail($id);
+
+            // Hapus semua kunjungan terkait terlebih dahulu
+            $data->pencatatanKunjungan()->delete();
+
+            // Baru hapus data utama
+            $data->delete();
+
+            DB::commit();
+
+            return redirect()->route('pencatatan.lansia.index')
+                ->with('success', 'Data berhasil dihapus!');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Delete error: ' . $e->getMessage());
+            return back()->with('error', 'Gagal menghapus data: ' . $e->getMessage());
+        }
     }
 
     // ✅ Kunjungan untuk Lansia
@@ -154,7 +172,6 @@ class PencatatanLansiaController extends Controller
         $validatedData = $request->validate([
             'waktu_pencatatan' => 'required|date',
             'berat_badan' => 'nullable|numeric',
-            'tinggi_badan' => 'nullable|numeric',
             'tekanan_darah_sistolik' => 'nullable|numeric',
             'tekanan_darah_diastolik' => 'nullable|numeric',
             'lingkar_perut' => 'nullable|numeric',
@@ -175,10 +192,7 @@ class PencatatanLansiaController extends Controller
         $kunjungan = PencatatanKunjungan::create($validatedData);
 
         // Redirect ke halaman detail kunjungan dengan pesan sukses
-        return redirect()->route('pencatatan.lansia.kunjungan.show', [
-            'id_pencatatan_awal' => $id_pencatatan_awal,
-            'id' => $kunjungan->id,
-        ])->with('success', 'Kunjungan berhasil ditambahkan.');
+        return redirect()->route('pencatatan.lansia.show', $id_pencatatan_awal)->with('success', 'Kunjungan berhasil ditambahkan.');
     }
 
     public function showKunjungan(Request $request, $id_pencatatan_awal, $id)
@@ -204,7 +218,6 @@ class PencatatanLansiaController extends Controller
         $validator = Validator::make($request->all(), [
             'waktu_pencatatan' => 'required|date',
             'berat_badan' => 'nullable|numeric',
-            'tinggi_badan' => 'nullable|numeric',
             'tekanan_darah_sistolik' => 'nullable|numeric',
             'tekanan_darah_diastolik' => 'nullable|numeric',
             'lingkar_perut' => 'nullable|numeric',
@@ -231,7 +244,6 @@ class PencatatanLansiaController extends Controller
         $data->update([
             'waktu_pencatatan' => $request->waktu_pencatatan,
             'berat_badan' => $request->berat_badan,
-            'tinggi_badan' => $request->tinggi_badan,
             'tekanan_darah_sistolik' => $request->tekanan_darah_sistolik,
             'tekanan_darah_diastolik' => $request->tekanan_darah_diastolik,
             'lingkar_perut' => $request->lingkar_perut,
@@ -246,16 +258,28 @@ class PencatatanLansiaController extends Controller
         ]);
 
         // Redirect kembali ke halaman detail dengan pesan sukses
-        return redirect()->route('pencatatan.lansia.kunjungan.show', [$kunjungan->id, $data->id])
+        return redirect()->route('pencatatan.lansia.show', [$kunjungan->id, $data->id])
             ->with('success', 'Kunjungan berhasil diperbarui.');
     }
 
-    public function destroyKunjungan($id, $id_pencatatan_kunjungan)
+    public function destroyKunjungan($id_pencatatan_awal, $id)
     {
-        $kunjungan = PencatatanKunjungan::findOrFail($id_pencatatan_kunjungan);
-        $kunjungan->delete();
+        try {
+            DB::beginTransaction();
 
-        return redirect()->route('pencatatan.lansia.show', $id)
-            ->with('success', 'Kunjungan berhasil dihapus.');
+            $kunjungan = PencatatanKunjungan::findOrFail($id);
+            $pencatatanAwalId = $kunjungan->id_pencatatan_awal;
+
+            $kunjungan->delete();
+
+            DB::commit();
+
+            return redirect()->route('pencatatan.lansia.show', $pencatatanAwalId)
+                ->with('success', 'Data Kunjungan berhasil dihapus!');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Delete error: ' . $e->getMessage());
+            return back()->with('error', 'Gagal menghapus data: ' . $e->getMessage());
+        }
     }
 }

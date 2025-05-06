@@ -13,7 +13,7 @@
                     @csrf
                     <div class="row g-3">
                         <div class="col-md-12">
-                            <label for="no_pendaftaran" class="form-label">Nama Peserta Usia Subur/Lansia</label>
+                            <label for="no_pendaftaran" class="form-label">Nama Peserta Usia Subur/Lansia <span class="text-danger">*</span></label>
                             <select class="form-select form-select-sm" id="no_pendaftaran" name="no_pendaftaran"
                                 required>
                                 <option value="" hidden>Pilih nama peserta lansia</option>

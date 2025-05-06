@@ -1,7 +1,7 @@
 <!-- Modal -->
 <div class="modal fade" id="tambahKunjunganBaruModal" tabindex="-1" aria-labelledby="tambahKunjunganBaruModalLabel"
     aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
         <div class="modal-content" style="font-size: 14px; padding: 10px;">
             <div class="modal-body">
                 <button type="button" class="btn-close position-absolute top-0 end-0 m-2" data-bs-dismiss="modal"
@@ -18,33 +18,42 @@
                             <label for="waktu_pencatatan" class="form-label"
                                 style="font-size: 14px; margin-bottom: 2px;">
                                 Waktu ke Posyandu <span
-                                    style="font-size: 11px; font-weight: normal;">(tanggal/bulan/tahun)</span>
+                                    style="font-size: 11px; font-weight: normal;">(bulan/tanggal/tahun)</span><span class="text-danger">*</span>
                             </label>
                             <input type="date" class="form-control form-control-sm" id="waktu_pencatatan"
                                 name="waktu_pencatatan">
                         </div>
 
                         <h6 style="margin-top: 20px; margin-bottom: 4px;">Hasil Penimbangan/Pengukuran/Pemeriksaan</h6>
-                        <div class="col-4" style="margin-top: 8px;">
+                        <div class="col-6" style="margin-top: 8px;">
                             <label for="berat_badan" class="form-label" style="font-size: 14px; margin-bottom: 2px;">
-                                Berat Badan (Kg)
+                                Berat Badan (Kg) <span class="text-danger">*</span>
                             </label>
                             <input type="number" class="form-control form-control-sm" id="berat_badan"
                                 name="berat_badan" placeholder="0" step=any>
                         </div>
-                        <div class="col-4" style="margin-top: 8px;">
-                            <label for="tinggi_badan" class="form-label" style="font-size: 14px; margin-bottom: 2px;">
-                                Tinggi Badan (cm)
-                            </label>
-                            <input type="number" class="form-control form-control-sm" id="tinggi_badan"
-                                name="tinggi_badan" placeholder="0" min="0" step=any>
-                        </div>
-                        <div class="col-4" style="margin-top: 8px;">
+                        <div class="col-6" style="margin-top: 8px;">
                             <label for="lingkar_perut" class="form-label" style="font-size: 14px; margin-bottom: 2px;">
-                                Lingkar Perut (cm)
+                                Lingkar Perut (cm) <span class="text-danger">*</span>
                             </label>
                             <input type="number" class="form-control form-control-sm" id="lingkar_perut"
                                 name="lingkar_perut" placeholder="0" min="0" step=any>
+                        </div>
+                        <div class="col-6" style="margin-top: 8px;">
+                            <label for="tekanan_darah_sistolik" class="form-label"
+                                style="font-size: 14px; margin-bottom: 2px;">
+                                Tekanan Darah (Sistolik) <span class="text-danger">*</span>
+                            </label>
+                            <input type="number" class="form-control form-control-sm" id="tekanan_darah_sistolik"
+                                name="tekanan_darah_sistolik" placeholder="0" step=any>
+                        </div>
+                        <div class="col-6" style="margin-top: 8px;">
+                            <label for="tekanan_darah_diastolik" class="form-label"
+                                style="font-size: 14px; margin-bottom: 2px;">
+                                Tekanan Darah (Diastolik) <span class="text-danger">*</span>
+                            </label>
+                            <input type="number" class="form-control form-control-sm" id="tekanan_darah_diastolik"
+                                name="tekanan_darah_diastolik" placeholder="0" step=any>
                         </div>
                         <div class="col-6" style="margin-top: 8px;">
                             <label for="gula_darah" class="form-label" style="font-size: 14px; margin-bottom: 2px;">
@@ -59,22 +68,6 @@
                             </label>
                             <input type="number" class="form-control form-control-sm" id="kolestrol" name="kolestrol"
                                 placeholder="0" min="0" step=any>
-                        </div>
-                        <div class="col-6" style="margin-top: 8px;">
-                            <label for="tekanan_darah_sistolik" class="form-label"
-                                style="font-size: 14px; margin-bottom: 2px;">
-                                Tekanan Darah (Sistolik)
-                            </label>
-                            <input type="number" class="form-control form-control-sm" id="tekanan_darah_sistolik"
-                                name="tekanan_darah_sistolik" placeholder="0" step=any>
-                        </div>
-                        <div class="col-6" style="margin-top: 8px;">
-                            <label for="tekanan_darah_diastolik" class="form-label"
-                                style="font-size: 14px; margin-bottom: 2px;">
-                                Tekanan Darah (Diastolik)
-                            </label>
-                            <input type="number" class="form-control form-control-sm" id="tekanan_darah_diastolik"
-                                name="tekanan_darah_diastolik" placeholder="0" step=any>
                         </div>
                         <div class="col-6" style="margin-top: 8px;">
                             <label for="tes_mata_kanan" class="form-label"
