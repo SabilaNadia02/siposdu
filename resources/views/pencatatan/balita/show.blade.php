@@ -195,7 +195,7 @@
                                 @endif
                             </div>
 
-                            <!-- Tab 3: Grafik Pertumbuhan Balita -->
+                            <!-- Di bagian Tab 3: Grafik Pertumbuhan Balita -->
                             <div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="tab3-tab">
                                 @php
                                     $growthData = app(
@@ -203,6 +203,7 @@
                                     )->generateGrowthChartData($data->id);
                                 @endphp
 
+                                <!-- Status Pertumbuhan Terkini -->
                                 <div class="row mb-4">
                                     <div class="col-md-12">
                                         <div class="card border-success">
@@ -305,10 +306,124 @@
                                     </div>
                                 </div>
 
+                                <!-- Tab grafik -->
+                                <ul class="nav nav-tabs mb-4" id="growthChartTabs" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link active" id="weight-for-age-tab" data-bs-toggle="tab"
+                                            data-bs-target="#weight-for-age" type="button" role="tab">
+                                            BB/U (Berat Badan/Umur)
+                                        </button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="length-for-age-tab" data-bs-toggle="tab"
+                                            data-bs-target="#length-for-age" type="button" role="tab">
+                                            PB/U (Panjang Badan/Umur)
+                                        </button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="weight-for-length-tab" data-bs-toggle="tab"
+                                            data-bs-target="#weight-for-length" type="button" role="tab">
+                                            BB/PB (Berat Badan/Panjang Badan)
+                                        </button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="additional-charts-tab" data-bs-toggle="tab"
+                                            data-bs-target="#additional-charts" type="button" role="tab">
+                                            Grafik Tambahan
+                                        </button>
+                                    </li>
+                                </ul>
+
+                                <div class="tab-content" id="growthChartTabContent">
+                                    <!-- Tab BB/U -->
+                                    <div class="tab-pane fade show active" id="weight-for-age" role="tabpanel">
+                                        <div class="card mb-4">
+                                            <div class="card-header text-white"
+                                                style="background-color: {{ $growthData['chartData']['gender'] == 1 ? '#0d6efd' : '#e83e8c' }};">
+                                                <h5 class="card-title mb-0">
+                                                    Grafik Berat Badan menurut Umur (BB/U) -
+                                                    {{ $growthData['chartData']['gender'] == 1 ? 'Laki-laki' : 'Perempuan' }}
+                                                </h5>
+                                            </div>
+                                            <div class="card-body">
+                                                <div id="weightForAgeChart" style="height: 400px;"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Tab PB/U -->
+                                    <div class="tab-pane fade" id="length-for-age" role="tabpanel">
+                                        <div class="card mb-4">
+                                            <div class="card-header text-white"
+                                                style="background-color: {{ $growthData['chartData']['gender'] == 1 ? '#0d6efd' : '#e83e8c' }};">
+                                                <h5 class="card-title mb-0">
+                                                    Grafik Panjang Badan menurut Umur (PB/U) -
+                                                    {{ $growthData['chartData']['gender'] == 1 ? 'Laki-laki' : 'Perempuan' }}
+                                                </h5>
+                                            </div>
+                                            <div class="card-body">
+                                                <div id="lengthForAgeChart" style="height: 400px;"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Tab BB/PB -->
+                                    <div class="tab-pane fade" id="weight-for-length" role="tabpanel">
+                                        <div class="card mb-4">
+                                            <div class="card-header text-white"
+                                                style="background-color: {{ $growthData['chartData']['gender'] == 1 ? '#0d6efd' : '#e83e8c' }};">
+                                                <h5 class="card-title mb-0">
+                                                    Grafik Berat Badan menurut Panjang Badan (BB/PB) -
+                                                    {{ $growthData['chartData']['gender'] == 1 ? 'Laki-laki' : 'Perempuan' }}
+                                                </h5>
+                                            </div>
+                                            <div class="card-body">
+                                                <div id="weightForLengthChart" style="height: 400px;"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Tab Grafik Tambahan -->
+                                    <div class="tab-pane fade" id="additional-charts" role="tabpanel">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="card mb-4">
+                                                    <div class="card-header text-white"
+                                                        style="background-color: {{ $growthData['chartData']['gender'] == 1 ? '#0d6efd' : '#e83e8c' }};">
+                                                        <h5 class="card-title mb-0">
+                                                            Grafik IMT menurut Umur -
+                                                            {{ $growthData['chartData']['gender'] == 1 ? 'Laki-laki' : 'Perempuan' }}
+                                                        </h5>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div id="bmiForAgeChart" style="height: 400px;"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="card mb-4">
+                                                    <div class="card-header text-white"
+                                                        style="background-color: {{ $growthData['chartData']['gender'] == 1 ? '#0d6efd' : '#e83e8c' }};">
+                                                        <h5 class="card-title mb-0">
+                                                            Grafik Lingkar Kepala menurut Umur -
+                                                            {{ $growthData['chartData']['gender'] == 1 ? 'Laki-laki' : 'Perempuan' }}
+                                                        </h5>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div id="headCircumferenceForAgeChart" style="height: 400px;">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {{-- Rekomendasi Intervensi --}}
                                 @if ($growthData['latestData'])
                                     <div class="row mb-4">
                                         <div class="col-md-12">
-                                            <div class="card border-primary">
+                                            <div class="card">
                                                 <div class="card-header text-white" style="background-color: #198754;">
                                                     <h5 class="card-title mb-0">Rekomendasi Intervensi Gizi</h5>
                                                 </div>
@@ -335,35 +450,7 @@
                                     </div>
                                 @endif
 
-                                <!-- Grafik Pertumbuhan -->
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="card mb-4">
-                                            <div class="card-header bg-success text-white">
-                                                <h5 class="card-title mb-0">Grafik Pertumbuhan Berat Badan menurut Umur
-                                                    (BB/U)</h5>
-                                            </div>
-                                            <div class="card-body">
-                                                <div id="weightChart" style="height: 400px;"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="card mb-4">
-                                            <div class="card-header bg-success text-white">
-                                                <h5 class="card-title mb-0">Grafik Pertumbuhan Panjang Badan menurut Umur
-                                                    (PB/U)</h5>
-                                            </div>
-                                            <div class="card-body">
-                                                <div id="lengthChart" style="height: 400px;"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
+                                {{-- Keterangan --}}
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="card">
@@ -375,10 +462,10 @@
                                                     <table class="table table-bordered">
                                                         <thead class="table-success">
                                                             <tr>
-                                                                <th>Indikator</th>
-                                                                <th>Kategori</th>
-                                                                <th>Z-score</th>
-                                                                <th>Interpretasi</th>
+                                                                <th style="width: 30%;">Indikator</th>
+                                                                <th style="width: 20%;">Kategori</th>
+                                                                <th style="width: 20%;">Z-score</th>
+                                                                <th style="width: 30%;">Interpretasi</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -525,390 +612,660 @@
             background: #f8f9fa !important;
             color: #333;
         }
+
+        .nav-tabs .nav-link {
+            border-radius: 4px 4px 0 0;
+            border: 1px solid #dee2e6;
+            color: #495057;
+            font-weight: 500;
+            padding: 0.75rem 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-tabs .nav-link.active {
+            background-color: #198754;
+            color: white !important;
+            border-color: #198754;
+        }
+
+        .nav-tabs .nav-link:not(.active) {
+            background-color: #f8f9fa;
+        }
+
+        .nav-tabs .nav-link:not(.active):hover {
+            border-color: #dee2e6;
+            background-color: #e9ecef;
+        }
+
+        /* Warna khusus untuk jenis kelamin */
+        .bg-boy {
+            background-color: #0d6efd !important;
+        }
+
+        .bg-girl {
+            background-color: #e83e8c !important;
+        }
+
+        /* Tooltip grafik */
+        .apexcharts-tooltip {
+            background: #f8f9fa !important;
+            color: #333;
+            border: 1px solid #dee2e6;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .apexcharts-tooltip-title {
+            background: #198754 !important;
+            color: white !important;
+            border-bottom: 1px solid #dee2e6 !important;
+            font-weight: bold;
+        }
+
+        /* Garis standar */
+        .apexcharts-line-series path[stroke="#ff0000"] {
+            stroke-dasharray: 5, 5;
+        }
+
+        .apexcharts-line-series path[stroke="#ff9900"] {
+            stroke-dasharray: 5, 5;
+        }
+
+        .apexcharts-line-series path[stroke="#00aa00"] {
+            stroke-width: 2;
+        }
     </style>
+
 @endsection
 
-@section('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+@push('scripts')
     <script>
         $(document).ready(function() {
-            // Inisialisasi chart saat tab aktif
+            // console.log('Gender:', gender, 'Color:', primaryColor);
             $('a[data-bs-toggle="tab"]').on('shown.bs.tab', function(e) {
                 if (e.target.getAttribute('aria-controls') === 'tab3') {
                     renderGrowthCharts();
                 }
             });
-
-            // Jika tab grafik sudah aktif saat load
-            if ($('#tab3').hasClass('active')) {
-                renderGrowthCharts();
-            }
+            renderGrowthCharts();
         });
 
+        // Di bagian scripts
         function renderGrowthCharts() {
             @if (isset($growthData))
-                console.log('Memulai render grafik pertumbuhan...');
-
-                // Hapus chart sebelumnya jika ada
-                if (typeof weightChart !== 'undefined') {
-                    weightChart.destroy();
-                }
-                if (typeof lengthChart !== 'undefined') {
-                    lengthChart.destroy();
-                }
-
-                // Konversi data PHP ke JavaScript
                 const growthData = @json($growthData);
-                console.log('Data pertumbuhan:', growthData);
+                const gender = growthData.chartData.gender;
+                const primaryColor = gender === 1 ? '#0d6efd' : '#e83e8c';
 
-                // Fungsi untuk memformat data
-                function formatChartData(labels, values) {
-                    return labels.map((label, index) => {
-                        return {
-                            x: label,
-                            y: values[index]
-                        };
-                    }).filter(item => item.y !== null);
-                }
-
-                // Grafik Berat Badan
-                const weightData = formatChartData(
-                    growthData.chartData.labels,
-                    growthData.chartData.weight
-                );
-
-                if (weightData.length > 0) {
-                    const weightOptions = {
-                        series: [{
-                            name: 'Berat Badan',
-                            data: weightData
-                        }],
+                function createChartWithStandards(elementId, seriesData, standardData, title, yTitle, unit) {
+                    const options = {
                         chart: {
                             type: 'line',
-                            height: 350,
-                            zoom: {
-                                enabled: false
-                            }
+                            height: 400
                         },
-                        colors: ['#28a745'],
-                        dataLabels: {
-                            enabled: true,
-                            formatter: function(val) {
-                                return val.toFixed(2) + ' kg';
+                        series: [{
+                                name: 'Data Aktual',
+                                data: seriesData,
+                                color: primaryColor,
+                            },
+                            {
+                                name: '-3SD',
+                                data: standardData.map(item => item['-3SD']),
+                            },
+                            {
+                                name: '-2SD',
+                                data: standardData.map(item => item['-2SD']),
+                            },
+                            {
+                                name: 'Median',
+                                data: standardData.map(item => item['median']),
+                            },
+                            {
+                                name: '+2SD',
+                                data: standardData.map(item => item['+2SD']),
+                            },
+                            {
+                                name: '+3SD',
+                                data: standardData.map(item => item['+3SD']),
                             }
-                        },
+                        ],
                         stroke: {
-                            curve: 'smooth',
-                            width: 3
+                            width: [3, 2, 2, 2, 2, 2],
+                            dashArray: [0, 5, 5, 0, 5, 5]
                         },
-                        markers: {
-                            size: 5
+                        colors: [primaryColor, '#ff0000', '#ff9900', '#00aa00', '#ff9900', '#ff0000'],
+                        xaxis: {
+                            categories: growthData.chartData.labels,
+                            title: {
+                                text: 'Usia (bulan)'
+                            }
+                        },
+                        yaxis: {
+                            title: {
+                                text: yTitle + (unit ? ` (${unit})` : '')
+                            }
+                        },
+                        tooltip: {
+                            shared: true,
+                            y: {
+                                formatter: function(val) {
+                                    return val + (unit ? ` ${unit}` : '');
+                                }
+                            }
+                        },
+                        legend: {
+                            position: 'bottom',
+                            horizontalAlign: 'center'
+                        },
+                        title: {
+                            text: title
+                        }
+                    };
+
+                    const chart = new ApexCharts(document.getElementById(elementId), options);
+                    return chart;
+                }
+
+                // Grafik BB/U
+                if (growthData.chartData.weight && growthData.chartData.weight.some(w => w !== null)) {
+                    const weightSeries = growthData.chartData.labels.map((label, i) => {
+                        return {
+                            x: label,
+                            y: growthData.chartData.weight[i]
+                        };
+                    }).filter(item => item.y !== null);
+
+                    const weightChart = new ApexCharts(document.getElementById('weightForAgeChart'), {
+                        chart: {
+                            type: 'line',
+                            height: 400
+                        },
+                        series: [{
+                                name: 'Berat Badan',
+                                data: weightSeries,
+                                color: primaryColor,
+                            },
+                            {
+                                name: '-3SD',
+                                data: growthData.chartData.standards.weightForAge.map((std, i) => ({
+                                    x: growthData.chartData.labels[i],
+                                    y: std['-3SD']
+                                }))
+                            },
+                            {
+                                name: '-2SD',
+                                data: growthData.chartData.standards.weightForAge.map((std, i) => ({
+                                    x: growthData.chartData.labels[i],
+                                    y: std['-2SD']
+                                }))
+                            },
+                            {
+                                name: 'Median',
+                                data: growthData.chartData.standards.weightForAge.map((std, i) => ({
+                                    x: growthData.chartData.labels[i],
+                                    y: std['median']
+                                }))
+                            },
+                            {
+                                name: '+2SD',
+                                data: growthData.chartData.standards.weightForAge.map((std, i) => ({
+                                    x: growthData.chartData.labels[i],
+                                    y: std['+2SD']
+                                }))
+                            },
+                            {
+                                name: '+3SD',
+                                data: growthData.chartData.standards.weightForAge.map((std, i) => ({
+                                    x: growthData.chartData.labels[i],
+                                    y: std['+3SD']
+                                }))
+                            }
+                        ],
+                        colors: [primaryColor, '#ff0000', '#ff9900', '#00aa00', '#ff9900', '#ff0000'],
+                        stroke: {
+                            width: [3, 2, 2, 2, 2, 2],
+                            dashArray: [0, 5, 5, 0, 5, 5]
                         },
                         xaxis: {
                             type: 'category',
                             title: {
-                                text: 'Usia'
+                                text: 'Usia (bulan)'
                             }
                         },
                         yaxis: {
                             title: {
                                 text: 'Berat Badan (kg)'
-                            },
-                            min: Math.max(0, Math.min(...growthData.chartData.weight.filter(w => w !== null)) - 1),
-                            max: Math.max(...growthData.chartData.weight.filter(w => w !== null)) + 1
+                            }
                         },
                         tooltip: {
+                            shared: true,
                             y: {
                                 formatter: function(val) {
                                     return val + ' kg';
                                 }
                             }
+                        },
+                        legend: {
+                            position: 'bottom',
+                            horizontalAlign: 'center'
+                        },
+                        title: {
+                            text: 'Grafik Berat Badan per Usia (BB/U)'
                         }
-                    };
+                    });
 
-                    const weightChart = new ApexCharts(
-                        document.querySelector("#weightChart"),
-                        weightOptions
-                    );
                     weightChart.render();
-                    window.weightChart = weightChart;
-                } else {
-                    $('#weightChart').html(
-                        '<div class="alert alert-warning">Tidak ada data berat badan yang tersedia</div>');
                 }
 
-                // Grafik Panjang Badan
-                const lengthData = formatChartData(
-                    growthData.chartData.labels,
-                    growthData.chartData.length
-                );
+                // Grafik PB/U
+                if (growthData.chartData.length && growthData.chartData.length.some(l => l !== null)) {
+                    const lengthSeries = growthData.chartData.labels.map((label, i) => {
+                        return {
+                            x: label,
+                            y: growthData.chartData.length[i]
+                        };
+                    }).filter(item => item.y !== null);
 
-                if (lengthData.length > 0) {
-                    const lengthOptions = {
-                        series: [{
-                            name: 'Panjang Badan',
-                            data: lengthData
-                        }],
+                    const lengthChart = new ApexCharts(document.getElementById('lengthForAgeChart'), {
                         chart: {
                             type: 'line',
-                            height: 350,
-                            zoom: {
-                                enabled: false
-                            }
+                            height: 400
                         },
-                        colors: ['#17a2b8'],
-                        dataLabels: {
-                            enabled: true,
-                            formatter: function(val) {
-                                return val.toFixed(2) + ' cm';
+                        series: [{
+                                name: 'Panjang Badan',
+                                data: lengthSeries,
+                                color: primaryColor,
+                            },
+                            {
+                                name: '-3SD',
+                                data: growthData.chartData.standards.lengthForAge.map((std, i) => ({
+                                    x: growthData.chartData.labels[i],
+                                    y: std['-3SD']
+                                }))
+                            },
+                            {
+                                name: '-2SD',
+                                data: growthData.chartData.standards.lengthForAge.map((std, i) => ({
+                                    x: growthData.chartData.labels[i],
+                                    y: std['-2SD']
+                                }))
+                            },
+                            {
+                                name: 'Median',
+                                data: growthData.chartData.standards.lengthForAge.map((std, i) => ({
+                                    x: growthData.chartData.labels[i],
+                                    y: std['median']
+                                }))
+                            },
+                            {
+                                name: '+2SD',
+                                data: growthData.chartData.standards.lengthForAge.map((std, i) => ({
+                                    x: growthData.chartData.labels[i],
+                                    y: std['+2SD']
+                                }))
+                            },
+                            {
+                                name: '+3SD',
+                                data: growthData.chartData.standards.lengthForAge.map((std, i) => ({
+                                    x: growthData.chartData.labels[i],
+                                    y: std['+3SD']
+                                }))
                             }
-                        },
+                        ],
+                        colors: [primaryColor, '#ff0000', '#ff9900', '#00aa00', '#ff9900', '#ff0000'],
                         stroke: {
-                            curve: 'smooth',
-                            width: 3
-                        },
-                        markers: {
-                            size: 5
+                            width: [3, 2, 2, 2, 2, 2],
+                            dashArray: [0, 5, 5, 0, 5, 5]
                         },
                         xaxis: {
                             type: 'category',
                             title: {
-                                text: 'Usia'
+                                text: 'Usia (bulan)'
                             }
                         },
                         yaxis: {
                             title: {
                                 text: 'Panjang Badan (cm)'
-                            },
-                            min: Math.max(0, Math.min(...growthData.chartData.length.filter(l => l !== null)) - 5),
-                            max: Math.max(...growthData.chartData.length.filter(l => l !== null)) + 5
+                            }
                         },
                         tooltip: {
+                            shared: true,
                             y: {
                                 formatter: function(val) {
                                     return val + ' cm';
                                 }
                             }
+                        },
+                        legend: {
+                            position: 'bottom',
+                            horizontalAlign: 'center'
+                        },
+                        title: {
+                            text: 'Grafik Panjang Badan per Usia (PB/U)'
                         }
-                    };
+                    });
 
-                    const lengthChart = new ApexCharts(
-                        document.querySelector("#lengthChart"),
-                        lengthOptions
-                    );
                     lengthChart.render();
-                    window.lengthChart = lengthChart;
-                } else {
-                    $('#lengthChart').html(
-                        '<div class="alert alert-warning">Tidak ada data panjang badan yang tersedia</div>');
                 }
-            @else
-                console.log('Tidak ada data pertumbuhan yang tersedia');
-                $('#weightChart').html('<div class="alert alert-warning">Data grafik berat badan tidak tersedia</div>');
-                $('#lengthChart').html('<div class="alert alert-warning">Data grafik panjang badan tidak tersedia</div>');
+
+                // Grafik BB/PB
+                if (growthData.chartData.weight && growthData.chartData.length) {
+                    const weightForLengthSeries = growthData.chartData.labels.map((label, i) => {
+                        if (growthData.chartData.length[i] && growthData.chartData.weight[i]) {
+                            return {
+                                x: growthData.chartData.length[i], // Panjang badan
+                                y: growthData.chartData.weight[i] // Berat badan
+                            };
+                        }
+                        return null;
+                    }).filter(item => item !== null);
+
+                    const weightForLengthChart = new ApexCharts(document.getElementById('weightForLengthChart'), {
+                        chart: {
+                            type: 'scatter',
+                            height: 400,
+                            zoom: {
+                                enabled: true
+                            }
+                        },
+                        series: [{
+                                name: 'BB/PB Aktual',
+                                data: weightForLengthSeries,
+                                color: primaryColor,
+                                type: 'scatter'
+                            },
+                            {
+                                name: '-3SD',
+                                data: growthData.chartData.standards.weightForLength.map(std => ({
+                                    x: std['pb'],
+                                    y: std['-3SD']
+                                })),
+                                type: 'line',
+                                color: '#ff0000'
+                            },
+                            {
+                                name: '-2SD',
+                                data: growthData.chartData.standards.weightForLength.map(std => ({
+                                    x: std['pb'],
+                                    y: std['-2SD']
+                                })),
+                                type: 'line',
+                                color: '#ff9900'
+                            },
+                            {
+                                name: 'Median',
+                                data: growthData.chartData.standards.weightForLength.map(std => ({
+                                    x: std['pb'],
+                                    y: std['median']
+                                })),
+                                type: 'line',
+                                color: '#00aa00'
+                            },
+                            {
+                                name: '+2SD',
+                                data: growthData.chartData.standards.weightForLength.map(std => ({
+                                    x: std['pb'],
+                                    y: std['+2SD']
+                                })),
+                                type: 'line',
+                                color: '#ff9900'
+                            },
+                            {
+                                name: '+3SD',
+                                data: growthData.chartData.standards.weightForLength.map(std => ({
+                                    x: std['pb'],
+                                    y: std['+3SD']
+                                })),
+                                type: 'line',
+                                color: '#ff0000'
+                            }
+                        ],
+                        stroke: {
+                            width: [0, 2, 2, 2, 2, 2],
+                            dashArray: [0, 5, 5, 0, 5, 5]
+                        },
+                        markers: {
+                            size: 5
+                        },
+                        xaxis: {
+                            title: {
+                                text: 'Panjang Badan (cm)'
+                            },
+                            tickAmount: 10
+                        },
+                        yaxis: {
+                            title: {
+                                text: 'Berat Badan (kg)'
+                            }
+                        },
+                        tooltip: {
+                            shared: false,
+                            x: {
+                                formatter: function(val) {
+                                    return val + ' cm';
+                                }
+                            },
+                            y: {
+                                formatter: function(val) {
+                                    return val + ' kg';
+                                }
+                            }
+                        },
+                        legend: {
+                            position: 'bottom',
+                            horizontalAlign: 'center'
+                        },
+                        title: {
+                            text: 'Grafik Berat Badan menurut Panjang Badan (BB/PB)'
+                        }
+                    });
+
+                    weightForLengthChart.render();
+                }
+
+                // Grafik IMT/U
+                if (growthData.chartData.bmi && growthData.chartData.bmi.some(b => b !== null)) {
+                    const bmiSeries = growthData.chartData.labels.map((label, i) => {
+                        return {
+                            x: growthData.chartData.ages[i], // Gunakan usia dalam bulan sebagai x-axis
+                            y: growthData.chartData.bmi[i]
+                        };
+                    }).filter(item => item.y !== null);
+
+                    const bmiChart = new ApexCharts(document.getElementById('bmiForAgeChart'), {
+                        chart: {
+                            type: 'line',
+                            height: 400
+                        },
+                        series: [{
+                                name: 'IMT',
+                                data: bmiSeries,
+                                color: primaryColor
+                            },
+                            {
+                                name: '-3SD',
+                                data: growthData.chartData.standards.bmiForAge.map((std, i) => ({
+                                    x: growthData.chartData.ages[i],
+                                    y: std['-3SD']
+                                })),
+                                type: 'line',
+                                color: '#ff0000'
+                            },
+                            {
+                                name: '-2SD',
+                                data: growthData.chartData.standards.bmiForAge.map((std, i) => ({
+                                    x: growthData.chartData.ages[i],
+                                    y: std['-2SD']
+                                })),
+                                type: 'line',
+                                color: '#ff9900'
+                            },
+                            {
+                                name: 'Median',
+                                data: growthData.chartData.standards.bmiForAge.map((std, i) => ({
+                                    x: growthData.chartData.ages[i],
+                                    y: std['median']
+                                })),
+                                type: 'line',
+                                color: '#00aa00'
+                            },
+                            {
+                                name: '+2SD',
+                                data: growthData.chartData.standards.bmiForAge.map((std, i) => ({
+                                    x: growthData.chartData.ages[i],
+                                    y: std['+2SD']
+                                })),
+                                type: 'line',
+                                color: '#ff9900'
+                            },
+                            {
+                                name: '+3SD',
+                                data: growthData.chartData.standards.bmiForAge.map((std, i) => ({
+                                    x: growthData.chartData.ages[i],
+                                    y: std['+3SD']
+                                })),
+                                type: 'line',
+                                color: '#ff0000'
+                            }
+                        ],
+                        xaxis: {
+                            title: {
+                                text: 'Usia (bulan)'
+                            },
+                            type: 'numeric',
+                            tickAmount: 10
+                        },
+                        yaxis: {
+                            title: {
+                                text: 'Indeks Massa Tubuh (kg/m²)'
+                            }
+                        },
+                        tooltip: {
+                            shared: true,
+                            y: {
+                                formatter: function(val) {
+                                    return val + ' kg/m²';
+                                }
+                            },
+                            x: {
+                                formatter: function(val) {
+                                    return val + ' bulan';
+                                }
+                            }
+                        },
+                        legend: {
+                            position: 'bottom',
+                            horizontalAlign: 'center'
+                        },
+                        title: {
+                            text: 'Grafik IMT menurut Umur (IMT/U)'
+                        }
+                    });
+
+                    bmiChart.render();
+                }
+
+                // Grafik LK/U
+                if (growthData.chartData.headCircumference && growthData.chartData.headCircumference.some(h => h !== null)) {
+                    const hcSeries = growthData.chartData.labels.map((label, i) => {
+                        return {
+                            x: growthData.chartData.ages[i], // Gunakan usia dalam bulan sebagai x-axis
+                            y: growthData.chartData.headCircumference[i]
+                        };
+                    }).filter(item => item.y !== null);
+
+                    const hcChart = new ApexCharts(document.getElementById('headCircumferenceForAgeChart'), {
+                        chart: {
+                            type: 'line',
+                            height: 400
+                        },
+                        series: [{
+                                name: 'Lingkar Kepala',
+                                data: hcSeries,
+                                color: primaryColor
+                            },
+                            {
+                                name: '-3SD',
+                                data: growthData.chartData.standards.headCircumferenceForAge.map((std, i) => ({
+                                    x: growthData.chartData.ages[i],
+                                    y: std['-3SD']
+                                })),
+                                type: 'line',
+                                color: '#ff0000'
+                            },
+                            {
+                                name: '-2SD',
+                                data: growthData.chartData.standards.headCircumferenceForAge.map((std, i) => ({
+                                    x: growthData.chartData.ages[i],
+                                    y: std['-2SD']
+                                })),
+                                type: 'line',
+                                color: '#ff9900'
+                            },
+                            {
+                                name: 'Median',
+                                data: growthData.chartData.standards.headCircumferenceForAge.map((std, i) => ({
+                                    x: growthData.chartData.ages[i],
+                                    y: std['median']
+                                })),
+                                type: 'line',
+                                color: '#00aa00'
+                            },
+                            {
+                                name: '+2SD',
+                                data: growthData.chartData.standards.headCircumferenceForAge.map((std, i) => ({
+                                    x: growthData.chartData.ages[i],
+                                    y: std['+2SD']
+                                })),
+                                type: 'line',
+                                color: '#ff9900'
+                            },
+                            {
+                                name: '+3SD',
+                                data: growthData.chartData.standards.headCircumferenceForAge.map((std, i) => ({
+                                    x: growthData.chartData.ages[i],
+                                    y: std['+3SD']
+                                })),
+                                type: 'line',
+                                color: '#ff0000'
+                            }
+                        ],
+                        xaxis: {
+                            title: {
+                                text: 'Usia (bulan)'
+                            },
+                            type: 'numeric',
+                            tickAmount: 10
+                        },
+                        yaxis: {
+                            title: {
+                                text: 'Lingkar Kepala (cm)'
+                            }
+                        },
+                        tooltip: {
+                            shared: true,
+                            y: {
+                                formatter: function(val) {
+                                    return val + ' cm';
+                                }
+                            },
+                            x: {
+                                formatter: function(val) {
+                                    return val + ' bulan';
+                                }
+                            }
+                        },
+                        legend: {
+                            position: 'bottom',
+                            horizontalAlign: 'center'
+                        },
+                        title: {
+                            text: 'Grafik Lingkar Kepala menurut Umur (LK/U)'
+                        }
+                    });
+
+                    hcChart.render();
+                }
             @endif
         }
     </script>
-@endsection
-
-{{-- @section('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-    <script>
-        $(document).ready(function() {
-            $('.btn-hapus').on('click', function(e) {
-                e.preventDefault();
-                var form = $(this).closest('form');
-
-                Swal.fire({
-                    title: 'Apakah Anda yakin?',
-                    text: "Data ini akan dihapus secara permanen!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#198754',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Ya, Hapus!',
-                    cancelButtonText: 'Batal'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        form.submit();
-                    }
-                });
-            });
-
-            // Pastikan tab grafik sudah aktif sebelum merender chart
-            $('a[data-bs-toggle="tab"]').on('shown.bs.tab', function(e) {
-                if (e.target.getAttribute('aria-controls') === 'tab3') {
-                    setTimeout(renderGrowthCharts, 100); // Beri sedikit delay
-                }
-            });
-
-            // Jika tab grafik sudah aktif saat load, langsung render
-            if ($('#tab3').hasClass('active')) {
-                renderGrowthCharts();
-            }
-        });
-
-        function renderGrowthCharts() {
-            @if (isset($growthData) && $growthData['latestData'])
-                // Konversi data PHP ke format JavaScript
-                const growthData = @json($growthData);
-                console.log('Growth data:', growthData);
-
-                // Pastikan container chart ada
-                if ($("#weightChart").length === 0 || $("#lengthChart").length === 0) {
-                    console.error('Chart containers not found');
-                    return;
-                }
-
-                // Fungsi untuk membersihkan data null
-                const cleanData = (data) => data.map((val, i) =>
-                    val !== null ? {
-                        x: growthData.chartData.labels[i],
-                        y: val
-                    } : null
-                ).filter(item => item !== null);
-
-                // Weight for Age Chart
-                const weightOptions = {
-                    series: [{
-                        name: 'Berat Badan (kg)',
-                        data: cleanData(growthData.chartData.weight)
-                    }],
-                    chart: {
-                        height: 350,
-                        type: 'line',
-                        zoom: {
-                            enabled: false
-                        },
-                        toolbar: {
-                            show: true
-                        }
-                    },
-                    colors: ['#28a745'],
-                    dataLabels: {
-                        enabled: true,
-                        formatter: function(val) {
-                            return val.toFixed(1) + ' kg';
-                        }
-                    },
-                    stroke: {
-                        curve: 'smooth',
-                        width: 3
-                    },
-                    markers: {
-                        size: 5,
-                        hover: {
-                            size: 7
-                        }
-                    },
-                    title: {
-                        text: 'Perkembangan Berat Badan menurut Umur',
-                        align: 'left'
-                    },
-                    grid: {
-                        row: {
-                            colors: ['#f3f3f3', 'transparent'],
-                            opacity: 0.5
-                        }
-                    },
-                    xaxis: {
-                        type: 'category',
-                        title: {
-                            text: 'Usia'
-                        }
-                    },
-                    yaxis: {
-                        title: {
-                            text: 'Berat Badan (kg)'
-                        },
-                        min: Math.min(...growthData.chartData.weight.filter(w => w !== null)) - 1,
-                        max: Math.max(...growthData.chartData.weight.filter(w => w !== null)) + 1
-                    },
-                    tooltip: {
-                        y: {
-                            formatter: function(val) {
-                                return val ? (val + ' kg') : 'N/A';
-                            }
-                        }
-                    }
-                };
-
-                const weightChart = new ApexCharts(document.querySelector("#weightChart"), weightOptions);
-                weightChart.render();
-
-                // Length for Age Chart
-                const lengthOptions = {
-                    series: [{
-                        name: 'Panjang Badan (cm)',
-                        data: cleanData(growthData.chartData.length)
-                    }],
-                    chart: {
-                        height: 350,
-                        type: 'line',
-                        zoom: {
-                            enabled: false
-                        },
-                        toolbar: {
-                            show: true
-                        }
-                    },
-                    colors: ['#17a2b8'],
-                    dataLabels: {
-                        enabled: true,
-                        formatter: function(val) {
-                            return val.toFixed(1) + ' cm';
-                        }
-                    },
-                    stroke: {
-                        curve: 'smooth',
-                        width: 3
-                    },
-                    markers: {
-                        size: 5,
-                        hover: {
-                            size: 7
-                        }
-                    },
-                    title: {
-                        text: 'Perkembangan Panjang Badan menurut Umur',
-                        align: 'left'
-                    },
-                    grid: {
-                        row: {
-                            colors: ['#f3f3f3', 'transparent'],
-                            opacity: 0.5
-                        }
-                    },
-                    xaxis: {
-                        type: 'category',
-                        title: {
-                            text: 'Usia'
-                        }
-                    },
-                    yaxis: {
-                        title: {
-                            text: 'Panjang Badan (cm)'
-                        },
-                        min: Math.min(...growthData.chartData.length.filter(l => l !== null)) - 5,
-                        max: Math.max(...growthData.chartData.length.filter(l => l !== null)) + 5
-                    },
-                    tooltip: {
-                        y: {
-                            formatter: function(val) {
-                                return val ? (val + ' cm') : 'N/A';
-                            }
-                        }
-                    }
-                };
-
-                const lengthChart = new ApexCharts(document.querySelector("#lengthChart"), lengthOptions);
-                lengthChart.render();
-            @else
-                console.log('No growth data available');
-                // Tampilkan pesan error jika tidak ada data
-                $('#weightChart').html('<div class="alert alert-warning">Data grafik berat badan tidak tersedia</div>');
-                $('#lengthChart').html('<div class="alert alert-warning">Data grafik panjang badan tidak tersedia</div>');
-            @endif
-        }
-    </script>
-@endsection --}}
+@endpush

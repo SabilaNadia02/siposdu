@@ -347,12 +347,14 @@ class LaporanController extends Controller
 
             // dd($data);
 
+            // return view($view, $viewData);
+
             $pdf = Pdf::loadView($view, $viewData)
                 ->setPaper('a4', 'landscape');
 
-            if ($data->count() === 0) {
-                \Log::info("Laporan {$title} - Tidak ada data ditemukan");
-            }
+            // if ($data->count() === 0) {
+            //     \Log::info("Laporan {$title} - Tidak ada data ditemukan");
+            // }
 
             return $pdf->download("Laporan_{$title}_{$start}_sd_{$end}.pdf");
 

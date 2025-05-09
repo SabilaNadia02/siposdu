@@ -329,11 +329,12 @@
     </main>
 @endsection
 
-@section('scripts')
-    <!-- Chart.js -->
+@push('scripts')
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    {{-- <!-- Chart.js -->
+    
     <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    {{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script> --}}
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -608,9 +609,9 @@
             }
         });
     </script>
-@endsection
+@endpush
 
-@section('style')
+{{-- @push('style')
     <style>
         /* Chart Styles */
         #kunjunganChartIbuHamil,
@@ -749,4 +750,4 @@
             border-radius: 3px;
         }
     </style>
-@endsection
+@endpush --}}
