@@ -92,11 +92,17 @@
         <p>Periode: {{ date('d/m/Y', strtotime($startDate)) }} - {{ date('d/m/Y', strtotime($endDate)) }}</p>
     </div>
 
-    <div class="filter-info">
-        <p><strong>Filter yang digunakan:</strong></p>
-        <p>• Posyandu: {{ $posyanduFilter }}</p>
-        <p>• Jenis Sasaran: {{ $jenisSasaranFilter }}</p>
-    </div>
+    @if (isset($posyanduFilter) || isset($jenisSasaranFilter))
+        <div class="filter-info">
+            <p><strong>Filter yang digunakan:</strong></p>
+            @if (isset($posyanduFilter))
+                <p>• Posyandu: {{ $posyanduFilter }}</p>
+            @endif
+            @if (isset($jenisSasaranFilter))
+                <p>• Jenis Sasaran: {{ $jenisSasaranFilter }}</p>
+            @endif
+        </div>
+    @endif
 
     @if ($data->count() > 0)
         <table>
@@ -106,8 +112,10 @@
                     <th>Tanggal Skrining</th>
                     <th>Nama</th>
                     <th>NIK</th>
+                    <th>Jenis Sasaran</th>
+                    <th>Posyandu</th>
                     <th>Usia</th>
-                    <th>Hasil Skrining</th>
+                    <th>Hasil Diagnosa</th>
                     <th>Rekomendasi</th>
                 </tr>
             </thead>
@@ -118,27 +126,19 @@
                         $tanggalSekarang = new DateTime();
                         $usia = $tanggalLahir->diff($tanggalSekarang);
                         $usiaText = $usia->y . ' tahun, ' . $usia->m . ' bulan, ' . $usia->d . ' hari';
-
-                        // Hitung skor TBC
-                        $skorTBC = 0;
-                        $rekomendasi = 'Tidak perlu rujukan';
-                        foreach ($item->detailPencatatanSkrining as $detail) {
-                            if ($detail->hasil_skrining == 'Ya') {
-                                $skorTBC += $detail->pertanyaanSkrining->skor;
-                            }
-                        }
-
-                        if ($skorTBC >= 6) {
-                            $rekomendasi = 'Perlu rujukan ke fasilitas kesehatan';
-                        }
+                        $hasilSkrining = $item->detailPencatatanSkrining->first()->hasil_skrining ?? null;
+                        $rekomendasi =
+                            $hasilSkrining == 2 ? 'Tidak perlu rujukan' : 'Perlu rujukan ke fasilitas kesehatan';
                     @endphp
                     <tr>
                         <td class="text-center">{{ $loop->iteration }}</td>
                         <td>{{ date('d/m/Y', strtotime($item->waktu_skrining)) }}</td>
                         <td>{{ $item->pendaftaran->nama }}</td>
                         <td>{{ $item->pendaftaran->nik }}</td>
+                        <td>{{ $jenisSasaranOptions[$item->pendaftaran->jenis_sasaran] ?? '-' }}</td>
+                        <td>{{ $item->pendaftaran->posyandus->nama ?? '-' }}</td>
                         <td>{{ $usiaText }}</td>
-                        <td>Skor: {{ $skorTBC }}</td>
+                        <td>{{ $hasilSkrining == 1 ? 'Ya' : 'Tidak' }}</td>
                         <td>{{ $rekomendasi }}</td>
                     </tr>
                 @endforeach

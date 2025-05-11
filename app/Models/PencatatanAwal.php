@@ -101,4 +101,28 @@ class PencatatanAwal extends Model
 
         return $result;
     }
+
+    public function scopeStunting($query)
+    {
+        return $query->whereHas('pencatatanKunjungan', function ($q) {
+            $q->where('mt_pangan_pemulihan', 1); // Asumsi 1 = stunting
+        });
+    }
+
+    // Method untuk mengecek status stunting terbaru
+    public function getStatusStuntingAttribute()
+    {
+        $latestKunjungan = $this->pencatatanKunjungan()
+            ->latest('waktu_pencatatan')
+            ->first();
+
+        return $latestKunjungan ? ($latestKunjungan->mt_pangan_pemulihan == 1 ? 'Stunting' : 'Normal') : 'Belum Ada Data';
+    }
+
+    public function scopeTidakKunjung($query, $startDate, $endDate)
+    {
+        return $query->whereDoesntHave('pencatatanKunjungan', function ($q) use ($startDate, $endDate) {
+            $q->whereBetween('waktu_pencatatan', [$startDate, $endDate]);
+        });
+    }
 }

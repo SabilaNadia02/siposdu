@@ -96,7 +96,7 @@
     </main>
 @endsection
 
-@section('scripts')
+@push('scripts')
     <script>
         $(document).ready(function() {
             console.log("Document ready - Edit Imunisasi Form");
@@ -236,4 +236,4 @@
             initializeForm();
         });
     </script>
-@endsection
+@endpush

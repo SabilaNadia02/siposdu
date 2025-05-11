@@ -95,7 +95,7 @@
     <div class="filter-info">
         <p><strong>Filter yang digunakan:</strong></p>
         <p>• Posyandu: {{ $posyanduFilter }}</p>
-        <p>• Jenis Sasaran: {{ $jenisSasaranFilter }}</p>
+        <p>• Jenis Sasaran: Usia Produktif dan Lansia</p>
     </div>
 
     @if ($data->count() > 0)
@@ -117,22 +117,12 @@
                         $tanggalLahir = new DateTime($item->pendaftaran->tanggal_lahir);
                         $tanggalSekarang = new DateTime();
                         $usia = $tanggalLahir->diff($tanggalSekarang);
-                        $usiaText = $usia->y . ' tahun, ' . $usia->m . ' bulan, ' . $usia->d . ' hari';
-
-                        // Hitung skor PPOK
-                        $skorPPOK = 0;
-                        $rekomendasi = 'Risiko rendah';
-                        foreach ($item->detailPencatatanSkrining as $detail) {
-                            if ($detail->hasil_skrining == 'Ya') {
-                                $skorPPOK += $detail->pertanyaanSkrining->skor;
-                            }
+                        $usiaText = $usia->y . ' tahun';
+                        if ($usia->m > 0) {
+                            $usiaText .= ', ' . $usia->m . ' bulan';
                         }
-
-                        if ($skorPPOK >= 5) {
-                            $rekomendasi = 'Risiko tinggi, perlu pemeriksaan lebih lanjut';
-                        } elseif ($skorPPOK >= 2) {
-                            $rekomendasi = 'Risiko sedang, perlu konsultasi';
-                        }
+                        $hasilSkrining = $item->detailPencatatanSkrining->first()->hasil_skrining ?? null;
+                        $rekomendasi = $hasilSkrining == 2 ? 'Tidak perlu rujukan' : 'Perlu rujukan ke fasilitas kesehatan';
                     @endphp
                     <tr>
                         <td class="text-center">{{ $loop->iteration }}</td>
@@ -140,7 +130,7 @@
                         <td>{{ $item->pendaftaran->nama }}</td>
                         <td>{{ $item->pendaftaran->nik }}</td>
                         <td>{{ $usiaText }}</td>
-                        <td>Skor: {{ $skorPPOK }}</td>
+                        <td>{{ $hasilSkrining == 1 ? 'Ya' : 'Tidak' }}</td>
                         <td>{{ $rekomendasi }}</td>
                     </tr>
                 @endforeach
@@ -148,7 +138,7 @@
         </table>
     @else
         <div class="no-data">
-            Tidak ada data Skrining PPOK yang ditemukan untuk periode yang dipilih.
+            Tidak ada data Skrining PPOK untuk Usia Produktif dan Lansia yang ditemukan untuk periode yang dipilih.
         </div>
     @endif
 

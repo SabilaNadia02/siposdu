@@ -40,7 +40,6 @@
                         <div class="card mb-4" style="border-top: 3px solid #d63384; border-radius: 0px;">
                             <div class="card-body">
                                 <form action="{{ route('laporan.generate') }}" method="GET">
-                                    @csrf
                                     <div class="row mb-3">
                                         <div class="col-md-12">
                                             <label for="jenis" class="form-label">Jenis Laporan <span
@@ -50,7 +49,10 @@
                                                 <option value="pendaftaran">Laporan Pendaftaran</option>
                                                 <option value="pencatatan">Laporan Pencatatan Awal</option>
                                                 <option value="kunjungan">Laporan Pencatatan Kunjungan</option>
-                                                <option value="imunisasi">Laporan Pemberian Imunisasi</option>
+                                                <option value="imunisasi">Laporan Balita - Pemberian Imunisasi</option>
+                                                <option value="balita_tidak_datang">Laporan Balita - Tidak Kunjung</option>
+                                                <option value="balita_stunting">Laporan Balita - Stunting (pendek)</option>
+                                                <option value="balita_stunting">Laporan Balita - Wasting (kurus)</option>
                                                 <option value="vitamin">Laporan Pemberian Vitamin</option>
                                                 <option value="obat">Laporan Pemberian Obat</option>
                                                 <option value="vaksin">Laporan Pemberian Vaksin</option>
@@ -96,7 +98,7 @@
                                                     style="font-size: 11px; font-weight: normal;">(bulan/tanggal/tahun)</span><span
                                                     class="text-danger">*</span></label>
                                             <input type="date" name="end_date" id="end_date" class="form-control"
-                                                required max="{{ date('Y-m-d') }}" value="{{ date('Y-m-t') }}">
+                                                required max="{{ date('Y-m-d') }}" value="{{ date('Y-m-d') }}">
                                         </div>
                                     </div>
 
@@ -118,9 +120,20 @@
         <!--end::App Content-->
     </main>
     <!--end::App Main-->
+
+    <style>
+        .bg-light {
+            background-color: #f8f9fa !important;
+        }
+
+        select:disabled {
+            cursor: not-allowed;
+        }
+    </style>
+
 @endsection
 
-@section('scripts')
+@push('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             document.querySelector('form').addEventListener('submit', function(e) {
@@ -131,15 +144,25 @@
             const jenisLaporanSelect = document.getElementById('jenis');
             const jenisSasaranSelect = document.getElementById('jenis_sasaran');
 
-            // Daftar laporan yang khusus untuk balita
-            const laporanKhususBalita = ['imunisasi', 'kelulusan'];
+            // Daftar laporan yang khusus untuk balita (jenis sasaran 2)
+            const laporanKhususBalita = ['imunisasi', 'kelulusan', 'balita_tidak_datang', 'balita_stunting'];
+            
+            // Daftar laporan yang khusus untuk usia produktif dan lansia (jenis sasaran 3)
+            const laporanKhususDewasa = ['skrining_ppok'];
 
             jenisLaporanSelect.addEventListener('change', function() {
                 if (laporanKhususBalita.includes(this.value)) {
+                    // Untuk laporan balita, set ke jenis sasaran 2
                     jenisSasaranSelect.value = '2';
                     jenisSasaranSelect.disabled = true;
                     jenisSasaranSelect.classList.add('bg-light');
+                } else if (laporanKhususDewasa.includes(this.value)) {
+                    // Untuk laporan skrining TBC dan PPOK, set ke jenis sasaran 3
+                    jenisSasaranSelect.value = '3';
+                    jenisSasaranSelect.disabled = true;
+                    jenisSasaranSelect.classList.add('bg-light');
                 } else {
+                    // Untuk laporan lainnya, aktifkan pilihan
                     jenisSasaranSelect.disabled = false;
                     jenisSasaranSelect.classList.remove('bg-light');
                 }
@@ -150,18 +173,11 @@
                 jenisSasaranSelect.value = '2';
                 jenisSasaranSelect.disabled = true;
                 jenisSasaranSelect.classList.add('bg-light');
+            } else if (laporanKhususDewasa.includes(jenisLaporanSelect.value)) {
+                jenisSasaranSelect.value = '3';
+                jenisSasaranSelect.disabled = true;
+                jenisSasaranSelect.classList.add('bg-light');
             }
         });
     </script>
-@endsection
-
-{{-- Tambahkan style untuk select yang disabled --}}
-<style>
-    .bg-light {
-        background-color: #f8f9fa !important;
-    }
-
-    select:disabled {
-        cursor: not-allowed;
-    }
-</style>
+@endpush

@@ -139,7 +139,7 @@
                     <td>{{ $item->pendaftaran->nama ?? '-' }}</td>
                     <td>{{ $item->pendaftaran->nik ?? '-' }}</td>
                     <td>{{ $usia }}</td>
-                    <td>{{ $item->imunisasi->nama_imunisasi ?? '-' }}</td>
+                    <td>{{ $item->imunisasi->nama ?? '-' }}</td>
                     <td>{{ $item->keterangan ?? '-' }}</td>
                 </tr>
             @empty

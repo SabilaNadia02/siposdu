@@ -320,12 +320,12 @@
                                             PB/U (Panjang Badan/Umur)
                                         </button>
                                     </li>
-                                    <li class="nav-item" role="presentation">
+                                    {{-- <li class="nav-item" role="presentation">
                                         <button class="nav-link" id="weight-for-length-tab" data-bs-toggle="tab"
                                             data-bs-target="#weight-for-length" type="button" role="tab">
                                             BB/PB (Berat Badan/Panjang Badan)
                                         </button>
-                                    </li>
+                                    </li> --}}
                                     <li class="nav-item" role="presentation">
                                         <button class="nav-link" id="additional-charts-tab" data-bs-toggle="tab"
                                             data-bs-target="#additional-charts" type="button" role="tab">
@@ -368,7 +368,7 @@
                                     </div>
 
                                     <!-- Tab BB/PB -->
-                                    <div class="tab-pane fade" id="weight-for-length" role="tabpanel">
+                                    {{-- <div class="tab-pane fade" id="weight-for-length" role="tabpanel">
                                         <div class="card mb-4">
                                             <div class="card-header text-white"
                                                 style="background-color: {{ $growthData['chartData']['gender'] == 1 ? '#0d6efd' : '#e83e8c' }};">
@@ -381,7 +381,7 @@
                                                 <div id="weightForLengthChart" style="height: 400px;"></div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> --}}
 
                                     <!-- Tab Grafik Tambahan -->
                                     <div class="tab-pane fade" id="additional-charts" role="tabpanel">

@@ -77,7 +77,25 @@
         $dataIbuHamil = $data->filter(fn($item) => optional($item->pendaftaran)->jenis_sasaran == 1);
         $dataBalita = $data->filter(fn($item) => optional($item->pendaftaran)->jenis_sasaran == 2);
         $dataLansia = $data->filter(fn($item) => optional($item->pendaftaran)->jenis_sasaran == 3);
-        $showAll = $jenisSasaranFilter == 'Semua Jenis Sasaran';
+        $showAll = $request->jenis_sasaran == 'semua' || !isset($request->jenis_sasaran);
+
+        $dataIbuHamil = $showAll
+            ? $data->filter(fn($item) => optional($item->pendaftaran)->jenis_sasaran == 1)
+            : ($jenisSasaranFilter == 'Ibu Hamil'
+                ? $data
+                : collect());
+
+        $dataBalita = $showAll
+            ? $data->filter(fn($item) => optional($item->pendaftaran)->jenis_sasaran == 2)
+            : ($jenisSasaranFilter == 'Balita'
+                ? $data
+                : collect());
+
+        $dataLansia = $showAll
+            ? $data->filter(fn($item) => optional($item->pendaftaran)->jenis_sasaran == 3)
+            : ($jenisSasaranFilter == 'Usia Produktif dan Lansia'
+                ? $data
+                : collect());
 
         // Function to calculate age in years for ibu hamil
         function calculateIbuHamilAge($tanggalLahir)

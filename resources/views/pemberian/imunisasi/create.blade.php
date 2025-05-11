@@ -48,13 +48,15 @@
                                     @csrf
 
                                     <div class="mb-3">
-                                        <label for="waktu_pemberian" class="form-label">Tanggal Pemberian <span class="text-danger">*</span></label>
+                                        <label for="waktu_pemberian" class="form-label">Tanggal Pemberian <span
+                                                class="text-danger">*</span></label>
                                         <input type="date" class="form-control" id="waktu_pemberian"
                                             name="waktu_pemberian" value="{{ date('Y-m-d') }}" required>
                                     </div>
 
                                     <div class="mb-3">
-                                        <label for="no_pendaftaran" class="form-label">Pilih Peserta <span class="text-danger">*</span></label>
+                                        <label for="no_pendaftaran" class="form-label">Pilih Peserta <span
+                                                class="text-danger">*</span></label>
                                         <select class="form-select" id="no_pendaftaran" name="no_pendaftaran" required>
                                             <option value="" selected disabled>-- Pilih Peserta --</option>
                                             @foreach ($pendaftaran as $item)
@@ -68,7 +70,8 @@
                                     </div>
 
                                     <div class="mb-3">
-                                        <label for="id_imunisasi" class="form-label">Jenis Imunisasi <span class="text-danger">*</span></label>
+                                        <label for="id_imunisasi" class="form-label">Jenis Imunisasi <span
+                                                class="text-danger">*</span></label>
                                         <select class="form-select" id="id_imunisasi" name="id_imunisasi" required>
                                             <option value="" selected disabled>-- Pilih peserta terlebih dahulu --
                                             </option>
@@ -79,7 +82,8 @@
                                     </div>
 
                                     <div class="mb-3">
-                                        <label for="keterangan" class="form-label">Keterangan <span>(optional)</span></label>
+                                        <label for="keterangan" class="form-label">Keterangan
+                                            <span>(optional)</span></label>
                                         <textarea class="form-control" id="keterangan" name="keterangan" rows="2"></textarea>
                                     </div>
                                 </form>
@@ -92,7 +96,7 @@
     </main>
 @endsection
 
-@section('scripts')
+@push('scripts')
     <script>
         $(document).ready(function() {
             console.log("Document ready - Imunisasi Form");
@@ -101,13 +105,29 @@
             function calculateAgeInMonths(birthDate, referenceDate) {
                 const birth = new Date(birthDate);
                 const ref = new Date(referenceDate);
-                let months = (ref.getFullYear() - birth.getFullYear()) * 12;
-                months += ref.getMonth() - birth.getMonth();
-                // Adjust for day of month
-                if (ref.getDate() < birth.getDate()) {
+
+                // Pastikan tanggal valid
+                if (isNaN(birth.getTime()) || isNaN(ref.getTime())) {
+                    console.error("Invalid date format");
+                    return 0;
+                }
+
+                let years = ref.getFullYear() - birth.getFullYear();
+                let months = ref.getMonth() - birth.getMonth();
+                let days = ref.getDate() - birth.getDate();
+
+                // Adjust for negative months/days
+                if (days < 0) {
                     months--;
                 }
-                return months;
+                if (months < 0) {
+                    years--;
+                    months += 12;
+                }
+
+                const totalMonths = (years * 12) + months;
+                console.log(`Age calculation: ${birthDate} to ${referenceDate} = ${totalMonths} months`);
+                return totalMonths;
             }
 
             // Update tampilan usia
@@ -259,9 +279,9 @@
             console.log("Initializing form state");
             $('#id_imunisasi').html(
                 '<option value="" selected disabled>-- Pilih peserta terlebih dahulu --</option>');
-            
+
             // Update age display on page load if values exist
             updateAgeDisplay();
         });
     </script>
-@endsection
+@endpush
