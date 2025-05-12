@@ -23,9 +23,9 @@ class PencatatanReportHandler extends BaseReportHandler
             ]);
 
             $query = PencatatanAwal::with(['pendaftaran', 'pendaftaran.posyandus'])
-                ->whereHas('pendaftaran', function($q) use ($request) {
-                    // Filter tanggal di pendaftaran
-                    $q->whereBetween('pendaftaran.created_at', [
+                ->whereHas('pendaftaran', function ($q) use ($request) {
+                    // Fix: Changed 'pendaftaran.created_at' to 'pendaftarans.created_at'
+                    $q->whereBetween('pendaftarans.created_at', [
                         $request->start_date . ' 00:00:00',
                         $request->end_date . ' 23:59:59'
                     ]);
@@ -38,7 +38,7 @@ class PencatatanReportHandler extends BaseReportHandler
 
             // Filter posyandu
             if ($request->filled('posyandu_id') && $request->posyandu_id != 'semua') {
-                $query->whereHas('pendaftaran.posyandus', function($q) use ($request) {
+                $query->whereHas('pendaftaran.posyandus', function ($q) use ($request) {
                     $q->where('data_posyandu_id', $request->posyandu_id);
                 });
             }
@@ -55,7 +55,9 @@ class PencatatanReportHandler extends BaseReportHandler
 
             return [
                 'view' => 'laporan.pencatatan_pdf',
-                'viewData' => $this->getCommonViewData($request, $data, 'Laporan Pencatatan Awal'),
+                'viewData' => $this->getCommonViewData($request, $data, 'Laporan Pencatatan Awal') + [
+                    'request' => $request 
+                ],
                 'filename' => "Laporan_Pencatatan_Awal_{$start}_sd_{$end}.pdf"
             ];
 

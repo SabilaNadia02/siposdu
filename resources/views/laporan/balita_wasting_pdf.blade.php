@@ -4,6 +4,7 @@
 <head>
     <title>{{ $title }}</title>
     <style>
+        /* Gaya yang sama dengan laporan stunting */
         body {
             font-family: Arial, sans-serif;
             font-size: 11px;
@@ -80,6 +81,24 @@
             font-style: italic;
             color: #777;
         }
+
+        .wasting-badge {
+            display: inline-block;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-weight: bold;
+            font-size: 10px;
+        }
+
+        .severely-wasted {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .wasted {
+            background-color: #fd7e14;
+            color: white;
+        }
     </style>
 </head>
 
@@ -109,6 +128,7 @@
             @forelse ($data as $item)
                 @php
                     $latestKunjungan = $item->pencatatanKunjungan->first();
+                    $badgeClass = $item->wasting_status == 'Severely Wasted' ? 'severely-wasted' : 'wasted';
                 @endphp
                 <tr>
                     <td style="text-align: center;">{{ $loop->iteration }}</td>
@@ -118,14 +138,14 @@
                     <td>{{ $latestKunjungan->berat_badan ?? '-' }} kg</td>
                     <td>{{ $latestKunjungan->panjang_badan ?? '-' }} cm</td>
                     <td>
-                        <span class="stunting-badge">STUNTING</span>
+                        <span class="wasting-badge {{ $badgeClass }}">{{ $item->wasting_status }}</span>
                     </td>
                     <td>{{ $latestKunjungan ? date('d/m/Y', strtotime($latestKunjungan->waktu_pencatatan)) : '-' }}
                     </td>
                 </tr>
             @empty
                 <tr>
-                    <td colspan="9" class="no-data">Tidak ada balita stunting dalam periode ini</td>
+                    <td colspan="9" class="no-data">Tidak ada balita wasting dalam periode ini</td>
                 </tr>
             @endforelse
         </tbody>

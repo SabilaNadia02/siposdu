@@ -16,11 +16,13 @@ use App\Reports\Handlers\{
     VaksinReportHandler,
     VitaminReportHandler,
     BalitaStuntingReportHandler,
+    BalitaWastingReportHandler,
 };
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Models\DataPosyandu;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Exception;
 
 class LaporanController extends Controller
 {
@@ -41,10 +43,11 @@ class LaporanController extends Controller
 
     public function generatePDF(Request $request)
     {
-        Log::info('Generate PDF Request:', $request->all());
+        // Debug request
+        Log::debug('Generate PDF Request:', $request->all());
 
         $request->validate([
-            'jenis' => 'required|in:pendaftaran,pencatatan,kunjungan,imunisasi,vitamin,obat,vaksin,skrining,kelulusan,skrining_tbc,skrining_ppok,rujukan,balita_tidak_datang,balita_stunting,',
+            'jenis' => 'required|in:pendaftaran,pencatatan,kunjungan,imunisasi,vitamin,obat,vaksin,skrining,kelulusan,skrining_tbc,skrining_ppok,rujukan,balita_tidak_datang,balita_stunting,balita_wasting',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',
             'posyandu_id' => 'nullable|string',
@@ -55,19 +58,31 @@ class LaporanController extends Controller
             $handler = $this->getReportHandler($request->jenis);
             $reportData = $handler->handle($request);
 
+            // Debug sebelum generate PDF
+            Log::debug('Report Data Prepared:', [
+                'view' => $reportData['view'],
+                'data_count' => isset($reportData['viewData']['data']) ? count($reportData['viewData']['data']) : 0
+            ]);
+
             $pdf = Pdf::loadView($reportData['view'], $reportData['viewData'])
                 ->setPaper('a4', 'landscape');
 
             return $pdf->download($reportData['filename']);
 
-        } catch (\Exception $e) {
-            Log::error("Laporan PDF Gagal [{$request->jenis}]: " . $e->getMessage(), ['trace' => $e->getTraceAsString()]);
-            return redirect()->back()->with('error', 'Gagal menghasilkan laporan: ' . $e->getMessage());
+        } catch (Exception $e) {
+            Log::error("PDF Generation Failed: " . $e->getMessage(), [
+                'exception' => $e,
+                'request' => $request->all()
+            ]);
+
+            return back()->withErrors('Gagal menghasilkan laporan: ' . $e->getMessage());
         }
     }
 
     private function getReportHandler($jenis)
     {
+        // dd($jenis);
+
         $handlers = [
             'pendaftaran' => new PendaftaranReportHandler(),
             'pencatatan' => new PencatatanReportHandler(),
@@ -82,6 +97,7 @@ class LaporanController extends Controller
             'rujukan' => new RujukanReportHandler(),
             'balita_tidak_datang' => new BalitaTidakDatangReportHandler(),
             'balita_stunting' => new BalitaStuntingReportHandler(),
+            'balita_wasting' => new BalitaWastingReportHandler(),
         ];
 
         if (!isset($handlers[$jenis])) {

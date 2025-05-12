@@ -36,6 +36,23 @@
             <div class="container-fluid">
                 <!--begin::Row-->
                 <div class="row">
+
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
+                    @if (session('error'))
+                        <div class="alert alert-danger">
+                            {{ session('error') }}
+                        </div>
+                    @endif
+
                     <div class="col-md-12">
                         <div class="card mb-4" style="border-top: 3px solid #d63384; border-radius: 0px;">
                             <div class="card-body">
@@ -49,10 +66,11 @@
                                                 <option value="pendaftaran">Laporan Pendaftaran</option>
                                                 <option value="pencatatan">Laporan Pencatatan Awal</option>
                                                 <option value="kunjungan">Laporan Pencatatan Kunjungan</option>
+                                                <option value="balita_tidak_datang">Laporan Pencatatan Peserta Tidak Hadir
+                                                </option>
                                                 <option value="imunisasi">Laporan Balita - Pemberian Imunisasi</option>
-                                                <option value="balita_tidak_datang">Laporan Balita - Tidak Kunjung</option>
                                                 <option value="balita_stunting">Laporan Balita - Stunting (pendek)</option>
-                                                <option value="balita_stunting">Laporan Balita - Wasting (kurus)</option>
+                                                <option value="balita_wasting">Laporan Balita - Wasting (kurus)</option>
                                                 <option value="vitamin">Laporan Pemberian Vitamin</option>
                                                 <option value="obat">Laporan Pemberian Obat</option>
                                                 <option value="vaksin">Laporan Pemberian Vaksin</option>
@@ -145,8 +163,8 @@
             const jenisSasaranSelect = document.getElementById('jenis_sasaran');
 
             // Daftar laporan yang khusus untuk balita (jenis sasaran 2)
-            const laporanKhususBalita = ['imunisasi', 'kelulusan', 'balita_tidak_datang', 'balita_stunting'];
-            
+            const laporanKhususBalita = ['imunisasi', 'kelulusan', 'balita_stunting', 'balita_wasting'];
+
             // Daftar laporan yang khusus untuk usia produktif dan lansia (jenis sasaran 3)
             const laporanKhususDewasa = ['skrining_ppok'];
 

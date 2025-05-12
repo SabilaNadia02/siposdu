@@ -107,7 +107,7 @@
     <div class="filter-info">
         <p><strong>Filter yang digunakan:</strong></p>
         <p>• Posyandu: {{ $posyanduFilter }}</p>
-        <p>• Jenis Sasaran: Balita</p>
+        <p>• Jenis Sasaran: {{ $jenisSasaranFilter }}</p>
     </div>
 
     @if ($data->count() > 0)
@@ -115,81 +115,88 @@
             <thead>
                 <tr>
                     <th>No</th>
-                    <th>Nama Balita</th>
+                    <th>Nama</th>
                     <th>NIK</th>
-                    <th>Nama Ibu</th>
                     <th>Tanggal Lahir</th>
                     <th>Usia</th>
                     <th>No Telepon</th>
+                    <th>Keterangan</th>
+                    <th>Terakhir Kunjung</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($data as $item)
                     @php
-                        $tanggalLahir = new DateTime($item->pendaftaran->tanggal_lahir);
+                        $pendaftaran = $item->pendaftaran;
+                        $tanggalLahir = new DateTime($pendaftaran->tanggal_lahir);
                         $tanggalSekarang = new DateTime();
                         $usia = $tanggalLahir->diff($tanggalSekarang);
+
                         $usiaText = $usia->y . ' tahun';
-                        if ($usia->m > 0) {
-                            $usiaText .= ', ' . $usia->m . ' bulan';
+                        if ($usia->y == 0 || $pendaftaran->jenis_sasaran == 2) {
+                            $usiaText = $usia->m . ' bulan';
+                            if ($usia->y > 0) {
+                                $usiaText = $usia->y . ' tahun, ' . $usiaText;
+                            }
                         }
 
-                        // Format nomor HP untuk WhatsApp
-                        $noHp = $item->pendaftaran->no_hp ?? null;
-
-                        // Data untuk template chat
-                        $namaPosyandu = $item->pendaftaran->posyandus->nama ?? 'Posyandu';
-                        $namaIbu = $item->nama_ibu ?? 'Bunda';
-                        $namaBalita = $item->pendaftaran->nama ?? 'Ananda';
+                        $noHp = $pendaftaran->no_hp ?? null;
+                        $namaPosyandu = $pendaftaran->posyandus->nama ?? 'Posyandu';
                         $bulanPeriode = date('F Y', strtotime($startDate));
 
-                        // Template pesan WhatsApp
-                        $message = rawurlencode(
-                            "$namaPosyandu - Pemberitahuan Kunjungan Posyandu\n\nYth. Bunda $namaIbu,\n\nKami dari $namaPosyandu ingin menginformasikan bahwa berdasarkan data kunjungan terakhir, ananda $namaBalita belum hadir dalam kegiatan Posyandu bulan $bulanPeriode.\n\nKami mengajak Bunda untuk membawa ananda ke Posyandu agar tumbuh kembangnya dapat terus dipantau dan mendapatkan layanan kesehatan yang dibutuhkan.\n\nJika Bunda berhalangan hadir, silakan hubungi kader Posyandu atau petugas setempat untuk informasi lebih lanjut.\n\nTerima kasih atas perhatian dan kerja samanya.\n\nSalam sehat,\nTim $namaPosyandu",
-                        );
+                        // Cari kunjungan terakhir jika ada
+                        $lastVisit = $item->pencatatanKunjungan()->orderBy('waktu_pencatatan', 'desc')->first();
+                        $lastVisitDate = $lastVisit
+                            ? date('d/m/Y', strtotime($lastVisit->waktu_pencatatan))
+                            : 'Belum pernah';
 
+                        $noHp = $pendaftaran->no_hp ?? null;
                         $whatsappLink = $noHp
-                            ? 'https://wa.me/' . preg_replace('/[^0-9]/', '', $noHp) . '?text=' . $message
+                            ? 'https://wa.me/' .
+                                preg_replace('/[^0-9]/', '', $noHp) .
+                                '?text=' .
+                                rawurlencode($item->whatsapp_message)
                             : '#';
                     @endphp
                     <tr>
                         <td class="text-center">{{ $loop->iteration }}</td>
-                        <td>{{ $item->pendaftaran->nama }}</td>
-                        <td>{{ $item->pendaftaran->nik }}</td>
-                        <td>{{ $item->nama_ibu }}</td>
-                        <td>{{ date('d/m/Y', strtotime($item->pendaftaran->tanggal_lahir)) }}</td>
+                        <td>{{ $pendaftaran->nama }}</td>
+                        <td>{{ $pendaftaran->nik }}</td>
+                        <td>{{ date('d/m/Y', strtotime($pendaftaran->tanggal_lahir)) }}</td>
                         <td>{{ $usiaText }}</td>
                         <td>
                             @if ($noHp)
-                                <a href="{{ $whatsappLink }}" class="whatsapp-link" target="_blank">
+                                <a href="{{ $whatsappLink }}" class="whatsapp-link" target="_blank"
+                                    rel="noopener noreferrer">
                                     {{ $noHp }}
                                 </a>
-                                <div class="chat-template">
-                                    Template Chat:<br>
-                                    {{ $namaPosyandu }} - Pemberitahuan Kunjungan Posyandu<br><br>
-                                    Yth. Bunda {{ $namaIbu }},<br><br>
-                                    Kami dari {{ $namaPosyandu }} ingin menginformasikan bahwa berdasarkan data
-                                    kunjungan terakhir, ananda {{ $namaBalita }} belum hadir dalam kegiatan Posyandu
-                                    bulan {{ $bulanPeriode }}.<br><br>
-                                    Kami mengajak Bunda untuk membawa ananda ke Posyandu agar tumbuh kembangnya dapat
-                                    terus dipantau dan mendapatkan layanan kesehatan yang dibutuhkan.<br><br>
-                                    Jika Bunda berhalangan hadir, silakan hubungi kader Posyandu atau petugas setempat
-                                    untuk informasi lebih lanjut.<br><br>
-                                    Terima kasih atas perhatian dan kerja samanya.<br><br>
-                                    Salam sehat,<br>
-                                    Tim {{ $namaPosyandu }}
-                                </div>
                             @else
                                 -
                             @endif
                         </td>
+                        <td>
+                            @switch($pendaftaran->jenis_sasaran)
+                                @case(1)
+                                    Ibu Hamil
+                                @break
+
+                                @case(2)
+                                    Balita
+                                @break
+
+                                @case(3)
+                                    {{ $usia->y >= 60 ? 'Lansia' : 'Usia Produktif' }}
+                                @break
+                            @endswitch
+                        </td>
+                        <td>{{ $lastVisitDate }}</td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
     @else
         <div class="no-data">
-            Tidak ada data balita yang tidak kunjung pada periode ini.
+            Tidak ada data peserta yang tidak kunjung pada periode ini.
         </div>
     @endif
 
