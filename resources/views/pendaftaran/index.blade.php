@@ -14,7 +14,7 @@
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-end">
                             <li class="breadcrumb-item">
-                                <a href="#" style="color: #d63384; font-size: 16px;">Dashboard</a>
+                                <a href="{{ route('dashboard') }}" style="color: #d63384; font-size: 16px;">Dashboard</a>
                             </li>
                             <li class="breadcrumb-item active">Pendaftaran</li>
                         </ol>
@@ -96,6 +96,22 @@
                                 </div>
                             @endif
 
+                            @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+
+                            @if (session('error'))
+                                <div class="alert alert-danger">
+                                    {{ session('error') }}
+                                </div>
+                            @endif
+
                             <table class="table table-bordered">
                                 <thead>
                                     <tr>
@@ -111,7 +127,9 @@
                                 <tbody>
                                     @forelse ($pendaftaran as $data)
                                         <tr>
-                                            <td>{{ $data->id }}</td>
+                                            {{-- <td>{{ $loop->iteration }}</td> --}}
+                                            <td>{{ ($pendaftaran->currentPage() - 1) * $pendaftaran->perPage() + $loop->iteration }}
+                                            </td>
                                             <td>{{ $data->nama }}</td>
                                             <td>{{ $data->jenis_kelamin == '1' ? 'Laki-Laki' : 'Perempuan' }}</td>
                                             <td>{{ \Carbon\Carbon::parse($data->tanggal_lahir)->age }} Tahun</td>
@@ -197,7 +215,7 @@
     </main>
 @endsection
 
-@section('scripts')
+@push('scripts')
     <script>
         $(document).ready(function() {
             $('.btn-hapus').on('click', function(e) {
@@ -221,4 +239,4 @@
             });
         });
     </script>
-@endsection
+@endpush

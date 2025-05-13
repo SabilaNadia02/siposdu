@@ -18,7 +18,7 @@
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-end">
                             <li class="breadcrumb-item">
-                                <a href="#" style="color: #d63384; font-size: 16px;">Dashboard</a>
+                                <a href="{{ route('dashboard') }}" style="color: #d63384; font-size: 16px;">Dashboard</a>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">Laporan</li>
                         </ol>
@@ -71,12 +71,12 @@
                                                 <option value="imunisasi">Laporan Balita - Pemberian Imunisasi</option>
                                                 <option value="balita_stunting">Laporan Balita - Stunting (pendek)</option>
                                                 <option value="balita_wasting">Laporan Balita - Wasting (kurus)</option>
+                                                <option value="kelulusan">Laporan Balita - Kelulusan Balita</option>
                                                 <option value="vitamin">Laporan Pemberian Vitamin</option>
                                                 <option value="obat">Laporan Pemberian Obat</option>
                                                 <option value="vaksin">Laporan Pemberian Vaksin</option>
                                                 <option value="skrining_tbc">Laporan Skrining TBC</option>
                                                 <option value="skrining_ppok">Laporan Skrining PPOK</option>
-                                                <option value="kelulusan">Laporan Kelulusan Balita</option>
                                                 <option value="rujukan">Laporan Rujukan</option>
                                             </select>
                                         </div>

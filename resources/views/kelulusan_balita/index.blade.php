@@ -19,7 +19,7 @@
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-end">
-                            <li class="breadcrumb-item"><a href="#" class="text-success">Dashboard</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}" class="text-success">Dashboard</a></li>
                             <li class="breadcrumb-item active" aria-current="page">Rujukan</li>
                         </ol>
                     </div>

@@ -360,7 +360,7 @@
     </style>
 @endsection
 
-@section('scripts')
+@push('scripts')
     <script>
         $(document).ready(function() {
             $('.btn-hapus').on('click', function(e) {
@@ -384,4 +384,4 @@
             });
         });
     </script>
-@endsection
+@endpush

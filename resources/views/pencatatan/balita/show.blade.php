@@ -73,6 +73,16 @@
                                         <td>{{ optional($data->pendaftaran)->nama ?? '-' }}</td>
                                     </tr>
                                     <tr>
+                                        <th>Tanggal Lahir</th>
+                                        <td>
+                                            @php
+                                                $tgl = optional($data->pendaftaran)->tanggal_lahir;
+                                            @endphp
+
+                                            {{ $tgl ? \Carbon\Carbon::parse($tgl)->translatedFormat('d F Y') : '-' }}
+                                        </td>
+                                    </tr>
+                                    <tr>
                                         <th>Usia</th>
                                         <td>
                                             @php
@@ -137,7 +147,7 @@
                                                 <th style="width: 100px;">Lingkar Kepala</th>
                                                 <th style="width: 120px;">ASI Eksklusif</th>
                                                 <th style="width: 120px;">MP ASI</th>
-                                                <th style="width: 200px;">Keluhan</th>
+                                                {{-- <th style="width: 200px;">Keluhan</th> --}}
                                                 <th class="text-center" style="width: 100px;">Aksi</th>
                                             </tr>
                                         </thead>
@@ -163,8 +173,8 @@
                                                     </td>
                                                     <td>{{ $kunjungan->mp_asi == 1 ? 'Ya' : ($kunjungan->mp_asi == 2 ? 'Tidak' : '-') }}
                                                     </td>
-                                                    <td>{{ $kunjungan->keluhan ?? '-' }}
-                                                    </td>
+                                                    {{-- <td>{{ $kunjungan->keluhan ?? '-' }}
+                                                    </td> --}}
                                                     <td class="text-center">
                                                         <a href="{{ route('pencatatan.balita.kunjungan.show', [$data->id, $kunjungan->id]) }}"
                                                             class="btn btn-info btn-sm" title="Lihat"
@@ -1165,7 +1175,8 @@
                 }
 
                 // Grafik LK/U
-                if (growthData.chartData.headCircumference && growthData.chartData.headCircumference.some(h => h !== null)) {
+                if (growthData.chartData.headCircumference && growthData.chartData.headCircumference.some(h => h !==
+                        null)) {
                     const hcSeries = growthData.chartData.labels.map((label, i) => {
                         return {
                             x: growthData.chartData.ages[i], // Gunakan usia dalam bulan sebagai x-axis

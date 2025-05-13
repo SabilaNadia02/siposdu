@@ -169,7 +169,7 @@
 
 @endsection
 
-@section('scripts')
+@push('scripts')
     <script>
         document.getElementById("searchNamaBalita").addEventListener("keyup", function() {
             var input = this.value.toLowerCase();
@@ -207,4 +207,4 @@
             });
         });
     </script>
-@endsection
+@endpush 

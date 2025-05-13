@@ -90,7 +90,7 @@
                         <!-- Tanggal Lahir -->
                         <div class="col-md-6">
                             <label for="tanggal_lahir" class="form-label">Tanggal Lahir <span
-                                    style="font-size: 11px; font-weight: normal;">(bulan/tanggal/tahun)</span> <span
+                                    style="font-size: 11px; font-weight: normal;">(bulan/tanggal/tahun)</span><span
                                     class="text-danger">*</span></label>
                             <input type="date"
                                 class="form-control form-control-sm @error('tanggal_lahir') is-invalid @enderror"
@@ -152,7 +152,8 @@
 
                         <!-- No HP -->
                         <div class="col-md-6">
-                            <label for="no_hp" class="form-label">No HP <span class="text-danger">*</span></label>
+                            <label for="no_hp" class="form-label">No HP <span
+                                    style="font-size: 11px; font-weight: normal;">(cth: 6285852057967)</span><span class="text-danger">*</span></label>
                             <input type="text"
                                 class="form-control form-control-sm @error('no_hp') is-invalid @enderror"
                                 name="no_hp" value="{{ old('no_hp') }}" placeholder="Masukkan nomor HP aktif"

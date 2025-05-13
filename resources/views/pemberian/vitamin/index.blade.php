@@ -24,7 +24,7 @@
                     <div class="col-sm-4">
                         <ol class="breadcrumb float-sm-end">
                             <li class="breadcrumb-item">
-                                <a href="#" style="color: #d63384; font-size: 16px;">Dashboard</a>
+                                <a href="{{ route('dashboard') }}" style="color: #d63384; font-size: 16px;">Dashboard</a>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">Pemberian Vitamin</li>
                         </ol>
@@ -197,7 +197,7 @@
     </main>
 @endsection
 
-@section('scripts')
+@push('scripts')
     <script>
         $(document).ready(function() {
             $('.btn-hapus').on('click', function(e) {
@@ -221,4 +221,4 @@
             });
         });
     </script>
-@endsection
+@endpush

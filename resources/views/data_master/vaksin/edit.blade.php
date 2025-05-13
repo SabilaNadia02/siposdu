@@ -15,7 +15,7 @@
                     <div class="col-sm-4">
                         <ol class="breadcrumb float-sm-end">
                             <li class="breadcrumb-item">
-                                <a href="#" style="color: #d63384; font-size: 16px;">Dashboard</a>
+                                <a href="{{ route('dashboard') }}" style="color: #d63384; font-size: 16px;">Dashboard</a>
                             </li>
                             <li class="breadcrumb-item">
                                 <a href="{{ route('data-master.vaksin.index') }}"

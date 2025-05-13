@@ -14,7 +14,7 @@
                     <div class="col-sm-4">
                         <ol class="breadcrumb float-sm-end">
                             <li class="breadcrumb-item">
-                                <a href="#" style="color: #FF8F00; font-size: 16px;">Dashboard</a>
+                                <a href="{{ route('dashboard') }}" style="color: #FF8F00; font-size: 16px;">Dashboard</a>
                             </li>
                             <li class="breadcrumb-item">
                                 <a href="{{ route('pencatatan.lansia.show', $data->id) }}"
