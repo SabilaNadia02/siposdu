@@ -38,7 +38,8 @@ class DatabaseSeeder extends Seeder
             // PemberianObatSeeder::class,
             // PemberianVaksinSeeder::class,
             // RujukanSeeder::class,
-            DataPenggunaSeeder::class,
+            // DataPenggunaSeeder::class,
+            AdminUserSeeder::class,
         ]);
     }
 }

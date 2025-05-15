@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DataImunisasiController;
 use App\Http\Controllers\DataObatController;
@@ -27,103 +28,103 @@ use App\Http\Controllers\SkriningTBCController;
 use App\Models\DataImunisasi;
 use Illuminate\Support\Facades\Route;
 
+// Auth Routes
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-// Route Dashboard
-Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+// Proteksi semua route dengan middleware auth
+Route::middleware(['auth'])->group(function () {
+    // Route Dashboard
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
-// Route Pendaftaran
-Route::resource('pendaftaran', PendaftaranController::class);
-
-// Route Pencatatan
-Route::group(['prefix' => 'pencatatan', 'as' => 'pencatatan.'], function () {
-    Route::resource('general', PencatatanGeneralController::class);
-    Route::resource('ibu', PencatatanIbuController::class);
-    Route::resource('balita', PencatatanBalitaController::class);
-    Route::resource('lansia', PencatatanLansiaController::class);
-
-    // 🔹 Kunjungan untuk Ibu
-    Route::group(['prefix' => 'ibu/{id_pencatatan_awal}/kunjungan', 'as' => 'ibu.kunjungan.'], function () {
-        Route::post('/', [PencatatanIbuController::class, 'storeKunjungan'])->name('store');
-        Route::get('/{id}', [PencatatanIbuController::class, 'showKunjungan'])->name('show');
-        Route::get('/{id}/edit', [PencatatanIbuController::class, 'editKunjungan'])->name('edit');
-        Route::put('/{id}', [PencatatanIbuController::class, 'updateKunjungan'])->name('update');
-        Route::delete('/{id}', [PencatatanIbuController::class, 'destroyKunjungan'])->name('destroy');
+    // Route yang hanya bisa diakses admin
+    Route::middleware(['auth', 'role:1'])->group(function () {
+        Route::group(['prefix' => 'data-master', 'as' => 'data-master.'], function () {
+            Route::resource('imunisasi', DataImunisasiController::class);
+            Route::resource('vitamin', DataVitaminController::class);
+            Route::resource('obat', DataObatController::class);
+            Route::resource('vaksin', DataVaksinController::class);
+            Route::resource('skrining', DataSkriningController::class);
+            Route::resource('pertanyaan', DataPertanyaanController::class);
+            Route::resource('pertanyaan-skrining', DataPertanyaanSkriningController::class)
+                ->parameters(['pertanyaan-skrining' => 'pertanyaanSkrining']);
+            Route::resource('posyandu', DataPosyanduController::class);
+            Route::resource('pengguna', DataPenggunaController::class);
+        });
     });
 
-    // 🔹 Kunjungan untuk Balita
-    Route::group(['prefix' => 'balita/{id_pencatatan_awal}/kunjungan', 'as' => 'balita.kunjungan.'], function () {
-        Route::post('/', [PencatatanBalitaController::class, 'storeKunjungan'])->name('store');
-        Route::get('/{id}', [PencatatanBalitaController::class, 'showKunjungan'])->name('show');
-        Route::get('/{id}/edit', [PencatatanBalitaController::class, 'editKunjungan'])->name('edit');
-        Route::put('/{id}', [PencatatanBalitaController::class, 'updateKunjungan'])->name('update');
-        Route::delete('/{id}', [PencatatanBalitaController::class, 'destroyKunjungan'])->name('destroy');
+    // Route yang bisa diakses admin dan bidan/perawat
+    Route::middleware(['auth', 'role:1,2'])->group(function () {
+        Route::resource('rujukan', RujukanController::class);
+        Route::get('rujukan/filter', [RujukanController::class, 'filter'])->name('rujukan.filter');
+
+        Route::group(['prefix' => 'pemberian', 'as' => 'pemberian.'], function () {
+            Route::get('imunisasi/get-imunisasi-by-usia', [PemberianImunisasiController::class, 'getImunisasiByUsia'])
+                ->name('imunisasi.get-imunisasi-by-usia');
+            Route::resource('imunisasi', PemberianImunisasiController::class);
+            Route::resource('vitamin', PemberianVitaminController::class);
+            Route::resource('obat', PemberianObatController::class);
+            Route::resource('vaksin', PemberianVaksinController::class);
+        });
     });
 
-    // 🔹 Kunjungan untuk Lansia
-    Route::group(['prefix' => 'lansia/{id_pencatatan_awal}/kunjungan', 'as' => 'lansia.kunjungan.'], function () {
-        Route::post('/', [PencatatanLansiaController::class, 'storeKunjungan'])->name('store');
-        Route::get('/{id}', [PencatatanLansiaController::class, 'showKunjungan'])->name('show');
-        Route::get('/{id}/edit', [PencatatanLansiaController::class, 'editKunjungan'])->name('edit');
-        Route::put('/{id}', [PencatatanLansiaController::class, 'updateKunjungan'])->name('update');
-        Route::delete('/{id}', [PencatatanLansiaController::class, 'destroyKunjungan'])->name('destroy');
+    // Route yang bisa diakses admin, bidan/perawat, dan kader
+    Route::middleware(['auth', 'role:1,2,3'])->group(function () {
+        Route::resource('pendaftaran', PendaftaranController::class);
+
+        Route::group(['prefix' => 'pencatatan', 'as' => 'pencatatan.'], function () {
+            Route::resource('general', PencatatanGeneralController::class);
+            Route::resource('ibu', PencatatanIbuController::class);
+            Route::resource('balita', PencatatanBalitaController::class);
+            Route::resource('lansia', PencatatanLansiaController::class);
+
+            // Kunjungan untuk Ibu
+            Route::group(['prefix' => 'ibu/{id_pencatatan_awal}/kunjungan', 'as' => 'ibu.kunjungan.'], function () {
+                Route::post('/', [PencatatanIbuController::class, 'storeKunjungan'])->name('store');
+                Route::get('/{id}', [PencatatanIbuController::class, 'showKunjungan'])->name('show');
+                Route::get('/{id}/edit', [PencatatanIbuController::class, 'editKunjungan'])->name('edit');
+                Route::put('/{id}', [PencatatanIbuController::class, 'updateKunjungan'])->name('update');
+                Route::delete('/{id}', [PencatatanIbuController::class, 'destroyKunjungan'])->name('destroy');
+            });
+
+            // Kunjungan untuk Balita
+            Route::group(['prefix' => 'balita/{id_pencatatan_awal}/kunjungan', 'as' => 'balita.kunjungan.'], function () {
+                Route::post('/', [PencatatanBalitaController::class, 'storeKunjungan'])->name('store');
+                Route::get('/{id}', [PencatatanBalitaController::class, 'showKunjungan'])->name('show');
+                Route::get('/{id}/edit', [PencatatanBalitaController::class, 'editKunjungan'])->name('edit');
+                Route::put('/{id}', [PencatatanBalitaController::class, 'updateKunjungan'])->name('update');
+                Route::delete('/{id}', [PencatatanBalitaController::class, 'destroyKunjungan'])->name('destroy');
+            });
+
+            // Kunjungan untuk Lansia
+            Route::group(['prefix' => 'lansia/{id_pencatatan_awal}/kunjungan', 'as' => 'lansia.kunjungan.'], function () {
+                Route::post('/', [PencatatanLansiaController::class, 'storeKunjungan'])->name('store');
+                Route::get('/{id}', [PencatatanLansiaController::class, 'showKunjungan'])->name('show');
+                Route::get('/{id}/edit', [PencatatanLansiaController::class, 'editKunjungan'])->name('edit');
+                Route::put('/{id}', [PencatatanLansiaController::class, 'updateKunjungan'])->name('update');
+                Route::delete('/{id}', [PencatatanLansiaController::class, 'destroyKunjungan'])->name('destroy');
+            });
+        });
+
+        Route::resource('kelulusan-balita', KelulusanBalitaController::class);
+
+        Route::group(['prefix' => 'skrining', 'as' => 'skrining.'], function () {
+            Route::resource('tbc', SkriningTBCController::class);
+            Route::resource('ppok', SkriningPPOKController::class);
+        });
+
+        Route::prefix('laporan')->name('laporan.')->group(function () {
+            Route::get('/', [LaporanController::class, 'index'])->name('index');
+            Route::get('/generate', [LaporanController::class, 'generatePDF'])->name('generate');
+            Route::resource('data', LaporanController::class)->except(['index', 'create', 'show']);
+        });
+
+        Route::get('/test-role', function () {
+            return 'Bisa masuk, role oke!';
+        })->middleware(['auth', 'role:1']);
     });
 });
-
-// Route Rujukan
-Route::resource('rujukan', RujukanController::class);
-Route::get('rujukan/filter', [RujukanController::class, 'filter'])->name('rujukan.filter');
-
-// Route Kelulusan Balita
-Route::resource('kelulusan-balita', KelulusanBalitaController::class);
-
-// Route Pemberian
-Route::group(['prefix' => 'pemberian', 'as' => 'pemberian.'], function () {
-    // Custom route FIRST
-    Route::get('imunisasi/get-imunisasi-by-usia', [PemberianImunisasiController::class, 'getImunisasiByUsia'])
-        ->name('imunisasi.get-imunisasi-by-usia');
-
-    // Then the resource route
-    Route::resource('imunisasi', PemberianImunisasiController::class);
-
-    // Other routes...
-    Route::resource('vitamin', PemberianVitaminController::class);
-    Route::resource('obat', PemberianObatController::class);
-    Route::resource('vaksin', PemberianVaksinController::class);
-});
-
-// Route Data Master
-Route::group(['prefix' => 'data-master', 'as' => 'data-master.'], function () {
-    Route::resource('imunisasi', DataImunisasiController::class);
-    Route::resource('vitamin', DataVitaminController::class);
-    Route::resource('obat', DataObatController::class);
-    Route::resource('vaksin', DataVaksinController::class);
-    Route::resource('skrining', DataSkriningController::class);
-    Route::resource('pertanyaan', DataPertanyaanController::class);
-    Route::resource('pertanyaan-skrining', DataPertanyaanSkriningController::class)
-        ->parameters(['pertanyaan-skrining' => 'pertanyaanSkrining']);
-    Route::resource('posyandu', DataPosyanduController::class);
-    Route::resource('pengguna', DataPenggunaController::class);
-});
-
-// Route Skrining
-Route::group(['prefix' => 'skrining', 'as' => 'skrining.'], function () {
-    Route::resource('tbc', SkriningTBCController::class);
-    Route::resource('ppok', SkriningPPOKController::class);
-});
-
-// Route Laporan
-Route::prefix('laporan')->name('laporan.')->group(function () {
-    // Halaman pemilihan laporan
-    Route::get('/', [LaporanController::class, 'index'])->name('index');
-
-    // Generate PDF
-    Route::get('/generate', [LaporanController::class, 'generatePDF'])->name('generate');
-
-    // Jika Anda ingin mempertahankan resource route untuk CRUD laporan (opsional)
-    Route::resource('data', LaporanController::class)->except(['index', 'create', 'show']);
-});
-
-
 
 // Testing
 Route::get('/test-imunisasi', function () {
@@ -132,3 +133,4 @@ Route::get('/test-imunisasi', function () {
         ->where('sampai_umur', '>=', $usia)
         ->get();
 });
+
