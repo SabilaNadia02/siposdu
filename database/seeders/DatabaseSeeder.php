@@ -12,25 +12,19 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Menjalankan seeder pengguna
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
-
-        // Menjalankan seeder lainnya
         $this->call([
-            DataImunisasiSeeder::class, 
+            DataImunisasiSeeder::class,
             DataVitaminSeeder::class,
-            DataObatSeeder::class,
-            DataVaksinSeeder::class,
+            // DataObatSeeder::class,
+            // DataVaksinSeeder::class,
             DataPosyanduSeeder::class,
-            PendaftaranSeeder::class,
-            // PencatatanAwalSeeder::class,
-            // PencatatanKunjunganSeeder::class,
             DataSkriningSeeder::class,
             DataPertanyaanSeeder::class,
             PertanyaanSkriningSeeder::class,
+            AdminUserSeeder::class,
+            // PendaftaranSeeder::class,
+            // PencatatanAwalSeeder::class,
+            // PencatatanKunjunganSeeder::class,
             // PencatatanSkriningSeeder::class,
             // DetailPencatatanSkrining::class,
             // PemberianImunisasiSeeder::class,
@@ -39,7 +33,6 @@ class DatabaseSeeder extends Seeder
             // PemberianVaksinSeeder::class,
             // RujukanSeeder::class,
             // DataPenggunaSeeder::class,
-            AdminUserSeeder::class,
         ]);
     }
 }

@@ -24,6 +24,7 @@ class SkriningPPOKController extends Controller
                 $query->where('id', 2);
             })
             ->orderBy('waktu_skrining', 'desc')
+            ->orderBy('id', 'desc')
             ->paginate(10);
 
         // Hitung total dengan dan tanpa gejala dari seluruh data (bukan hanya halaman saat ini)

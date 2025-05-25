@@ -4,35 +4,28 @@ namespace App\Http\Controllers;
 
 use App\Models\DataPengguna;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class DataPenggunaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $penggunas = DataPengguna::paginate(10);
         return view('data_master.pengguna.index', compact('penggunas'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return view('data_master.pengguna.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $request->validate([
             'nama' => 'required|string|max:255',
-            'email' => 'required|email',
-            'peran' => 'required|in:1,2,3',
+            'email' => 'required|email|unique:data_penggunas,email',
+            'role' => 'required|in:1,2,3',
+            'password' => 'required|string|confirmed',
         ]);
 
         $nama = ucwords(strtolower($request->nama));
@@ -40,56 +33,56 @@ class DataPenggunaController extends Controller
         DataPengguna::create([
             'nama' => $nama,
             'email' => $request->email,
-            'peran' => $request->peran,
+            'role' => $request->role,
+            'password' => Hash::make($request->password),
         ]);
 
         return redirect()->route('data-master.pengguna.index')->with('success', 'Data pengguna berhasil ditambahkan.');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show($id)
     {
         $pengguna = DataPengguna::findOrFail($id);
         return view('data_master.pengguna.show', compact('pengguna'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(DataPengguna $pengguna)
     {
         return view('data_master.pengguna.edit', compact('pengguna'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-
     public function update(Request $request, DataPengguna $pengguna)
     {
-        $validated = $request->validate([
+        $rules = [
             'nama' => 'required|string|max:255',
-            'email' => 'required|email',
-            'peran' => 'required|in:1,2,3',
-        ]);
+            'email' => 'required|email|unique:data_penggunas,email,' . $pengguna->id,
+            'role' => 'required|in:1,2,3',
+        ];
 
-        $nama = ucwords(strtolower($request->nama));
+        // Jika password diisi, validasi password
+        if ($request->filled('password')) {
+            $rules['password'] = 'string|confirmed';
+        }
 
-        $pengguna->update([
-            'nama' => $nama,
+        $validated = $request->validate($rules);
+
+        $updateData = [
+            'nama' => ucwords(strtolower($request->nama)),
             'email' => $request->email,
-            'peran' => $request->peran,
-        ]);
+            'role' => $request->role,
+        ];
+
+        // Update password jika diisi
+        if ($request->filled('password')) {
+            $updateData['password'] = Hash::make($request->password);
+        }
+
+        $pengguna->update($updateData);
 
         return redirect()->route('data-master.pengguna.index')
             ->with('success', 'Data pengguna berhasil diperbarui.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(DataPengguna $pengguna)
     {
         $pengguna->delete();

@@ -20,7 +20,7 @@
                     </ul>
                 </div>
 
-                <form id="formSkriningPPOK" method="POST" action="{{ route('skrining.ppok.store') }}">
+                <form id="formSkriningPPOK" method="POST" action="{{ route('skrining.ppok.store') }}" novalidate>
                     @csrf
                     <div class="row g-3">
                         <div class="col-md-6">
@@ -30,6 +30,7 @@
                             </label>
                             <input type="date" class="form-control form-control-sm" id="waktu_skrining"
                                 name="waktu_skrining" required>
+                            <div class="invalid-feedback">Waktu skrining harus diisi</div>
                         </div>
                         <div class="col-md-6">
                             <label for="no_pendaftaran" class="form-label" style="font-size: 14px; margin-bottom: 2px;">
@@ -48,12 +49,12 @@
                                     </option>
                                 @endforeach
                             </select>
+                            <div class="invalid-feedback">Silakan pilih peserta</div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label style="font-size: 14px;">Jenis Kelamin <span
-                                    class="text-danger">*</span></label>
+                                <label style="font-size: 14px;">Jenis Kelamin <span class="text-danger">*</span></label>
                                 <div class="input-group">
                                     <input type="text" class="form-control form-control-sm"
                                         id="display_jenis_kelamin" readonly>
@@ -61,20 +62,21 @@
                                         <small id="skor_jenis_kelamin_text">(Skor: 0)</small>
                                     </span>
                                 </div>
-                                <input type="hidden" id="pertanyaan_5" name="pertanyaan[5]">
+                                <input type="hidden" id="pertanyaan_5" name="pertanyaan[5]" required>
+                                <div class="invalid-feedback">Data jenis kelamin harus valid</div>
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label style="font-size: 14px;">Usia <span
-                                    class="text-danger">*</span></label>
+                                <label style="font-size: 14px;">Usia <span class="text-danger">*</span></label>
                                 <div class="input-group">
                                     <input type="number" class="form-control form-control-sm" id="usia" readonly>
                                     <span class="input-group-text">tahun</span>
                                 </div>
                                 <small class="text-muted">(Dihitung otomatis)</small>
-                                <input type="hidden" id="pertanyaan_6" name="pertanyaan[6]">
+                                <input type="hidden" id="pertanyaan_6" name="pertanyaan[6]" required>
+                                <div class="invalid-feedback">Data usia harus valid</div>
                             </div>
                         </div>
 
@@ -88,8 +90,7 @@
                         <div class="col-md-12">
                             <label for="pertanyaan_7" class="form-label" style="font-size: 14px;">
                                 Merokok? <small class="text-muted">(Skor: Tidak=0, <20 bungkus/tahun=0, 20-30=1,
-                                        ≥30=2)</small><span
-                                        class="text-danger">*</span>
+                                        ≥30=2)</small><span class="text-danger">*</span>
                             </label>
                             <select class="form-select form-select-sm" id="pertanyaan_7" name="pertanyaan[7]" required>
                                 <option value="" selected disabled>Pilih Jawaban</option>
@@ -98,28 +99,29 @@
                                 <option value="3">Ya, 20-30 bungkus/tahun (1)</option>
                                 <option value="4">Ya, ≥30 bungkus/tahun (2)</option>
                             </select>
+                            <div class="invalid-feedback">Pertanyaan ini harus dijawab</div>
                         </div>
 
                         <!-- Question 4: Nafas pendek -->
                         <div class="col-md-12">
                             <label for="pertanyaan_8" class="form-label" style="font-size: 14px;">
                                 Pernah merasa nafas pendek ketika berjalan cepat? <small class="text-muted">(Skor:
-                                    Ya=1, Tidak=0)</small><span
-                                    class="text-danger">*</span>
+                                    Ya=1, Tidak=0)</small><span class="text-danger">*</span>
                             </label>
-                            <select class="form-select form-select-sm" id="pertanyaan_8" name="pertanyaan[8]" required>
+                            <select class="form-select form-select-sm" id="pertanyaan_8" name="pertanyaan[8]"
+                                required>
                                 <option value="" selected disabled>Pilih Jawaban</option>
                                 <option value="1">Ya (1)</option>
                                 <option value="2">Tidak (0)</option>
                             </select>
+                            <div class="invalid-feedback">Pertanyaan ini harus dijawab</div>
                         </div>
 
                         <!-- Question 5: Dahak dari paru -->
                         <div class="col-12">
                             <label for="pertanyaan_9" class="form-label" style="font-size: 14px;">
                                 Punya dahak dari paru saat tidak flu? <small class="text-muted">(Skor: Ya=1,
-                                    Tidak=0)</small><span
-                                    class="text-danger">*</span>
+                                    Tidak=0)</small><span class="text-danger">*</span>
                             </label>
                             <select class="form-select form-select-sm" id="pertanyaan_9" name="pertanyaan[9]"
                                 required>
@@ -127,13 +129,14 @@
                                 <option value="1">Ya (1)</option>
                                 <option value="2">Tidak (0)</option>
                             </select>
+                            <div class="invalid-feedback">Pertanyaan ini harus dijawab</div>
                         </div>
 
                         <!-- Question 6: Batuk tanpa flu -->
                         <div class="col-12">
                             <label for="pertanyaan_10" class="form-label" style="font-size: 14px;">
-                                Biasanya batuk saat tidak flu? <small class="text-muted">(Skor: Ya=1, Tidak=0)</small><span
-                                class="text-danger">*</span>
+                                Biasanya batuk saat tidak flu? <small class="text-muted">(Skor: Ya=1,
+                                    Tidak=0)</small><span class="text-danger">*</span>
                             </label>
                             <select class="form-select form-select-sm" id="pertanyaan_10" name="pertanyaan[10]"
                                 required>
@@ -141,14 +144,14 @@
                                 <option value="1">Ya (1)</option>
                                 <option value="2">Tidak (0)</option>
                             </select>
+                            <div class="invalid-feedback">Pertanyaan ini harus dijawab</div>
                         </div>
 
                         <!-- Question 7: Spirometri -->
                         <div class="col-12">
                             <label for="pertanyaan_11" class="form-label" style="font-size: 14px;">
                                 Pernah diminta melakukan spirometri? <small class="text-muted">(Skor: Ya=1,
-                                    Tidak=0)</small><span
-                                    class="text-danger">*</span>
+                                    Tidak=0)</small><span class="text-danger">*</span>
                             </label>
                             <select class="form-select form-select-sm" id="pertanyaan_11" name="pertanyaan[11]"
                                 required>
@@ -156,6 +159,7 @@
                                 <option value="1">Ya (1)</option>
                                 <option value="2">Tidak (0)</option>
                             </select>
+                            <div class="invalid-feedback">Pertanyaan ini harus dijawab</div>
                         </div>
                     </div>
                     <div class="mt-3 d-grid">
@@ -172,16 +176,59 @@
     document.addEventListener('DOMContentLoaded', function() {
         const pendaftaranSelect = document.getElementById('no_pendaftaran');
         const usiaInput = document.getElementById('usia');
-        const skorUsiaInput = document.getElementById('skor_usia');
         const pertanyaan6Input = document.getElementById('pertanyaan_6');
         const waktuSkriningInput = document.getElementById('waktu_skrining');
         const displayJenisKelamin = document.getElementById('display_jenis_kelamin');
         const skorJenisKelaminText = document.getElementById('skor_jenis_kelamin_text');
         const pertanyaan5Input = document.getElementById('pertanyaan_5');
+        const form = document.getElementById('formSkriningPPOK');
 
         // Set default tanggal skrining ke hari ini
         const today = new Date().toISOString().split('T')[0];
         waktuSkriningInput.value = today;
+
+        // Form validation
+        form.addEventListener('submit', function(event) {
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+
+                // Menambahkan class 'was-validated' untuk menampilkan pesan error
+                form.classList.add('was-validated');
+
+                // Scroll ke field pertama yang error
+                const firstInvalid = form.querySelector(':invalid');
+                if (firstInvalid) {
+                    firstInvalid.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'center'
+                    });
+                    firstInvalid.focus();
+                }
+            }
+        }, false);
+
+        // Menambahkan event listener untuk setiap input/select
+        const inputs = form.querySelectorAll('input, select');
+        inputs.forEach(input => {
+            input.addEventListener('input', function() {
+                if (input.checkValidity()) {
+                    input.classList.remove('is-invalid');
+                    input.classList.add('is-valid');
+                } else {
+                    input.classList.remove('is-valid');
+                }
+            });
+
+            input.addEventListener('change', function() {
+                if (input.checkValidity()) {
+                    input.classList.remove('is-invalid');
+                    input.classList.add('is-valid');
+                } else {
+                    input.classList.remove('is-valid');
+                }
+            });
+        });
 
         pendaftaranSelect.addEventListener('change', function() {
             const selectedOption = this.options[this.selectedIndex];
@@ -196,7 +243,6 @@
                 hitungUsia(tanggalLahir, waktuSkriningInput.value);
             } else {
                 usiaInput.value = '';
-                skorUsiaInput.value = '';
                 pertanyaan6Input.value = '';
             }
         });
@@ -225,6 +271,9 @@
                 skorJenisKelaminText.textContent = '(Skor: 0)';
                 pertanyaan5Input.value = '';
             }
+
+            // Validasi otomatis setelah diupdate
+            pertanyaan5Input.dispatchEvent(new Event('input'));
         }
 
         function hitungUsia(tanggalLahir, tanggalSkrining) {
@@ -246,37 +295,36 @@
             usiaInput.value = usia;
             pertanyaan6Input.value = usia; // Simpan usia untuk dikirim ke server
 
-            // Hitung skor usia
-            let skorUsia = 0;
-            if (usia >= 60) {
-                skorUsia = 2;
-            } else if (usia >= 50) {
-                skorUsia = 1;
-            }
-
-            skorUsiaInput.value = skorUsia;
-        }
-
-        // Pastikan form tidak submit jika data tidak lengkap
-        document.getElementById('formSkriningPPOK').addEventListener('submit', function(e) {
-            if (!pertanyaan5Input.value || !pertanyaan6Input.value) {
-                e.preventDefault();
-                alert('Mohon lengkapi data peserta terlebih dahulu');
-                return false;
-            }
-            return true;
-        });
-
-        function updateJenisKelamin(jenisKelamin) {
-            if (jenisKelamin == 1) { // Laki-Laki
-                displayJenisKelamin.value = 'Laki-Laki';
-                skorJenisKelaminText.textContent = '(Skor: 1)';
-                pertanyaan5Input.value = '1'; // Sesuai enum
-            } else if (jenisKelamin == 2) { // Perempuan
-                displayJenisKelamin.value = 'Perempuan';
-                skorJenisKelaminText.textContent = '(Skor: 0)';
-                pertanyaan5Input.value = '2'; // Sesuai enum
-            }
+            // Validasi otomatis setelah diupdate
+            pertanyaan6Input.dispatchEvent(new Event('input'));
         }
     });
 </script>
+
+<style>
+    .is-valid {
+        border-color: #28a745 !important;
+    }
+
+    .is-invalid {
+        border-color: #dc3545 !important;
+    }
+
+    .invalid-feedback {
+        display: none;
+        width: 100%;
+        margin-top: 0.25rem;
+        font-size: 0.875em;
+        color: #dc3545;
+    }
+
+    .was-validated .form-control:invalid,
+    .was-validated .form-select:invalid {
+        border-color: #dc3545 !important;
+    }
+
+    .was-validated .form-control:invalid~.invalid-feedback,
+    .was-validated .form-select:invalid~.invalid-feedback {
+        display: block;
+    }
+</style>

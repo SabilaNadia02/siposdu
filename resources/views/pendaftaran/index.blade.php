@@ -71,6 +71,18 @@
                     </div>
                 </div>
 
+                <div class="row mb-3">
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <span class="input-group-text" style="border-radius: 2px; color: #d63384;">
+                                <i class="fas fa-search"></i>
+                            </span>
+                            <input type="text" class="form-control" id="searchNamaPeserta"
+                                placeholder="Cari Nama Peserta.." style="border-radius: 2px;">
+                        </div>
+                    </div>
+                </div>
+
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card mb-4" style="border-radius: 0px;">
@@ -131,15 +143,25 @@
                                             <td>{{ ($pendaftaran->currentPage() - 1) * $pendaftaran->perPage() + $loop->iteration }}
                                             </td>
                                             <td>{{ $data->nama }}</td>
-                                            <td>{{ $data->jenis_kelamin == '1' ? 'Laki-Laki' : 'Perempuan' }}</td>
+                                            <td>
+                                                @if ($data->jenis_kelamin == '1')
+                                                    Laki-Laki
+                                                @elseif ($data->jenis_kelamin == '2')
+                                                    Perempuan
+                                                @else
+                                                    -
+                                                @endif
+                                            </td>
                                             <td>{{ \Carbon\Carbon::parse($data->tanggal_lahir)->age }} Tahun</td>
                                             <td>
                                                 @if ($data->jenis_sasaran == 1)
                                                     Ibu Hamil
                                                 @elseif ($data->jenis_sasaran == 2)
                                                     Balita
-                                                @else
+                                                @elseif ($data->jenis_sasaran == 3)
                                                     Usia Subur atau Lansia
+                                                @else
+                                                    -
                                                 @endif
                                             </td>
                                             <td>{{ $data->posyandus->nama ?? '-' }}</td>
@@ -217,6 +239,20 @@
 
 @push('scripts')
     <script>
+        document.getElementById("searchNamaPeserta").addEventListener("keyup", function() {
+            var input = this.value.toLowerCase();
+            var rows = document.querySelectorAll("tbody tr");
+
+            rows.forEach(function(row) {
+                var nama = row.cells[1].textContent.toLowerCase();
+                if (nama.includes(input)) {
+                    row.style.display = "";
+                } else {
+                    row.style.display = "none";
+                }
+            });
+        });
+
         $(document).ready(function() {
             $('.btn-hapus').on('click', function(e) {
                 e.preventDefault();

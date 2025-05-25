@@ -64,21 +64,17 @@
                 </div>
                 <!--end::Row-->
 
-                {{-- <!--begin::Row-->
                 <div class="row mb-3">
-                    <div class="col-sm-3">
-                        <div class="float-sm">
-                            <div class="input-group">
-                                <input type="text" class="form-control form-control-sm" id="searchPeserta"
-                                    placeholder="Cari nama peserta..." style="border-radius: 2px;">
-                                <span class="input-group-text" style="border-radius: 2px; color: #FF8F00;">
-                                    <i class="fas fa-search"></i>
-                                </span>
-                            </div>
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <span class="input-group-text" style="border-radius: 2px; color: #FF8F00;">
+                                <i class="fas fa-search"></i>
+                            </span>
+                            <input type="text" class="form-control" id="searchNamaPeserta"
+                                placeholder="Cari Nama Peserta.." style="border-radius: 2px;">
                         </div>
                     </div>
                 </div>
-                <!--end::Row--> --}}
 
                 <!--begin::Row-->
                 <div class="row">
@@ -272,6 +268,41 @@
 
 @push('scripts')
     <script>
+        document.getElementById("searchNamaPeserta").addEventListener("keyup", function() {
+            var input = this.value.toLowerCase();
+            var rows = document.querySelectorAll("tbody tr");
+            var visibleRows = 0;
+
+            // Pertama, sembunyikan semua baris
+            rows.forEach(function(row) {
+                row.style.display = "none";
+            });
+
+            // Kemudian tampilkan hanya yang sesuai
+            rows.forEach(function(row) {
+                // Cari sel nama peserta (indeks 2)
+                var namaCell = row.cells[2];
+                if (namaCell) {
+                    var nama = namaCell.textContent.toLowerCase();
+                    if (nama.includes(input)) {
+                        // Tampilkan baris ini dan semua baris terkait (karena rowspan)
+                        var rowspan = parseInt(namaCell.getAttribute('rowspan')) || 1;
+                        for (var i = 0; i < rowspan; i++) {
+                            if (rows[row.rowIndex - 1 + i]) {
+                                rows[row.rowIndex - 1 + i].style.display = "";
+                            }
+                        }
+                        visibleRows++;
+                    }
+                }
+            });
+
+            // Jika tidak ada hasil, tampilkan pesan
+            if (visibleRows === 0) {
+                // Tambahkan logika untuk menampilkan pesan "tidak ditemukan" jika perlu
+            }
+        });
+        
         $(document).ready(function() {
             $('.btn-hapus').on('click', function(e) {
                 e.preventDefault();
@@ -282,7 +313,7 @@
                     text: "Data ini akan dihapus secara permanen!",
                     icon: 'warning',
                     showCancelButton: true,
-                    confirmButtonColor: '#FF69B4',
+                    confirmButtonColor: '#FF8F00',
                     cancelButtonColor: '#d33',
                     confirmButtonText: 'Ya, Hapus!',
                     cancelButtonText: 'Batal'

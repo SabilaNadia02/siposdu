@@ -16,11 +16,11 @@ class DataPosyanduSeeder extends Seeder
         $data = [
             [
                 'nama' => 'Posyandu Anggrek',
-                'alamat' => 'Dusun Ngrombeh, Desa Jambean, Kecamatan Kras, Kabupaten Kediri',
+                'alamat' => 'Dusun Brenjuk, Desa Jambean, Kecamatan Kras, Kabupaten Kediri',
             ],
             [
                 'nama' => 'Posyandu Kenanga',
-                'alamat' => 'Dusun Brenjuk, Desa Jambean, Kecamatan Kras, Kabupaten Kediri',
+                'alamat' => 'Dusun Ngrombeh, Desa Jambean, Kecamatan Kras, Kabupaten Kediri',
             ],
             [
                 'nama' => 'Posyandu Matahari',

@@ -53,7 +53,7 @@
 
                             <!-- Modal Tambah Pengguna -->
                             @include('data_master.pengguna.modal.tambah_pengguna')
-                            
+
                             <div class="card-body">
 
                                 @if (session('success'))
@@ -61,6 +61,22 @@
                                         {{ session('success') }}
                                         <button type="button" class="btn-close" data-bs-dismiss="alert"
                                             aria-label="Close"></button>
+                                    </div>
+                                @endif
+
+                                @if ($errors->any())
+                                    <div class="alert alert-danger">
+                                        <ul>
+                                            @foreach ($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
+
+                                @if (session('error'))
+                                    <div class="alert alert-danger">
+                                        {{ session('error') }}
                                     </div>
                                 @endif
 
@@ -81,10 +97,10 @@
                                                 <td>{{ $pengguna->nama }}</td>
                                                 <td>{{ $pengguna->email }}</td>
                                                 <td>
-                                                    @if ($pengguna->peran == 1)
+                                                    @if ($pengguna->role == 1)
                                                         Admin
-                                                    @elseif($pengguna->peran == 2)
-                                                        Nakes (Bidan/Perawat)
+                                                    @elseif($pengguna->role == 2)
+                                                        Tenaga Kesehatan
                                                     @else
                                                         Kader
                                                     @endif
@@ -94,8 +110,8 @@
                                                     <a href="{{ route('data-master.pengguna.edit', $pengguna->id) }}"
                                                         class="btn btn-warning btn-sm" title="Edit"
                                                         style="width: 20px; height: 20px; font-size: 10px; padding: 1px;">
-                                                         <i class="fas fa-edit"></i>
-                                                     </a>
+                                                        <i class="fas fa-edit"></i>
+                                                    </a>
 
                                                     <!-- Tombol Hapus -->
                                                     <form
@@ -124,8 +140,7 @@
                                                     href="{{ $penggunas->previousPageUrl() }}">&laquo;</a></li>
                                         @endif
                                         @for ($i = 1; $i <= $penggunas->lastPage(); $i++)
-                                            <li
-                                                class="page-item {{ $penggunas->currentPage() == $i ? 'active' : '' }}">
+                                            <li class="page-item {{ $penggunas->currentPage() == $i ? 'active' : '' }}">
                                                 <a class="page-link"
                                                     style="background-color: {{ $penggunas->currentPage() == $i ? '#d63384' : 'white' }}; color: {{ $penggunas->currentPage() == $i ? 'white' : '#d63384' }}; border: none;"
                                                     href="{{ $penggunas->url($i) }}">{{ $i }}</a>

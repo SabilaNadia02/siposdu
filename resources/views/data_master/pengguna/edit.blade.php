@@ -34,31 +34,55 @@
                     <div class="col-md-8" style="border-radius: 0px">
                         <div class="card" style="border-top: 3px solid #d63384; border-radius: 0px">
                             <div class="card-body" style="border-radius: 0px">
-                                <form id="editPenggunaForm" action="{{ route('data-master.pengguna.update', $pengguna) }}" method="POST">
+                                <form id="editPenggunaForm" action="{{ route('data-master.pengguna.update', $pengguna) }}"
+                                    method="POST">
                                     @csrf
                                     @method('PUT')
 
                                     <div class="row g-3 mb-3" style="font-size: 14px;">
                                         <div class="col-md-12">
-                                            <label for="nama" class="form-label">Nama <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control form-control-sm" id="nama" name="nama" 
-                                                   placeholder="Masukkan nama" value="{{ $pengguna->nama }}" required>
+                                            <label for="nama" class="form-label">Nama <span
+                                                    class="text-danger">*</span></label>
+                                            <input type="text" class="form-control form-control-sm" id="nama"
+                                                name="nama" placeholder="Masukkan nama" value="{{ $pengguna->nama }}"
+                                                required>
                                         </div>
-                                    
+
                                         <div class="col-md-12">
-                                            <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
-                                            <input type="email" class="form-control form-control-sm" id="email" name="email" 
-                                                   placeholder="Masukkan email" value="{{ $pengguna->email }}" required>
+                                            <label for="email" class="form-label">Email <span
+                                                    class="text-danger">*</span></label>
+                                            <input type="email" class="form-control form-control-sm" id="email"
+                                                name="email" placeholder="Masukkan email" value="{{ $pengguna->email }}"
+                                                required>
                                         </div>
-                                    
+
                                         <div class="col-md-12">
-                                            <label for="peran" class="form-label">Peran <span class="text-danger">*</span></label>
-                                            <select class="form-select form-select-sm" id="peran" name="peran" required>
+                                            <label for="role" class="form-label">Peran <span
+                                                    class="text-danger">*</span></label>
+                                            <select class="form-select form-select-sm" id="role" name="role"
+                                                required>
                                                 <option value="">Pilih peran</option>
-                                                <option value=1 {{ $pengguna->peran == 1 ? 'selected' : '' }}>Admin</option>
-                                                <option value=2 {{ $pengguna->peran == 2 ? 'selected' : '' }}>Kader</option>
-                                                <option value=3 {{ $pengguna->peran == 3 ? 'selected' : '' }}>Nakes (Bidan/Perawat)</option>
+                                                <option value="1" {{ $pengguna->role == 1 ? 'selected' : '' }}>Admin
+                                                </option>
+                                                <option value="2" {{ $pengguna->role == 2 ? 'selected' : '' }}>Tenaga
+                                                    Kesehatan</option>
+                                                <option value="3" {{ $pengguna->role == 3 ? 'selected' : '' }}>Kader
+                                                </option>
                                             </select>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <label for="password" class="form-label">Password Baru</label>
+                                            <input type="password" class="form-control form-control-sm" id="password"
+                                                name="password" placeholder="Kosongkan jika tidak ingin mengubah">
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <label for="password_confirmation" class="form-label">Konfirmasi Password
+                                                Baru</label>
+                                            <input type="password" class="form-control form-control-sm"
+                                                id="password_confirmation" name="password_confirmation"
+                                                placeholder="Konfirmasi password baru">
                                         </div>
                                     </div>
 

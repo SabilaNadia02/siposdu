@@ -84,6 +84,7 @@
                                             <th>Nama</th>
                                             <th>Jenis Kelamin</th>
                                             <th>Usia</th>
+                                            <th>Posyandu</th>
                                             <th class="text-center">Aksi</th>
                                         </tr>
                                     </thead>
@@ -96,6 +97,7 @@
                                                 </td>
                                                 <td>{{ \Carbon\Carbon::parse($data->pendaftaran->tanggal_lahir)->age }}
                                                     Tahun</td>
+                                                <td>{{ $data->pendaftaran->posyandus->nama }}</td>
                                                 <td class="text-center">
                                                     <a href="{{ route('pencatatan.lansia.show', $data->id) }}"
                                                         class="btn" title="Tambah Pencatatan"
@@ -174,4 +176,4 @@
             });
         });
     </script>
-@endpush 
+@endpush

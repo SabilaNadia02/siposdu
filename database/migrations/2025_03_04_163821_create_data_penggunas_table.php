@@ -13,8 +13,8 @@ return new class extends Migration {
         Schema::create('data_penggunas', function (Blueprint $table) {
             $table->id();
             $table->string('nama');
-            $table->string('email');
-            $table->enum('role', [1, 2, 3]);
+            $table->string('email')->unique();
+            $table->enum('role', [1, 2, 3])->default(3); // default sebagai kader
             $table->string('password');
             $table->rememberToken();
             $table->timestamp('email_verified_at')->nullable();

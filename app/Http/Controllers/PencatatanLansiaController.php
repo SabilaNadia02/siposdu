@@ -18,7 +18,12 @@ class PencatatanLansiaController extends Controller
      */
     public function index()
     {
-        $pendaftarans = Pendaftaran::where('jenis_sasaran', 3)->get();
+        // $pendaftarans = Pendaftaran::where('jenis_sasaran', 3)->get();
+        // Hanya ambil pendaftaran lansia yang belum memiliki pencatatan awal
+        $pendaftarans = Pendaftaran::where('jenis_sasaran', 3)
+            ->whereDoesntHave('PencatatanAwal')
+            ->get();
+
         $posyandus = DataPosyandu::all();
         $jumlahPencatatan = PencatatanAwal::whereHas('pendaftaran', function ($query) {
             $query->where('jenis_sasaran', 3);
@@ -32,7 +37,6 @@ class PencatatanLansiaController extends Controller
 
         return view('pencatatan.lansia.index', compact('pendaftarans', 'posyandus', 'jumlahPencatatan', 'pencatatanAwal'));
     }
-
 
     /**
      * Show the form for creating a new resource.
@@ -70,6 +74,7 @@ class PencatatanLansiaController extends Controller
             'riwayat_keluarga' => $riwayatKeluarga,
             'riwayat_diri_sendiri' => $riwayatDiri,
             'perilaku_berisiko' => $perilakuBerisiko,
+            'status_balita' => 1,
         ]);
 
         return redirect()->route('pencatatan.lansia.index')->with('success', 'Data berhasil ditambahkan.');
@@ -261,7 +266,6 @@ class PencatatanLansiaController extends Controller
         return redirect()->route('pencatatan.lansia.show', [$kunjungan->id, $data->id])
             ->with('success', 'Kunjungan berhasil diperbarui.');
     }
-
     public function destroyKunjungan($id_pencatatan_awal, $id)
     {
         try {

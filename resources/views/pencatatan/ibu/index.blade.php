@@ -82,8 +82,9 @@
                                         <tr>
                                             <th style="width: 150px">No Pendaftaran</th>
                                             <th>Nama</th>
-                                            <th>Usia Kehamilan (minggu)</th>
+                                            <th>Usia Kehamilan</th>
                                             <th>HTP (Hari Taksiran Persalinan)</th>
+                                            <th>Posyandu</th>
                                             <th class="text-center">Aksi</th>
                                         </tr>
                                     </thead>
@@ -92,8 +93,9 @@
                                             <tr class="align-middle">
                                                 <td>{{ str_pad($data->pendaftaran->id, 4, '0', STR_PAD_LEFT) }}</td>
                                                 <td>{{ $data->pendaftaran->nama }}</td>
-                                                <td>{{ $data->usia_kehamilan }}</td>
+                                                <td>{{ $data->usia_kehamilan }} minggu</td>
                                                 <td>{{ \Carbon\Carbon::parse($data->htp)->translatedFormat('j F Y') }}</td>
+                                                <td>{{ $data->pendaftaran->posyandus->nama }}</td>
                                                 <td class="text-center">
                                                     <a href="{{ route('pencatatan.ibu.show', $data->id) }}" class="btn"
                                                         title="Tambah Pencatatan"

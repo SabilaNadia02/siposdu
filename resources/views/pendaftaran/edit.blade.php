@@ -54,18 +54,18 @@
                                             <label for="nik" class="form-label">NIK <span
                                                     class="text-danger">*</span></label>
                                             <input type="text" class="form-control" name="nik"
-                                                value="{{ old('nik', $pendaftaran->nik) }}" required>
+                                                value="{{ old('nik', $pendaftaran->nik) }}">
                                         </div>
                                         <div class="col-md-6">
                                             <label for="nama" class="form-label">Nama <span
                                                     class="text-danger">*</span></label>
                                             <input type="text" class="form-control" name="nama"
-                                                value="{{ old('nama', $pendaftaran->nama) }}" required>
+                                                value="{{ old('nama', $pendaftaran->nama) }}">
                                         </div>
                                         <div class="col-md-6">
                                             <label for="jenis_kelamin" class="form-label">Jenis Kelamin <span
                                                     class="text-danger">*</span></label>
-                                            <select class="form-select" name="jenis_kelamin" required>
+                                            <select class="form-select" name="jenis_kelamin">
                                                 <option value="1"
                                                     {{ $pendaftaran->jenis_kelamin == 1 ? 'selected' : '' }}>Laki-laki
                                                 </option>
@@ -77,7 +77,7 @@
                                         <div class="col-md-6">
                                             <label for="status_perkawinan" class="form-label">Status Perkawinan <span
                                                     class="text-danger">*</span></label>
-                                            <select class="form-select" name="status_perkawinan" required>
+                                            <select class="form-select" name="status_perkawinan">
                                                 <option value="1"
                                                     {{ $pendaftaran->status_perkawinan == 1 ? 'selected' : '' }}>Tidak
                                                     Menikah</option>
@@ -90,19 +90,19 @@
                                             <label for="tempat_lahir" class="form-label">Tempat Lahir <span
                                                     class="text-danger">*</span></label>
                                             <input type="text" class="form-control" name="tempat_lahir"
-                                                value="{{ old('tempat_lahir', $pendaftaran->tempat_lahir) }}" required>
+                                                value="{{ old('tempat_lahir', $pendaftaran->tempat_lahir) }}">
                                         </div>
                                         <div class="col-md-6">
                                             <label for="tanggal_lahir" class="form-label">Tanggal Lahir <span
                                                     style="font-size: 11px; font-weight: normal;">(bulan/tanggal/tahun)</span>
                                                 <span class="text-danger">*</span></label>
                                             <input type="date" class="form-control" name="tanggal_lahir"
-                                                value="{{ old('tanggal_lahir', $pendaftaran->tanggal_lahir) }}" required>
+                                                value="{{ old('tanggal_lahir', $pendaftaran->tanggal_lahir) }}">
                                         </div>
                                         <div class="col-md-6">
                                             <label for="pendidikan" class="form-label">Pendidikan <span
                                                     class="text-danger">*</span></label>
-                                            <select class="form-select" name="pendidikan" required>
+                                            <select class="form-select" name="pendidikan">
                                                 <option value="1"
                                                     {{ $pendaftaran->pendidikan == 1 ? 'selected' : '' }}>Tidak Sekolah
                                                 </option>
@@ -122,7 +122,7 @@
                                         <div class="col-md-6">
                                             <label for="pekerjaan" class="form-label">Pekerjaan <span
                                                     class="text-danger">*</span></label>
-                                            <select class="form-select" name="pekerjaan" required>
+                                            <select class="form-select" name="pekerjaan">
                                                 <option value="1"
                                                     {{ $pendaftaran->pekerjaan == 1 ? 'selected' : '' }}>Tidak Bekerja
                                                 </option>
@@ -143,13 +143,13 @@
                                         <div class="col-12">
                                             <label for="alamat" class="form-label">Alamat <span
                                                     class="text-danger">*</span></label>
-                                            <textarea class="form-control" name="alamat" rows="3" required>{{ old('alamat', $pendaftaran->alamat) }}</textarea>
+                                            <textarea class="form-control" name="alamat" rows="3">{{ old('alamat', $pendaftaran->alamat) }}</textarea>
                                         </div>
                                         <div class="col-md-6">
                                             <label for="no_hp" class="form-label">No HP <span
                                                     class="text-danger">*</span></label>
                                             <input type="text" class="form-control" name="no_hp"
-                                                value="{{ old('no_hp', $pendaftaran->no_hp) }}" required>
+                                                value="{{ old('no_hp', $pendaftaran->no_hp) }}">
                                         </div>
                                         <div class="col-md-6">
                                             <label for="no_jkn" class="form-label">No JKN <span
@@ -160,7 +160,7 @@
                                         <div class="col-md-6">
                                             <label for="jenis_sasaran" class="form-label">Jenis Sasaran <span
                                                     class="text-danger">*</span></label>
-                                            <select class="form-select" name="jenis_sasaran" required>
+                                            <select class="form-select" name="jenis_sasaran">
                                                 <option value="1"
                                                     {{ $pendaftaran->jenis_sasaran == 1 ? 'selected' : '' }}>Ibu Hamil
                                                 </option>
@@ -175,7 +175,7 @@
                                         <div class="col-md-6">
                                             <label for="data_posyandu_id" class="form-label">Nama Posyandu <span
                                                     class="text-danger">*</span></label>
-                                            <select class="form-select" name="data_posyandu_id" required>
+                                            <select class="form-select" name="data_posyandu_id">
                                                 @foreach ($posyandus as $posyandu)
                                                     <option value="{{ $posyandu->id }}"
                                                         {{ $pendaftaran->data_posyandu_id == $posyandu->id ? 'selected' : '' }}>

@@ -14,7 +14,7 @@
                             <label for="nama" class="form-label">Nama Obat <span
                                 class="text-danger">*</span></label>
                             <input type="text" class="form-control form-control-sm" id="nama" name="nama"
-                                placeholder="Masukkan Nama Obat">
+                                placeholder="cth: Paracetamol 500mg" required>
                         </div>
                         <div class="col-md-12">
                             <label for="keterangan" class="form-label">Keterangan</label>

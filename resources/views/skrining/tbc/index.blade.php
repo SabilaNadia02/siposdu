@@ -42,7 +42,8 @@
                     <!--begin::Col-->
                     <div class="col-lg-4 col-md-6 col-12">
                         <!--begin::Small Box Widget 1-->
-                        <div class="small-box text-light text-center" style="background-color: #d63384; border-radius: 2px;">
+                        <div class="small-box text-light text-center"
+                            style="background-color: #d63384; border-radius: 2px;">
                             <div class="inner">
                                 <h3>{{ $totalDenganGejala }}</h3>
                                 <p>Total Dengan Gejala</p>
@@ -67,69 +68,17 @@
                 </div>
                 <!--end::Row-->
 
-                {{-- <!--begin::Filter Row-->
                 <div class="row mb-3">
                     <div class="col-md-3">
                         <div class="input-group">
-                            <span class="input-group-text" style="color: #d63384; border-radius: 2px;"><i
-                                    class="fas fa-calendar"></i></span>
-                            <select class="form-control" id="tahunFilter">
-                                <option value="">Semua Tahun</option>
-                                <option value="2023">2023</option>
-                                <option value="2024">2024</option>
-                                <option value="2025">2025</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="input-group">
-                            <span class="input-group-text" style="color: #d63384; border-radius: 2px;"><i
-                                    class="fas fa-calendar-alt"></i></span>
-                            <select class="form-control" id="bulanFilter">
-                                <option value="">Semua Bulan</option>
-                                <option value="01">Januari</option>
-                                <option value="02">Februari</option>
-                                <option value="03">Maret</option>
-                                <option value="04">April</option>
-                                <option value="05">Mei</option>
-                                <option value="06">Juni</option>
-                                <option value="07">Juli</option>
-                                <option value="08">Agustus</option>
-                                <option value="09">September</option>
-                                <option value="10">Oktober</option>
-                                <option value="11">November</option>
-                                <option value="12">Desember</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="input-group">
-                            <span class="input-group-text" style="color: #d63384; border-radius: 2px;"><i
-                                    class="fas fa-map-marker-alt"></i></span>
-                            <select class="form-control" id="posyanduFilter">
-                                <option value="">Semua Posyandu</option>
-                                <option value="Posyandu A">Posyandu Anggrek</option>
-                                <option value="Posyandu B">Posyandu Kenanga</option>
-                                <option value="Posyandu B">Posyandu Matahari</option>
-                                <option value="Posyandu B">Posyandu Mawar</option>
-                                <option value="Posyandu B">Posyandu Melati</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="input-group">
-                            <span class="input-group-text" style="color: #d63384; border-radius: 2px;"><i
-                                    class="fas fa-bullseye"></i></span>
-                            <select class="form-control" id="sasaranFilter" style="border-radius: 2px;">
-                                <option value="">Semua Sasaran</option>
-                                <option value="Balita">Ibu Hamil</option>
-                                <option value="Ibu Hamil">Balita</option>
-                                <option value="Lansia">Lansia</option>
-                            </select>
+                            <span class="input-group-text" style="border-radius: 2px; color: #d63384;">
+                                <i class="fas fa-search"></i>
+                            </span>
+                            <input type="text" class="form-control" id="searchNamaPeserta"
+                                placeholder="Cari Nama Peserta.." style="border-radius: 2px;">
                         </div>
                     </div>
                 </div>
-                <!--end::Filter Row--> --}}
 
                 <!--begin::Row-->
                 <div class="row">
@@ -281,6 +230,41 @@
 
 @push('scripts')
     <script>
+        document.getElementById("searchNamaPeserta").addEventListener("keyup", function() {
+            var input = this.value.toLowerCase();
+            var rows = document.querySelectorAll("tbody tr");
+            var visibleRows = 0;
+
+            // Pertama, sembunyikan semua baris
+            rows.forEach(function(row) {
+                row.style.display = "none";
+            });
+
+            // Kemudian tampilkan hanya yang sesuai
+            rows.forEach(function(row) {
+                // Cari sel nama peserta (indeks 2)
+                var namaCell = row.cells[2];
+                if (namaCell) {
+                    var nama = namaCell.textContent.toLowerCase();
+                    if (nama.includes(input)) {
+                        // Tampilkan baris ini dan semua baris terkait (karena rowspan)
+                        var rowspan = parseInt(namaCell.getAttribute('rowspan')) || 1;
+                        for (var i = 0; i < rowspan; i++) {
+                            if (rows[row.rowIndex - 1 + i]) {
+                                rows[row.rowIndex - 1 + i].style.display = "";
+                            }
+                        }
+                        visibleRows++;
+                    }
+                }
+            });
+
+            // Jika tidak ada hasil, tampilkan pesan
+            if (visibleRows === 0) {
+                // Tambahkan logika untuk menampilkan pesan "tidak ditemukan" jika perlu
+            }
+        });
+
         $(document).ready(function() {
             $('.btn-hapus').on('click', function(e) {
                 e.preventDefault();

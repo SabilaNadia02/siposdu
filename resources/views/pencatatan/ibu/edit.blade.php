@@ -67,27 +67,27 @@
                                         <div class="col-md-6">
                                             <label class="form-label">Nama Suami <span class="text-danger">*</span></label>
                                             <input type="text" class="form-control" name="nama_suami"
-                                                value="{{ $data->nama_suami }}" required>
+                                                value="{{ $data->nama_suami }}">
                                         </div>
 
                                         <div class="col-md-6">
                                             <label class="form-label">Hamil Ke <span class="text-danger">*</span></label>
                                             <input type="number" class="form-control" name="hamil_ke"
-                                                value="{{ $data->hamil_ke }}" required>
+                                                value="{{ $data->hamil_ke }}">
                                         </div>
 
                                         <div class="col-md-6">
                                             <label class="form-label">Jarak Anak (tahun) <span
                                                     class="text-danger">*</span></label>
                                             <input type="number" class="form-control" name="jarak_anak"
-                                                value="{{ $data->jarak_anak }}" required>
+                                                value="{{ $data->jarak_anak }}">
                                         </div>
 
                                         <div class="col-md-6">
                                             <label class="form-label">Tinggi Badan (cm) <span
                                                     class="text-danger">*</span></label>
                                             <input type="number" class="form-control" name="tinggi_badan"
-                                                value="{{ $data->tinggi_badan }}" required step="any">
+                                                value="{{ $data->tinggi_badan }}" step="any">
                                         </div>
 
                                         <div class="col-md-6">
@@ -95,7 +95,7 @@
                                                     style="font-size: 11px; font-weight: normal;">(Hari Pertama Haid
                                                     Terakhir)</span> <span class="text-danger">*</span></label>
                                             <input type="date" class="form-control" name="hpht"
-                                                value="{{ $data->hpht }}" required>
+                                                value="{{ $data->hpht }}">
                                         </div>
 
                                         <div class="col-md-6">

@@ -31,9 +31,9 @@
             </div>
             <div class="modal-footer d-print-none"> <!-- Menyembunyikan button saat cetak -->
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                <button type="button" class="btn text-light" style="background-color: #d63384;" onclick="printModal()">
-                    Cetak
-                </button>
+                {{-- <button type="button" class="btn text-light" style="background-color: #d63384;" onclick="printModal()"> --}}
+                    {{-- Cetak --}}
+                {{-- </button> --}}
             </div>
         </div>
     </div>

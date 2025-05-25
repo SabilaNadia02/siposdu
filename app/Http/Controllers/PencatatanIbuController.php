@@ -39,7 +39,7 @@ class PencatatanIbuController extends Controller
             'nama_suami' => 'nullable|string|max:255',
             'hamil_ke' => 'nullable|integer|min:1',
             'jarak_anak' => 'nullable|integer',
-            'tinggi_badan' => 'required|numeric|max:250',
+            'tinggi_badan' => 'nullable|numeric|',
         ]);
 
         if ($validator->fails()) {
@@ -90,7 +90,6 @@ class PencatatanIbuController extends Controller
         return view('pencatatan.ibu.show', compact('data', 'kunjungans', 'riwayatPemeriksaan'));
     }
 
-
     public function edit($id)
     {
         // dd(request()->all());
@@ -111,7 +110,7 @@ class PencatatanIbuController extends Controller
             'nama_suami' => 'nullable|string|max:255',
             'hamil_ke' => 'nullable|integer|min:1',
             'jarak_anak' => 'nullable|string|max:255',
-            'tinggi_badan' => 'required|numeric|max:250',
+            'tinggi_badan' => 'nullable|numeric|max:250',
             'usia_kehamilan' => 'nullable|integer',
         ]);
 
@@ -144,7 +143,6 @@ class PencatatanIbuController extends Controller
 
         return redirect()->route('pencatatan.ibu.show', $data->id)->with('success', 'Data berhasil diperbarui!');
     }
-
     public function destroy($id)
     {
         try {
@@ -179,10 +177,10 @@ class PencatatanIbuController extends Controller
         // Validasi input
         $validatedData = $request->validate([
             'waktu_pencatatan' => 'required|date',
-            'berat_badan' => 'required|numeric',
-            'lingkar_lengan' => 'required|numeric',
-            'tekanan_darah_sistolik' => 'required|numeric',
-            'tekanan_darah_diastolik' => 'required|numeric',
+            'berat_badan' => 'nullable|numeric',
+            'lingkar_lengan' => 'nullable|numeric',
+            'tekanan_darah_sistolik' => 'nullable|numeric',
+            'tekanan_darah_diastolik' => 'nullable|numeric',
             'kelas_ibu_hamil' => 'nullable',
             'mt_bumil_kek' => 'nullable',
             'keluhan' => 'nullable|string|max:255',

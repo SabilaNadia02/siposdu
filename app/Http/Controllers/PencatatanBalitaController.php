@@ -17,9 +17,30 @@ class PencatatanBalitaController extends Controller
     /**
      * Display a listing of the resource.
      */
+    // public function index()
+    // {
+    //     $pendaftarans = Pendaftaran::where('jenis_sasaran', 2)->get();
+    //     $posyandus = DataPosyandu::all();
+    //     $jumlahPencatatan = PencatatanAwal::whereHas('pendaftaran', function ($query) {
+    //         $query->where('jenis_sasaran', 2);
+    //     })->count();
+
+    //     $pencatatanAwal = PencatatanAwal::with('pendaftaran')
+    //         ->whereHas('pendaftaran', function ($query) {
+    //             $query->where('jenis_sasaran', 2);
+    //         })
+    //         ->paginate(10);
+
+    //     return view('pencatatan.balita.index', compact('pendaftarans', 'posyandus', 'jumlahPencatatan', 'pencatatanAwal'));
+    // }
+
     public function index()
     {
-        $pendaftarans = Pendaftaran::where('jenis_sasaran', 2)->get();
+        // Hanya ambil pendaftaran balita yang belum memiliki pencatatan awal
+        $pendaftarans = Pendaftaran::where('jenis_sasaran', 2)
+            ->whereDoesntHave('PencatatanAwal')
+            ->get();
+
         $posyandus = DataPosyandu::all();
         $jumlahPencatatan = PencatatanAwal::whereHas('pendaftaran', function ($query) {
             $query->where('jenis_sasaran', 2);
@@ -40,11 +61,21 @@ class PencatatanBalitaController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'no_pendaftaran' => 'required|exists:pendaftarans,id',
-            'nama_ibu' => 'required|string|max:255',
-            'nama_ayah' => 'required|string|max:255',
-            'berat_badan_lahir' => 'required|numeric|max:250',
-            'panjang_badan_lahir' => 'required|numeric|max:250',
+            // 'no_pendaftaran' => 'required|exists:pendaftarans,id',
+            'no_pendaftaran' => [
+                'required',
+                'exists:pendaftarans,id',
+                function ($attribute, $value, $fail) {
+                    // Cek apakah sudah ada pencatatan awal untuk pendaftaran ini
+                    if (PencatatanAwal::where('no_pendaftaran', $value)->exists()) {
+                        $fail('Balita ini sudah memiliki pencatatan awal.');
+                    }
+                }
+            ],
+            'nama_ibu' => 'nullable',
+            'nama_ayah' => 'nullable',
+            'berat_badan_lahir' => 'nullable',
+            'panjang_badan_lahir' => 'nullable',
         ]);
 
         if ($validator->fails()) {
@@ -100,10 +131,10 @@ class PencatatanBalitaController extends Controller
 
         $validator = Validator::make($request->all(), [
             'no_pendaftaran' => 'required|exists:pendaftarans,id',
-            'nama_ibu' => 'required|string|max:255',
-            'nama_ayah' => 'required|string|max:255',
-            'berat_badan_lahir' => 'required|numeric|max:250',
-            'panjang_badan_lahir' => 'required|numeric|max:250',
+            'nama_ibu' => 'nullable',
+            'nama_ayah' => 'nullable',
+            'berat_badan_lahir' => 'nullable',
+            'panjang_badan_lahir' => 'nullable',
         ]);
 
         if ($validator->fails()) {
@@ -162,10 +193,10 @@ class PencatatanBalitaController extends Controller
         // Validasi input
         $validatedData = $request->validate([
             'waktu_pencatatan' => 'required|date',
-            'berat_badan' => 'required|numeric',
-            'panjang_badan' => 'required|numeric',
-            'lingkar_lengan' => 'required|numeric',
-            'lingkar_kepala' => 'required|numeric',
+            'berat_badan' => 'nullable|numeric',
+            'panjang_badan' => 'nullable|numeric',
+            'lingkar_lengan' => 'nullable|numeric',
+            'lingkar_kepala' => 'nullable|numeric',
             'asi_eksklusif' => 'nullable',
             'mp_asi' => 'nullable',
             'mt_pangan_pemulihan' => 'nullable',
@@ -1086,7 +1117,7 @@ class PencatatanBalitaController extends Controller
         $birthDate = Carbon::parse($pencatatanAwal->pendaftaran->tanggal_lahir);
         $visitDate = Carbon::parse($latestVisit->waktu_pencatatan);
         $ageInMonths = $birthDate->diffInMonths($visitDate);
-        $gender = $pencatatanAwal->pendaftaran->jenis_kelamin; 
+        $gender = $pencatatanAwal->pendaftaran->jenis_kelamin;
 
         // Get WHO standard values for weight and length
         $weightStandard = $this->getWHOStandardValues($ageInMonths, $gender, 'weight-for-age');

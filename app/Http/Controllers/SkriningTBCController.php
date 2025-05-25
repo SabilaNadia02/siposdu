@@ -25,7 +25,9 @@ class SkriningTBCController extends Controller
             ->whereHas('dataSkrining', function ($query) {
                 $query->where('id', 1);
             })
-            ->paginate(10); // Menambahkan pagination, tampilkan 10 data per halaman
+            ->orderBy('waktu_skrining', 'desc')
+            ->orderBy('id', 'desc')
+            ->paginate(10);
 
         // Hitung total dengan gejala dan tanpa gejala
         $totalDenganGejala = 0;

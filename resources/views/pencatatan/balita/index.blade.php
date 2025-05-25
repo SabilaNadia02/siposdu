@@ -83,6 +83,7 @@
                                             <th style="width: 150px">No Pendaftaran</th>
                                             <th>Nama</th>
                                             <th>Usia</th>
+                                            <th>Posyandu</th>
                                             <th>Status</th>
                                             <th class="text-center">Aksi</th>
                                         </tr>
@@ -103,6 +104,7 @@
                                                     {{ $usia->y }} tahun, {{ $usia->m }} bulan,
                                                     {{ $usia->d }} hari
                                                 </td>
+                                                <td>{{ $data->pendaftaran->posyandus->nama }}</td>
                                                 <td>
                                                     @if ($data->status_balita == \App\Models\PencatatanAwal::STATUS_BALITA)
                                                         <span class="badge bg-success">Aktif</span>
