@@ -15,10 +15,10 @@
                     <div class="col-sm-4">
                         <ol class="breadcrumb float-sm-end">
                             <li class="breadcrumb-item">
-                                <a href="{{ route('dashboard') }}" style="color: #d63384; font-size: 16px;">Dashboard</a>
+                                <a href="{{ url('/') }}" style="color: #d63384; font-size: 16px;">Dashboard</a>
                             </li>
                             <li class="breadcrumb-item">
-                                <a href="{{ route('data-master.imunisasi.index') }}"
+                                <a href="{{ url('/data-master/imunisasi') }}"
                                     style="color: #d63384; font-size: 16px;">Data Imunisasi</a>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">Edit</li>
@@ -80,7 +80,7 @@
                                     </div>
 
                                     <div class="d-flex justify-content-end">
-                                        <a href="{{ route('data-master.imunisasi.index') }}"
+                                        <a href="{{ url('/data-master/imunisasi') }}"
                                             class="btn btn-secondary me-2">Batal</a>
                                         <button type="submit" class="btn text-light"
                                             style="background-color: #d63384;">Simpan Perubahan</button>
