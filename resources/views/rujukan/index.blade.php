@@ -74,7 +74,7 @@
                                 </button>
                             </div>
 
-                            <div class="card-body">
+                            <div class="card-body overflow-x-scroll">
                                 <div class="table-responsive">
                                     <table class="table table-bordered">
                                         <thead>

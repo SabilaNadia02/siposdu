@@ -25,7 +25,7 @@ class SkriningPPOKController extends Controller
             })
             ->orderBy('waktu_skrining', 'desc')
             ->orderBy('id', 'desc')
-            ->paginate(10);
+            ->paginate(100);
 
         // Hitung total dengan dan tanpa gejala dari seluruh data (bukan hanya halaman saat ini)
         $totalDenganGejala = PencatatanSkrining::whereHas('dataSkrining', function ($query) {

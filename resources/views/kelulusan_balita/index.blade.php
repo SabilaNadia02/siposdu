@@ -19,7 +19,8 @@
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-end">
-                            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}" class="text-success">Dashboard</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}"
+                                    class="text-success">Dashboard</a></li>
                             <li class="breadcrumb-item active" aria-current="page">Rujukan</li>
                         </ol>
                     </div>
@@ -117,23 +118,37 @@
                                 <h3 class="card-title">Tabel Data Kelulusan Balita</h3>
                             </div>
                             <!-- /.card-header -->
-                            <div class="card-body">
+                            <div class="card-body overflow-x-scroll">
                                 <div class="table-responsive">
                                     <table class="table table-bordered" id="dataBalita">
                                         <thead>
                                             <tr>
-                                                <th style="font-size: 15px; width: 30px">No Pendaftaran</th>
+                                                <th style="font-size: 15px; width: 200px">NIK</th>
                                                 <th style="font-size: 15px; width: 300px">Nama</th>
                                                 <th style="font-size: 15px; width: 100px">Jenis Kelamin</th>
-                                                <th style="font-size: 15px; width: 300px">Usia</th>
+                                                <th style="font-size: 15px; width: 300px">
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <span>Usia</span>
+                                                        <div class="btn-group">
+                                                            <button class="btn btn-sm btn-outline-secondary sort-age"
+                                                                data-sort="asc" title="Sort Ascending">
+                                                                <i class="fas fa-arrow-up"></i>
+                                                            </button>
+                                                            <button class="btn btn-sm btn-outline-secondary sort-age"
+                                                                data-sort="desc" title="Sort Descending">
+                                                                <i class="fas fa-arrow-down"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </th>
                                                 <th style="font-size: 15px; width: 100px" class="text-center">Aksi</th>
                                             </tr>
                                         </thead>
 
                                         <tbody id="tableBody">
                                             @forelse ($balitas as $balita)
-                                                <tr class="align-middle">
-                                                    <td>{{ str_pad($balita->pendaftaran->id, 4, '0', STR_PAD_LEFT) }}</td>
+                                                <tr class="align-middle" data-age="{{ $balita->getAgeInDays() }}">
+                                                    <td>{{ $balita->pendaftaran->nik ?? '-' }}</td>
                                                     <td>{{ $balita->pendaftaran->nama ?? '-' }}</td>
                                                     <td>{{ $balita->pendaftaran->jenis_kelamin == '1' ? 'L' : 'P' }}</td>
                                                     <td>{{ $balita->getAgeString() }}</td>
@@ -202,6 +217,39 @@
                 noResultsRow.parentNode.remove();
             }
         });
+
+        // Age sorting functionality
+        document.querySelectorAll('.sort-age').forEach(button => {
+            button.addEventListener('click', function() {
+                const sortDirection = this.getAttribute('data-sort');
+                const tbody = document.querySelector('#tableBody');
+                const rows = Array.from(tbody.querySelectorAll('tr[data-age]'));
+
+                // Sort rows based on age in days (stored in data-age attribute)
+                rows.sort((a, b) => {
+                    const ageA = parseInt(a.getAttribute('data-age'));
+                    const ageB = parseInt(b.getAttribute('data-age'));
+
+                    return sortDirection === 'asc' ? ageA - ageB : ageB - ageA;
+                });
+
+                // Remove existing rows
+                rows.forEach(row => row.remove());
+
+                // Append sorted rows
+                rows.forEach(row => tbody.appendChild(row));
+
+                // Update button active states
+                document.querySelectorAll('.sort-age').forEach(btn => {
+                    btn.classList.remove('active');
+                    btn.classList.remove('bg-success');
+                    btn.classList.remove('text-white');
+                });
+                this.classList.add('active');
+                this.classList.add('bg-success');
+                this.classList.add('text-white');
+            });
+        });
     </script>
 
     <!-- Keep your existing styles -->
@@ -231,6 +279,16 @@
 
         .table-responsive {
             overflow-x: auto;
+        }
+
+        .sort-age.active {
+            background-color: #198754;
+            color: white;
+        }
+
+        .btn-group .btn {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.75rem;
         }
     </style>
 

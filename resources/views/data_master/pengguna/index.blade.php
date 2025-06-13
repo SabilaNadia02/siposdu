@@ -54,7 +54,7 @@
                             <!-- Modal Tambah Pengguna -->
                             @include('data_master.pengguna.modal.tambah_pengguna')
 
-                            <div class="card-body">
+                            <div class="card-body overflow-x-scroll">
 
                                 @if (session('success'))
                                     <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -80,6 +80,7 @@
                                     </div>
                                 @endif
 
+                                <div class="table-responsive">
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
@@ -130,6 +131,7 @@
                                         @endforeach
                                     </tbody>
                                 </table>
+                                </div>
                                 <div class="card-footer clearfix" style="background-color: white">
                                     <ul class="pagination pagination-sm m-0 float-end">
                                         @if ($penggunas->onFirstPage())

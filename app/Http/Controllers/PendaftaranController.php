@@ -12,22 +12,41 @@ class PendaftaranController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+     public function index(Request $request)
     {
         $query = Pendaftaran::orderBy('created_at', 'DESC');
-
+    
+        // Add search functionality
+        if ($request->has('search') && !empty($request->search)) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('nama', 'like', '%'.$search.'%')
+                  ->orWhere('nik', 'like', '%'.$search.'%');
+            });
+        }
+    
+        // Filter by jenis_sasaran if provided
+        if ($request->has('jenis_sasaran') && !empty($request->jenis_sasaran)) {
+            $query->where('jenis_sasaran', $request->jenis_sasaran);
+        }
+    
+        // Filter by posyandu if provided
+        if ($request->has('posyandu_id') && !empty($request->posyandu_id)) {
+            $query->where('posyandu_id', $request->posyandu_id);
+        }
+    
         // Paginate
-        $pendaftaran = $query->paginate(10);
-
-        // Count totals
+        $pendaftaran = $query->paginate(10)->appends($request->query());
+    
+        // Count totals (without filters for accurate totals)
         $totalPendaftaran = Pendaftaran::count();
         $totalIbuHamil = Pendaftaran::where('jenis_sasaran', 1)->count();
         $totalBayiBalita = Pendaftaran::where('jenis_sasaran', 2)->count();
         $totalUsiaSuburLansia = Pendaftaran::where('jenis_sasaran', 3)->count();
-
-        // Get posyandus data
+    
+        // Get posyandus data for filter dropdown
         $posyandus = DataPosyandu::all();
-
+    
         return view('pendaftaran.index', compact(
             'pendaftaran',
             'totalPendaftaran',
@@ -37,6 +56,31 @@ class PendaftaranController extends Controller
             'posyandus',
         ));
     }
+    // public function index(Request $request)
+    // {
+    //     $query = Pendaftaran::orderBy('created_at', 'DESC');
+
+    //     // Paginate
+    //     $pendaftaran = $query->paginate(10);
+
+    //     // Count totals
+    //     $totalPendaftaran = Pendaftaran::count();
+    //     $totalIbuHamil = Pendaftaran::where('jenis_sasaran', 1)->count();
+    //     $totalBayiBalita = Pendaftaran::where('jenis_sasaran', 2)->count();
+    //     $totalUsiaSuburLansia = Pendaftaran::where('jenis_sasaran', 3)->count();
+
+    //     // Get posyandus data
+    //     $posyandus = DataPosyandu::all();
+
+    //     return view('pendaftaran.index', compact(
+    //         'pendaftaran',
+    //         'totalPendaftaran',
+    //         'totalIbuHamil',
+    //         'totalBayiBalita',
+    //         'totalUsiaSuburLansia',
+    //         'posyandus',
+    //     ));
+    // }
 
     /**
      * Store a newly created resource in storage.

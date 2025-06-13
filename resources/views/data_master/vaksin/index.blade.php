@@ -54,7 +54,7 @@
                             <!-- Modal Tambah Vaksin -->
                             @include('data_master.vaksin.modal.tambah_vaksin')
                             
-                            <div class="card-body">
+                            <div class="card-body overflow-x-scroll">
 
                                 @if (session('success'))
                                     <div class="alert alert-success alert-dismissible fade show" role="alert">

@@ -54,7 +54,7 @@
                             <!-- Modal Tambah Skrining -->
                             @include('data_master.skrining.modal.tambah_skrining')
 
-                            <div class="card-body">
+                            <div class="card-body overflow-x-scroll">
 
                                 @if (session('success'))
                                     <div class="alert alert-success alert-dismissible fade show" role="alert">

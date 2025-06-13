@@ -27,7 +27,7 @@
                                     class="text-danger">*</span></label>
                             <select class="form-select form-select-sm" id="no_pendaftaran" name="no_pendaftaran"
                                 required>
-                                <option value="" hidden>Pilih nama balita</option>
+                                <option value="" hidden>Pilih nama peserta</option>
                                 @foreach ($pendaftarans as $pendaftaran)
                                     @if (!$pendaftaran->PencatatanAwal()->exists())
                                         <option value="{{ $pendaftaran->id }}">{{ $pendaftaran->nama }}</option>

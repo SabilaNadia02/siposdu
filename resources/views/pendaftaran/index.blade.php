@@ -71,15 +71,39 @@
                     </div>
                 </div>
 
+                <!--<div class="row mb-3">-->
+                <!--    <div class="col-md-3">-->
+                <!--        <div class="input-group">-->
+                <!--            <span class="input-group-text" style="border-radius: 2px; color: #d63384;">-->
+                <!--                <i class="fas fa-search"></i>-->
+                <!--            </span>-->
+                <!--            <input type="text" class="form-control" id="searchNamaPeserta"-->
+                <!--                placeholder="Cari Nama Peserta.." style="border-radius: 2px;">-->
+                <!--        </div>-->
+                <!--    </div>-->
+                <!--</div>-->
+                
                 <div class="row mb-3">
                     <div class="col-md-3">
-                        <div class="input-group">
-                            <span class="input-group-text" style="border-radius: 2px; color: #d63384;">
-                                <i class="fas fa-search"></i>
-                            </span>
-                            <input type="text" class="form-control" id="searchNamaPeserta"
-                                placeholder="Cari Nama Peserta.." style="border-radius: 2px;">
-                        </div>
+                        <form action="{{ route('pendaftaran.index') }}" method="GET">
+                            <div class="input-group">
+                                <span class="input-group-text" style="border-radius: 2px; color: #d63384;">
+                                    <i class="fas fa-search"></i>
+                                </span>
+                                <input type="text" class="form-control" name="search" id="searchNamaPeserta"
+                                    placeholder="Cari Nama Peserta.." style="border-radius: 2px;"
+                                    value="{{ request('search') }}">
+                                <button type="submit" class="btn ms-auto text-light"
+                                    style="background-color: #d63384;">
+                                    Cari
+                                </button>
+                                @if(request('search'))
+                                <a href="{{ route('pendaftaran.index') }}" class="btn btn-outline-danger" style="border-radius: 2px;">
+                                    Reset
+                                </a>
+                                @endif
+                            </div>
+                        </form>
                     </div>
                 </div>
 
@@ -98,7 +122,7 @@
                             @include('pendaftaran.modal.tambah_pendaftaran')
                         </div>
 
-                        <div class="card-body">
+                        <div class="card-body overflow-x-scroll">
 
                             @if (session('success'))
                                 <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -206,24 +230,36 @@
                         <!-- /.card-body -->
                         <div class="card-footer clearfix" style="background-color: white">
                             <ul class="pagination pagination-sm m-0 float-end">
+                                {{-- Previous Page Link --}}
                                 @if ($pendaftaran->onFirstPage())
                                     <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
                                 @else
-                                    <li class="page-item"><a class="page-link"
-                                            style="background-color: #d63384; color: white; border: none;"
-                                            href="{{ $pendaftaran->previousPageUrl() }}">&laquo;</a></li>
-                                @endif
-                                @for ($i = 1; $i <= $pendaftaran->lastPage(); $i++)
-                                    <li class="page-item {{ $pendaftaran->currentPage() == $i ? 'active' : '' }}">
-                                        <a class="page-link"
-                                            style="background-color: {{ $pendaftaran->currentPage() == $i ? '#d63384' : 'white' }}; color: {{ $pendaftaran->currentPage() == $i ? 'white' : '#d63384' }}; border: none;"
-                                            href="{{ $pendaftaran->url($i) }}">{{ $i }}</a>
+                                    <li class="page-item">
+                                        <a class="page-link" style="background-color: #d63384; color: white; border: none;" href="{{ $pendaftaran->previousPageUrl() }}" rel="prev">&laquo;</a>
                                     </li>
-                                @endfor
+                                @endif
+                        
+                                {{-- Show page numbers only if less than or equal to 10 pages --}}
+                                @if ($pendaftaran->lastPage() <= 10)
+                                    @for ($i = 1; $i <= $pendaftaran->lastPage(); $i++)
+                                        <li class="page-item {{ $pendaftaran->currentPage() == $i ? 'active' : '' }}">
+                                            <a class="page-link" style="background-color: {{ $pendaftaran->currentPage() == $i ? '#d63384' : 'white' }}; color: {{ $pendaftaran->currentPage() == $i ? 'white' : '#d63384' }}; border: none;" href="{{ $pendaftaran->url($i) }}">{{ $i }}</a>
+                                        </li>
+                                    @endfor
+                                @else
+                                    {{-- Show current page with ellipsis --}}
+                                    <li class="page-item disabled"><span class="page-link">...</span></li>
+                                    <li class="page-item active">
+                                        <span class="page-link" style="background-color: #d63384; color: white; border: none;">{{ $pendaftaran->currentPage() }}</span>
+                                    </li>
+                                    <li class="page-item disabled"><span class="page-link">...</span></li>
+                                @endif
+                        
+                                {{-- Next Page Link --}}
                                 @if ($pendaftaran->hasMorePages())
-                                    <li class="page-item"><a class="page-link"
-                                            style="background-color: #d63384; color: white; border: none;"
-                                            href="{{ $pendaftaran->nextPageUrl() }}">&raquo;</a></li>
+                                    <li class="page-item">
+                                        <a class="page-link" style="background-color: #d63384; color: white; border: none;" href="{{ $pendaftaran->nextPageUrl() }}" rel="next">&raquo;</a>
+                                    </li>
                                 @else
                                     <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
                                 @endif
@@ -239,19 +275,19 @@
 
 @push('scripts')
     <script>
-        document.getElementById("searchNamaPeserta").addEventListener("keyup", function() {
-            var input = this.value.toLowerCase();
-            var rows = document.querySelectorAll("tbody tr");
+        // document.getElementById("searchNamaPeserta").addEventListener("keyup", function() {
+        //     var input = this.value.toLowerCase();
+        //     var rows = document.querySelectorAll("tbody tr");
 
-            rows.forEach(function(row) {
-                var nama = row.cells[1].textContent.toLowerCase();
-                if (nama.includes(input)) {
-                    row.style.display = "";
-                } else {
-                    row.style.display = "none";
-                }
-            });
-        });
+        //     rows.forEach(function(row) {
+        //         var nama = row.cells[1].textContent.toLowerCase();
+        //         if (nama.includes(input)) {
+        //             row.style.display = "";
+        //         } else {
+        //             row.style.display = "none";
+        //         }
+        //     });
+        // });
 
         $(document).ready(function() {
             $('.btn-hapus').on('click', function(e) {

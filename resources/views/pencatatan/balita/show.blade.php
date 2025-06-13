@@ -136,15 +136,16 @@
                                 @if ($data->pencatatanKunjungan->isEmpty())
                                     <p class="text-muted">Belum ada riwayat kunjungan.</p>
                                 @else
-                                    <table class="table table-bordered">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered"> 
                                         <thead class="table-success">
                                             <tr>
                                                 <th style="width: 150px;">Usia (bulan)</th>
                                                 <th style="width: 150px;">Tanggal Kunjungan</th>
-                                                <th style="width: 100px;">Berat Badan</th>
-                                                <th style="width: 100px;">Panjang Badan</th>
-                                                <th style="width: 100px;">Lingkar Lengan</th>
-                                                <th style="width: 100px;">Lingkar Kepala</th>
+                                                <th style="width: 100px;">Berat Badan (kg)</th>
+                                                <th style="width: 100px;">Panjang Badan (cm)</th>
+                                                <th style="width: 100px;">Lingkar Lengan (cm)</th>
+                                                <th style="width: 100px;">Lingkar Kepala (cm)</th>
                                                 <th style="width: 120px;">ASI Eksklusif</th>
                                                 <th style="width: 120px;">MP ASI</th>
                                                 {{-- <th style="width: 200px;">Keluhan</th> --}}
@@ -161,14 +162,10 @@
                                                     </td>
                                                     <td>{{ \Carbon\Carbon::parse($kunjungan->waktu_pencatatan)->translatedFormat('j F Y') }}
                                                     </td>
-                                                    <td>{{ $kunjungan->berat_badan ?? '-' }}
-                                                        kg</td>
-                                                    <td>{{ $kunjungan->panjang_badan ?? '-' }}
-                                                        cm</td>
-                                                    <td>{{ $kunjungan->lingkar_lengan ?? '-' }}
-                                                        cm</td>
-                                                    <td>{{ $kunjungan->lingkar_kepala ?? '-' }}
-                                                        cm</td>
+                                                    <td>{{ $kunjungan->berat_badan ?? '-' }}</td>
+                                                    <td>{{ $kunjungan->panjang_badan ?? '-' }}</td>
+                                                    <td>{{ $kunjungan->lingkar_lengan ?? '-' }}</td>
+                                                    <td>{{ $kunjungan->lingkar_kepala ?? '-' }}</td>
                                                     <td>{{ $kunjungan->asi_eksklusif == 1 ? 'Ya' : ($kunjungan->asi_eksklusif == 2 ? 'Tidak' : '-') }}
                                                     </td>
                                                     <td>{{ $kunjungan->mp_asi == 1 ? 'Ya' : ($kunjungan->mp_asi == 2 ? 'Tidak' : '-') }}
@@ -202,6 +199,7 @@
                                             @endforeach
                                         </tbody>
                                     </table>
+                                    </div>
                                 @endif
                             </div>
 

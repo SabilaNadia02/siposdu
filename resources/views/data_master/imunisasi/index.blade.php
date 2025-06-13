@@ -15,7 +15,7 @@
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-end">
                             <li class="breadcrumb-item">
-                                <a href="{{ url('/') }}" style="color: #d63384; font-size: 16px;">Dashboard</a>
+                                <a href="{{ route('dashboard') }}" style="color: #d63384; font-size: 16px;">Dashboard</a>
                             </li>
                             <li class="breadcrumb-item active">Data Imunisasi</li>
                         </ol>
@@ -42,7 +42,7 @@
                             <!-- Modal Tambah Imunisasi -->
                             @include('data_master.imunisasi.modal.tambah_imunisasi')
 
-                            <div class="card-body">
+                            <div class="card-body overflow-x-scroll">
 
                                 @if (session('success'))
                                     <div class="alert alert-success alert-dismissible fade show" role="alert">

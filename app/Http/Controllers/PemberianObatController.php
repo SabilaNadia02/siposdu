@@ -17,7 +17,7 @@ class PemberianObatController extends Controller
         $query = PemberianObat::with('pendaftaran')
             ->orderBy('waktu_pemberian', 'desc');
 
-        $pemberianObat = $query->paginate(10);
+        $pemberianObat = $query->paginate(100);
         $totalPemberian = PemberianObat::count();
 
         // Hitung total berdasarkan jenis kelamin

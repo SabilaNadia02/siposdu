@@ -51,7 +51,7 @@
                                 <h3>{{ $jumlahBalita }}</h3>
                                 <p>Bayi, Balita, dan APRAS</p>
                             </div>
-                            <a href="/pencatatan/balita" class="btn btn-success btn-sm d-block text-center">
+                            <a href="{{ route('pencatatan.balita.index') }}" class="btn btn-success btn-sm d-block text-center">
                                 Tambah Pencatatan <i class="bi bi-plus"></i>
                             </a>
                         </div>
@@ -63,7 +63,7 @@
                                 <h3>{{ $jumlahLansia }}</h3>
                                 <p>Usia Produktif dan Lansia</p>
                             </div>
-                            <a href="/pencatatan/lansia" class="btn btn-warning btn-sm d-block text-center">
+                            <a href="{{ route('pencatatan.lansia.index') }}" class="btn btn-warning btn-sm d-block text-center">
                                 Tambah Pencatatan <i class="bi bi-plus"></i>
                             </a>
                         </div>

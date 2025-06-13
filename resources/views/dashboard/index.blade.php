@@ -93,7 +93,7 @@
                                     </li>
                                 </ul>
                             </div>
-                            <div class="card-body">
+                            <div class="card-body overflow-x-scroll">
                                 <div class="tab-content" id="dashboardTabsContent">
                                     <!-- All Tab -->
                                     <div class="tab-pane fade show active" id="all" role="tabpanel"

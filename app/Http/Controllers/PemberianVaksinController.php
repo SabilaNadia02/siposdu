@@ -20,7 +20,7 @@ class PemberianVaksinController extends Controller
         $query = PemberianVaksin::with('pendaftaran')
             ->orderBy('waktu_pemberian', 'desc');
 
-        $pemberianVaksin = $query->paginate(10);
+        $pemberianVaksin = $query->paginate(100);
         $totalPemberian = PemberianVaksin::count();
 
         $totalLaki = PemberianVaksin::whereHas('pendaftaran', function ($query) {

@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Edit Pendaftaran')
+@section('title', 'Edit Data Imunisasi')
 
 @section('content')
     <main class="app-main">

@@ -47,10 +47,11 @@ class PencatatanBalitaController extends Controller
         })->count();
 
         $pencatatanAwal = PencatatanAwal::with('pendaftaran')
+            ->orderBy('created_at', 'DESC')
             ->whereHas('pendaftaran', function ($query) {
                 $query->where('jenis_sasaran', 2);
             })
-            ->paginate(10);
+            ->paginate(100);
 
         return view('pencatatan.balita.index', compact('pendaftarans', 'posyandus', 'jumlahPencatatan', 'pencatatanAwal'));
     }

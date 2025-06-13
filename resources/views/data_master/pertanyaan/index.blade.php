@@ -54,7 +54,7 @@
                             <!-- Modal Tambah Pertanyaan -->
                             @include('data_master.pertanyaan.modal.tambah_pertanyaan')
                             
-                            <div class="card-body">
+                            <div class="card-body overflow-x-scroll">
 
                                 @if (session('success'))
                                     <div class="alert alert-success alert-dismissible fade show" role="alert">

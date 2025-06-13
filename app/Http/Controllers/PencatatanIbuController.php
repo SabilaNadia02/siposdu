@@ -23,10 +23,11 @@ class PencatatanIbuController extends Controller
         })->count();
 
         $pencatatanAwal = PencatatanAwal::with('pendaftaran')
+            ->orderBy('created_at', 'DESC')
             ->whereHas('pendaftaran', function ($query) {
                 $query->where('jenis_sasaran', 1);
             })
-            ->paginate(10);
+            ->paginate(100);
 
         return view('pencatatan.ibu.index', compact('pendaftarans', 'posyandus', 'jumlahPencatatan', 'pencatatanAwal'));
     }

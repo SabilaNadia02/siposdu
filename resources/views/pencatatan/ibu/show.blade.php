@@ -46,7 +46,7 @@
                         </ul>
                     </div>
 
-                    <div class="card-body">
+                    <div class="card-body overflow-x-scroll">
 
                         @foreach (['success' => 'success', 'error' => 'danger'] as $msg => $type)
                             @if (session($msg))
@@ -69,8 +69,19 @@
                                         </td>
                                     </tr>
                                     <tr>
+                                        <th>NIK</th>
+                                        <td>{{ optional($data->pendaftaran)->nik ?? '-' }}</td>
+                                    </tr>
+                                    <tr>
                                         <th>Nama</th>
                                         <td>{{ optional($data->pendaftaran)->nama ?? '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Tanggal Lahir</th>
+                                        <td>{{ optional($data->pendaftaran)->tanggal_lahir 
+                                            ? \Carbon\Carbon::parse($data->pendaftaran->tanggal_lahir)->translatedFormat('j F Y') 
+                                            : '-' 
+                                        }}</td>
                                     </tr>
                                     <tr>
                                         <th>Nama Suami</th>
@@ -125,14 +136,15 @@
                                 @if ($data->pencatatanKunjungan->isEmpty())
                                     <p class="text-muted">Belum ada riwayat kunjungan.</p>
                                 @else
+                                <div class="table-responsive">
                                     <table class="table table-bordered">
                                         <thead class="table-primary">
                                             <tr>
                                                 <th style="width: 150px;">Usia Kehamilan</th>
                                                 <th style="width: 150px;">Tanggal Kunjungan</th>
-                                                <th style="width: 100px;">Berat Badan</th>
-                                                <th style="width: 120px;">Lingkar Lengan</th>
-                                                <th style="width: 120px;">Tekanan Darah</th>
+                                                <th style="width: 100px;">Berat Badan (kg)</th>
+                                                <th style="width: 120px;">Lingkar Lengan (cm)</th>
+                                                <th style="width: 120px;">Tekanan Darah (mmHg)</th>
                                                 <th style="width: 200px;">Keluhan</th>
                                                 <th class="text-center" style="width: 100px;">Aksi</th>
                                             </tr>
@@ -143,12 +155,9 @@
                                                     <td>{{ $kunjungan->gestational_age ?? '-' }} minggu</td>
                                                     <td>{{ \Carbon\Carbon::parse($kunjungan->waktu_pencatatan)->translatedFormat('j F Y') }}
                                                     </td>
-                                                    <td>{{ $kunjungan->berat_badan ?? '-' }}
-                                                        kg</td>
-                                                    <td>{{ $kunjungan->lingkar_lengan ?? '-' }}
-                                                        cm</td>
-                                                    <td>{{ $kunjungan->tekanan_darah_sistolik ?? '-' }}/{{ $kunjungan->tekanan_darah_diastolik ?? '-' }}
-                                                        mmHg</td>
+                                                    <td>{{ $kunjungan->berat_badan ?? '-' }}</td>
+                                                    <td>{{ $kunjungan->lingkar_lengan ?? '-' }}</td>
+                                                    <td>{{ $kunjungan->tekanan_darah_sistolik ?? '-' }}/{{ $kunjungan->tekanan_darah_diastolik ?? '-' }}</td>
                                                     <td>{{ $kunjungan->keluhan ?? '-' }}
                                                     </td>
                                                     <td class="text-center">
@@ -178,6 +187,7 @@
                                             @endforeach
                                         </tbody>
                                     </table>
+                                    </div>
                                 @endif
                             </div>
 

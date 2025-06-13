@@ -55,7 +55,7 @@
 
                     <div class="col-md-12">
                         <div class="card mb-4" style="border-top: 3px solid #d63384; border-radius: 0px;">
-                            <div class="card-body">
+                            <div class="card-body overflow-x-scroll">
                                 <form action="{{ route('laporan.generate') }}" method="GET">
                                     <div class="row mb-3">
                                         <div class="col-md-12">

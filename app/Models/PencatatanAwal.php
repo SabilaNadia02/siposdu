@@ -79,6 +79,19 @@ class PencatatanAwal extends Model
         });
     }
 
+    public function getAgeInDays()
+    {
+        if (!$this->pendaftaran || !$this->pendaftaran->tanggal_lahir) {
+            return 0;
+        }
+
+        $birthDate = new \DateTime($this->pendaftaran->tanggal_lahir);
+        $now = new \DateTime();
+        $interval = $now->diff($birthDate);
+
+        return $interval->days;
+    }
+
     // Check if balita is eligible for graduation
     public function isEligibleForGraduation()
     {

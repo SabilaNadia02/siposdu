@@ -27,7 +27,7 @@ class SkriningTBCController extends Controller
             })
             ->orderBy('waktu_skrining', 'desc')
             ->orderBy('id', 'desc')
-            ->paginate(10);
+            ->paginate(100);
 
         // Hitung total dengan gejala dan tanpa gejala
         $totalDenganGejala = 0;

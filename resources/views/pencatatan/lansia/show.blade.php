@@ -46,7 +46,7 @@
                         </ul>
                     </div>
 
-                    <div class="card-body">
+                    <div class="card-body overflow-x-scroll">
 
                         @foreach (['success' => 'success', 'error' => 'danger'] as $msg => $type)
                             @if (session($msg))
@@ -69,8 +69,18 @@
                                         </td>
                                     </tr>
                                     <tr>
+                                        <th>NIK</th>
+                                        <td>{{ optional($data->pendaftaran)->nik ?? '-' }}</td>
+                                    </tr>
+                                    <tr>
                                         <th>Nama</th>
                                         <td>{{ optional($data->pendaftaran)->nama ?? '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Tanggal Lahir</th>
+                                        <td>{{ optional($data->pendaftaran)->tanggal_lahir 
+                                            ? \Carbon\Carbon::parse($data->pendaftaran->tanggal_lahir)->translatedFormat('j F Y') 
+                                            : '-' }}</td>
                                     </tr>
                                     <tr>
                                         <th>Usia</th>
@@ -146,15 +156,16 @@
                                 @if ($data->pencatatanKunjungan->isEmpty())
                                     <p class="text-muted">Belum ada riwayat kunjungan.</p>
                                 @else
+                                <div class="table-responsive">
                                     <table class="table table-bordered">
                                         <thead class="table-warning">
                                             <tr>
                                                 <th style="width: 150px;">Tanggal Kunjungan</th>
-                                                <th style="width: 100px;">Berat Badan</th>
-                                                <th style="width: 120px;">Tekanan Darah</th>
-                                                <th style="width: 100px;">Lingkar Perut</th>
-                                                <th style="width: 100px;">Gula Darah</th>
-                                                <th style="width: 100px;">Kolestrol</th>
+                                                <th style="width: 100px;">Berat Badan (kg)</th>
+                                                <th style="width: 120px;">Tekanan Darah (mmHg)</th>
+                                                <th style="width: 100px;">Lingkar Perut (cm)</th>
+                                                <th style="width: 100px;">Gula Darah (mg/dL)</th>
+                                                <th style="width: 100px;">Kolestrol (mg/dL)</th>
                                                 <th style="width: 200px;">Keluhan</th>
                                                 <th style="width: 200px;">Edukasi</th>
                                                 <th class="text-center" style="width: 100px;">Aksi</th>
@@ -165,20 +176,13 @@
                                                 <tr>
                                                     <td>{{ \Carbon\Carbon::parse($kunjungan->waktu_pencatatan)->translatedFormat('j F Y') }}
                                                     </td>
-                                                    <td>{{ $kunjungan->berat_badan ?? '-' }}
-                                                        kg</td>
-                                                    <td>{{ $kunjungan->tekanan_darah_sistolik ?? '-' }}/{{ $kunjungan->tekanan_darah_diastolik ?? '-' }}
-                                                        mmHg</td>
-                                                    <td>{{ $kunjungan->lingkar_perut ?? '-' }}
-                                                        cm</td>
-                                                    <td>{{ $kunjungan->gula_darah ?? '-' }}
-                                                        mg/dL</td>
-                                                    <td>{{ $kunjungan->kolestrol ?? '-' }}
-                                                        mg/dL</td>
-                                                    <td>{{ $kunjungan->keluhan ?? '-' }}
-                                                    </td>
-                                                    <td>{{ $kunjungan->edukasi ?? '-' }}
-                                                    </td>
+                                                    <td>{{ $kunjungan->berat_badan ?? '-' }}</td>
+                                                    <td>{{ $kunjungan->tekanan_darah_sistolik ?? '-' }}/{{ $kunjungan->tekanan_darah_diastolik ?? '-' }}</td>
+                                                    <td>{{ $kunjungan->lingkar_perut ?? '-' }}</td>
+                                                    <td>{{ $kunjungan->gula_darah ?? '-' }}</td>
+                                                    <td>{{ $kunjungan->kolestrol ?? '-' }}</td>
+                                                    <td>{{ $kunjungan->keluhan ?? '-' }}</td>
+                                                    <td>{{ $kunjungan->edukasi ?? '-' }}</td>
                                                     <td class="text-center">
                                                         <a href="{{ route('pencatatan.lansia.kunjungan.show', [$data->id, $kunjungan->id]) }}"
                                                             class="btn btn-info btn-sm" title="Lihat"
@@ -206,6 +210,7 @@
                                             @endforeach
                                         </tbody>
                                     </table>
+                                </div>
                                 @endif
                             </div>
 
@@ -233,13 +238,13 @@
                                                 $lansiaBermasalah[] =
                                                     "Tekanan darah rendah ({$sistolik}/{$diastolik} mmHg) pada kunjungan tanggal " .
                                                     \Carbon\Carbon::parse(
-                                                        $kunjungan->waktu_kunjungan,
+                                                        $kunjungan->waktu_pencatatan,
                                                     )->translatedFormat('j F Y');
                                             } elseif ($sistolik > 140 || $diastolik > 90) {
                                                 $lansiaBermasalah[] =
                                                     "Tekanan darah tinggi ({$sistolik}/{$diastolik} mmHg) pada kunjungan tanggal " .
                                                     \Carbon\Carbon::parse(
-                                                        $kunjungan->waktu_kunjungan,
+                                                        $kunjungan->waktu_pencatatan,
                                                     )->translatedFormat('j F Y');
                                             }
                                         }
@@ -250,13 +255,13 @@
                                                 $masalahGulaDarah[] =
                                                     "Gula darah rendah ({$kunjungan->gula_darah} mg/dL) pada kunjungan tanggal " .
                                                     \Carbon\Carbon::parse(
-                                                        $kunjungan->waktu_kunjungan,
+                                                        $kunjungan->waktu_pencatatan,
                                                     )->translatedFormat('j F Y');
                                             } elseif ($kunjungan->gula_darah > 200) {
                                                 $masalahGulaDarah[] =
                                                     "Gula darah tinggi ({$kunjungan->gula_darah} mg/dL) pada kunjungan tanggal " .
                                                     \Carbon\Carbon::parse(
-                                                        $kunjungan->waktu_kunjungan,
+                                                        $kunjungan->waktu_pencatatan,
                                                     )->translatedFormat('j F Y');
                                             }
                                         }
@@ -265,7 +270,7 @@
                                         if (!is_null($kunjungan->kolestrol) && $kunjungan->kolestrol > 240) {
                                             $masalahKolesterol[] =
                                                 "Kolesterol tinggi ({$kunjungan->kolestrol} mg/dL) pada kunjungan tanggal " .
-                                                \Carbon\Carbon::parse($kunjungan->waktu_kunjungan)->translatedFormat(
+                                                \Carbon\Carbon::parse($kunjungan->waktu_pencatatan)->translatedFormat(
                                                     'j F Y',
                                                 );
                                         }

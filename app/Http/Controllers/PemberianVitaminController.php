@@ -20,7 +20,7 @@ class PemberianVitaminController extends Controller
         $query = PemberianVitamin::with('pendaftaran')
             ->orderBy('waktu_pemberian', 'desc');
 
-        $pemberianVitamin = $query->paginate(10);
+        $pemberianVitamin = $query->paginate(100);
         $totalPemberian = PemberianVitamin::count();
 
         $totalLaki = PemberianVitamin::whereHas('pendaftaran', function ($query) {

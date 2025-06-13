@@ -64,7 +64,7 @@
                             </div>
                             @include('pencatatan.ibu.modal.tambah_pencatatan_baru')
 
-                            <div class="card-body">
+                            <div class="card-body overflow-x-scroll">
 
                                 @foreach (['success' => 'success', 'error' => 'danger'] as $msg => $type)
                                     @if (session($msg))

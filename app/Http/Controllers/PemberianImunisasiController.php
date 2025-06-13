@@ -35,7 +35,7 @@ class PemberianImunisasiController extends Controller
                 $query->where('jenis_sasaran', 2);
             })
             ->orderBy('waktu_pemberian', 'desc')
-            ->paginate(10);
+            ->paginate(100);
 
         return view('pemberian.imunisasi.index', compact(
             'totalPemberian',

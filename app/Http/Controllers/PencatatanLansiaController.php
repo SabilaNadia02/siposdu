@@ -30,10 +30,11 @@ class PencatatanLansiaController extends Controller
         })->count();
 
         $pencatatanAwal = PencatatanAwal::with('pendaftaran')
+            ->orderBy('created_at', 'DESC')
             ->whereHas('pendaftaran', function ($query) {
                 $query->where('jenis_sasaran', 3);
             })
-            ->paginate(10);
+            ->paginate(100);
 
         return view('pencatatan.lansia.index', compact('pendaftarans', 'posyandus', 'jumlahPencatatan', 'pencatatanAwal'));
     }
